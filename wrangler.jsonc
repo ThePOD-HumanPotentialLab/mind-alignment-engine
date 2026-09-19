@@ -1,8 +1,13 @@
 {
   "name": "mind-alignment-engine",
+  "main": "./worker.js",
   "compatibility_date": "2026-09-19",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*"
+    ]
   },
   "d1_databases": [
     {
