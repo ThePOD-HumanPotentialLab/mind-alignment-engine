@@ -603,7 +603,7 @@ const questions = [
 ];
 
 let currentQuestion = 0;
-let answers = [];
+let answers = [];  let latestDimensionScores = []; let latestOverall = null;
 
 function startAssessment() {
   document.getElementById("intro").classList.add("hidden");
@@ -720,7 +720,7 @@ function calculateResults() {
       / dimensionScores.length
     );
 
-  showResults(dimensionScores, overall);
+  latestDimensionScores = dimensionScores; latestOverall = overall;  showResults(dimensionScores, overall);
 }
 
 function showResults(scores, overall) {
@@ -787,8 +787,7 @@ function showResults(scores, overall) {
     `Begin by focusing on ${lowest}. Greater alignment often begins by becoming more aware of the gap between what you currently believe, intend and do—and then deliberately closing that gap. The next stage of your Mind Alignment journey will help you work through this systematically.`;
 }
 
-function saveLead() {
-
+async function saveLead() {
   const name =
     document.getElementById("name").value.trim();
 
@@ -804,6 +803,58 @@ function saveLead() {
     return;
   }
 
+  if (
+    latestOverall === null ||
+    !latestDimensionScores.length
+  ) {
+    message.textContent =
+      "Your results are not ready yet. Please complete the assessment again.";
+    return;
+  }
+
+  // Always keep a local backup.
+  const profile = {
+    name,
+    email,
+    overallScore: latestOverall,
+    dimensionScores: latestDimensionScores,
+    answers,
+    savedAt: new Date().toISOString()
+  };
+
+  localStorage.setItem(
+    "mindAlignmentLead",
+    JSON.stringify(profile)
+  );
+
+  message.textContent =
+    "Saving your profile...";
+
+  try {
+    const response = await fetch(
+      "/api/save-profile",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(profile)
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error("Profile save failed");
+    }
+
+    message.textContent =
+      "Your Mind Alignment Profile has been saved successfully.";
+  } catch (error) {
+    message.textContent =
+      "Your profile has been saved on this device. We could not sync it to the profile system right now.";
+  }
+}
   /*
     Temporary V1 behaviour.
 
