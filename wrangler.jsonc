@@ -1,0 +1,14 @@
+{
+  "name": "mind-alignment-engine",
+  "compatibility_date": "2026-09-19",
+  "assets": {
+    "directory": "."
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "mind-alignment-db",
+      "database_id": "3cda333b-061c-46a5-8de7-f2df1341d15e"
+    }
+  ]
+}
