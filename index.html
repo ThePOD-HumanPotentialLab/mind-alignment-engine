@@ -970,6 +970,36 @@ function showResults(scores, overall) {
 
   scores.forEach((score, index) => {
 
+  const dimension = dimensions[index];
+
+  const insight =
+    score < 60
+      ? dimensionGuidance[dimension].opportunity
+      : dimensionGuidance[dimension].strength;
+
+  dimensionsContainer.innerHTML += `
+    <div class="dimension">
+
+      <div class="dimension-top">
+        <span>${dimension}</span>
+        <span>${score}</span>
+      </div>
+
+      <div class="dimension-bar">
+        <div
+          class="dimension-fill"
+          style="width:${score}%">
+        </div>
+      </div>
+
+      <div class="dimension-insight">
+        ${insight}
+      </div>
+
+    </div>
+  `;
+});
+
     dimensionsContainer.innerHTML += `
       <div class="dimension">
         <div class="dimension-top">
