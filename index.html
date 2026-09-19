@@ -1008,23 +1008,6 @@ function showResults(scores, overall) {
   `;
 });
 
-    dimensionsContainer.innerHTML += `
-      <div class="dimension">
-        <div class="dimension-top">
-          <span>${dimensions[index]}</span>
-          <span>${score}</span>
-        </div>
-
-        <div class="dimension-bar">
-          <div
-            class="dimension-fill"
-            style="width:${score}%">
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
   document.getElementById("recommendation").textContent =
     `Begin by focusing on ${lowest}. Greater alignment often begins by becoming more aware of the gap between what you currently believe, intend and do—and then deliberately closing that gap. The next stage of your Mind Alignment journey will help you work through this systematically.`;
 }
