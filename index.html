@@ -1,1 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mind Alignment Index | The POD Human Potential Lab</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink: #111827;
+      --muted: #6b7280;
+      --paper: #f7f7f4;
+      --white: #ffffff;
+      --accent: #b88a44;
+      --accent-dark: #8d682f;
+      --line: #e5e7eb;
+      --success: #176b4d;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(920px, 92%);
+      margin: auto;
+    }
+
+    header {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: .08em;
+      font-size: 14px;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .screen {
+      min-height: calc(100vh - 90px);
+      display: flex;
+      align-items: center;
+      padding: 60px 0;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: clamp(28px, 6vw, 60px);
+      box-shadow: 0 15px 50px rgba(0,0,0,.05);
+      width: 100%;
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: clamp(38px, 7vw, 70px);
+      line-height: 1.02;
+      margin-bottom: 22px;
+      letter-spacing: -.04em;
+    }
+
+    h2 {
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    .lead {
+      font-size: 19px;
+      color: var(--muted);
+      max-width: 680px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      border-radius: 999px;
+      padding: 15px 25px;
+      background: var(--ink);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #000;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .progress-wrap {
+      margin-bottom: 35px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .progress {
+      height: 7px;
+      background: #eee;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width .3s;
+    }
+
+    .question-number {
+      color: var(--accent-dark);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .question {
+      font-size: clamp(25px, 4vw, 38px);
+      line-height: 1.2;
+      margin-bottom: 28px;
+    }
+
+    .options {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: white;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: left;
+      transition: .2s;
+    }
+
+    .option:hover {
+      border-color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    .option.selected {
+      border-color: var(--accent);
+      background: #faf5ec;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+      gap: 12px;
+    }
+
+    .score {
+      font-size: 80px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--accent-dark);
+      margin: 15px 0;
+    }
+
+    .score-label {
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    .dimensions {
+      display: grid;
+      gap: 14px;
+      margin: 30px 0;
+    }
+
+    .dimension {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .dimension-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .dimension-bar {
+      height: 8px;
+      background: #eee;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .dimension-fill {
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .pattern {
+      background: #f7f2e9;
+      border-left: 4px solid var(--accent);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 10px;
+    }
+
+    .capture {
+      margin-top: 35px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 16px;
+      margin: 8px 0 14px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media(max-width:600px) {
+      .screen {
+        padding: 30px 0;
+      }
+
+      .card {
+        border-radius: 18px;
+        padding: 25px;
+      }
+
+      .score {
+        font-size: 65px;
+      }
+
+      .nav {
+        flex-direction: column-reverse;
+      }
+
+      .nav .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="brand">
+      THE POD <span>HUMAN POTENTIAL LAB</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- INTRO -->
+  <section id="intro" class="screen">
+    <div class="container">
+      <div class="card">
+        <div class="eyebrow">The Mind Alignment Index</div>
+
+        <h1>
+          How aligned is the mind that is creating your life?
+        </h1>
+
+        <p class="lead">
+          Your thoughts, identity, emotions, intentions and actions
+          influence how you experience yourself, make decisions and
+          pursue your potential.
+        </p>
+
+        <p class="lead">
+          Take this short assessment to discover your current
+          Mind Alignment Index and the patterns that may be shaping
+          your results.
+        </p>
+
+        <button class="btn" onclick="startAssessment()">
+          Begin Assessment →
+        </button>
+
+        <p class="small" style="margin-top:18px;">
+          12 questions · Approximately 3–5 minutes
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ASSESSMENT -->
+  <section id="assessment" class="screen hidden">
+    <div class="container">
+      <div class="card">
+
+        <div class="progress-wrap">
+          <div class="progress-info">
+            <span id="progressText">Question 1 of 12</span>
+            <span id="percent">0%</span>
+          </div>
+
+          <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+        </div>
+
+        <div id="questionNumber" class="question-number"></div>
+        <div id="questionText" class="question"></div>
+        <div id="options" class="options"></div>
+
+        <div class="nav">
+          <button class="btn secondary" onclick="previousQuestion()">
+            ← Back
+          </button>
+
+          <button id="nextButton" class="btn" onclick="nextQuestion()" disabled>
+            Continue →
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- RESULTS -->
+  <section id="results" class="screen hidden">
+    <div class="container">
+      <div class="card">
+
+        <div class="eyebrow">Your Mind Alignment Profile</div>
+
+        <h2>Your Mind Alignment Index</h2>
+
+        <div id="overallScore" class="score">0</div>
+
+        <div class="score-label">
+          out of 100
+        </div>
+
+        <div id="summary"></div>
+
+        <div class="pattern">
+          <h3>Your dominant pattern</h3>
+          <p id="patternText"></p>
+        </div>
+
+        <h3>Alignment across eight dimensions</h3>
+
+        <div id="dimensions" class="dimensions"></div>
+
+        <div class="pattern">
+          <h3>Your recommended next step</h3>
+          <p id="recommendation"></p>
+        </div>
+
+        <div class="capture">
+          <h3>Get your full profile</h3>
+
+          <p class="small">
+            Enter your details to save your result and receive
+            information about your personalized Mind Alignment journey.
+          </p>
+
+          <input id="name" type="text" placeholder="Your name" />
+          <input id="email" type="email" placeholder="Your email address" />
+
+          <button class="btn" onclick="saveLead()">
+            Save My Profile →
+          </button>
+
+          <p id="leadMessage" class="small" style="margin-top:15px;"></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © The POD Human Potential Lab · Mind Alignment Engine
+</footer>
+
+
+<script>
+
+const dimensions = [
+  "Thought",
+  "Identity",
+  "Emotional Regulation",
+  "Intentionality",
+  "Ownership",
+  "Execution",
+  "Relational Alignment",
+  "Potential / Growth Orientation"
+];
+
+/*
+  Each question contributes to multiple dimensions.
+
+  Weight = importance of the question for that dimension.
+
+  This structure will later become our configurable
+  assessment/scoring engine.
+*/
+
+const questions = [
+
+  {
+    text: "When something important does not go as planned, what is your most natural response?",
+    options: [
+      "I immediately look for someone or something to blame.",
+      "I become frustrated, but eventually try to understand what happened.",
+      "I ask myself what I can learn or control and decide what to do next.",
+      "I pause, examine my response carefully, and deliberately choose my next action."
+    ],
+    weights: [1,1,0.5,0.5,1,0.5,0,0.5]
+  },
+
+  {
+    text: "Which statement most closely describes how you see yourself?",
+    options: [
+      "I am largely shaped by my circumstances.",
+      "I know who I am, but I sometimes lose sight of it under pressure.",
+      "I have a clear sense of who I am and what matters to me.",
+      "I intentionally shape and continually evolve the person I am becoming."
+    ],
+    weights: [0.5,1.5,0.5,1,1,0,0.5,1]
+  },
+
+  {
+    text: "When strong emotions appear, what usually happens?",
+    options: [
+      "My emotions often determine what I say or do.",
+      "I notice them, but sometimes react before thinking.",
+      "I usually create enough space to choose my response.",
+      "I can observe, regulate and intentionally redirect my emotional energy."
+    ],
+    weights: [0.5,0.5,1.5,1,0.5,0.5,1,0.5]
+  },
+
+  {
+    text: "How clearly do you know what you are trying to create in the next 12 months?",
+    options: [
+      "I have no clear direction.",
+      "I have some ideas, but they are not yet organized.",
+      "I have clear goals and know what matters most.",
+      "I have a clear vision, priorities and deliberate actions connected to it."
+    ],
+    weights: [0.5,0.5,0.5,1.5,1,1,0,1]
+  },
+
+  {
+    text: "When you make a mistake, what do you tend to do?",
+    options: [
+      "Avoid responsibility or explain why it was not really my fault.",
+      "Accept it, but may dwell on it.",
+      "Take responsibility and focus on correcting it.",
+      "Own it fully, extract the lesson and redesign my approach."
+    ],
+    weights: [0.5,1,1,0.5,1.5,1,0.5,1]
+  },
+
+  {
+    text: "How consistently do your daily actions match your stated priorities?",
+    options: [
+      "Not very consistently.",
+      "Sometimes, depending on circumstances.",
+      "Most of the time.",
+      "Very consistently; I deliberately structure my environment around my priorities."
+    ],
+    weights: [0.5,0.5,0.5,1.5,1,1.5,0,1]
+  },
+
+  {
+    text: "When there is tension with another person, what is your usual approach?",
+    options: [
+      "I withdraw, attack or try to prove I am right.",
+      "I try to resolve it, although emotions can interfere.",
+      "I seek understanding and communicate directly.",
+      "I protect the relationship while addressing the real issue honestly and constructively."
+    ],
+    weights: [0.5,0.5,1,0.5,1,0.5,1.5,0.5]
+  },
+
+  {
+    text: "How do you respond when you encounter a challenge you have never faced before?",
+    options: [
+      "I assume I probably cannot handle it.",
+      "I feel uncertain but look for help.",
+      "I believe I can learn what is necessary.",
+      "I see unfamiliar challenges as opportunities to expand my capacity."
+    ],
+    weights: [1,1,0.5,0.5,1,1,0.5,1.5]
+  },
+
+  {
+    text: "Which best describes your relationship with your thoughts?",
+    options: [
+      "I generally believe whatever my mind tells me.",
+      "I sometimes question my thoughts.",
+      "I can examine my thoughts before acting on them.",
+      "I deliberately observe, challenge and redirect thoughts that do not serve my purpose."
+    ],
+    weights: [1.5,0.5,0.5,1,0.5,0.5,0,1]
+  },
+
+  {
+    text: "When your current results are below what you want, what do you usually examine first?",
+    options: [
+      "External circumstances and other people's actions.",
+      "What went wrong.",
+      "My decisions, habits and actions.",
+      "The relationship between my thinking, identity, choices, systems and execution."
+    ],
+    weights: [1,1,0.5,1,1.5,1,0.5,1]
+  },
+
+  {
+    text: "How often do you intentionally review whether your life is aligned with what you say matters to you?",
+    options: [
+      "Rarely.",
+      "Occasionally, usually when something goes wrong.",
+      "Regularly.",
+      "Consistently; reflection and realignment are part of how I operate."
+    ],
+    weights: [0.5,1,0.5,1.5,1,1,0.5,1.5]
+  },
+
+  {
+    text: "When you imagine the person you could become, which statement feels closest?",
+    options: [
+      "I mostly want things around me to change.",
+      "I want to improve, but I am not always sure how.",
+      "I believe I can develop significantly through deliberate effort.",
+      "I see human potential as expandable and intentionally build the identity, thinking and behaviours required for my next level."
+    ],
+    weights: [1,1.5,0.5,1,1,1,0.5,1.5]
+  }
+
+];
+
+let currentQuestion = 0;
+let answers = [];
+
+function startAssessment() {
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("assessment").classList.remove("hidden");
+  renderQuestion();
+}
+
+function renderQuestion() {
+
+  const q = questions[currentQuestion];
+
+  document.getElementById("questionNumber").textContent =
+    `QUESTION ${currentQuestion + 1}`;
+
+  document.getElementById("questionText").textContent =
+    q.text;
+
+  document.getElementById("progressText").textContent =
+    `Question ${currentQuestion + 1} of ${questions.length}`;
+
+  const pct =
+    Math.round((currentQuestion / questions.length) * 100);
+
+  document.getElementById("percent").textContent = `${pct}%`;
+  document.getElementById("progressBar").style.width = `${pct}%`;
+
+  const options = document.getElementById("options");
+  options.innerHTML = "";
+
+  q.options.forEach((option, index) => {
+
+    const button = document.createElement("button");
+
+    button.className = "option";
+    button.textContent = option;
+
+    if (answers[currentQuestion] === index) {
+      button.classList.add("selected");
+    }
+
+    button.onclick = () => selectOption(index);
+
+    options.appendChild(button);
+  });
+
+  document.getElementById("nextButton").disabled =
+    answers[currentQuestion] === undefined;
+
+  document.getElementById("nextButton").textContent =
+    currentQuestion === questions.length - 1
+      ? "See My Results →"
+      : "Continue →";
+}
+
+function selectOption(index) {
+
+  answers[currentQuestion] = index;
+
+  document.querySelectorAll(".option")
+    .forEach((button, i) => {
+      button.classList.toggle("selected", i === index);
+    });
+
+  document.getElementById("nextButton").disabled = false;
+}
+
+function nextQuestion() {
+
+  if (answers[currentQuestion] === undefined) return;
+
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
+    calculateResults();
+  }
+}
+
+function previousQuestion() {
+
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    renderQuestion();
+  }
+}
+
+function calculateResults() {
+
+  const rawScores = new Array(dimensions.length).fill(0);
+  const maxScores = new Array(dimensions.length).fill(0);
+
+  questions.forEach((question, qIndex) => {
+
+    question.weights.forEach((weight, dIndex) => {
+
+      const maxOption = 3;
+      const answer = answers[qIndex];
+
+      rawScores[dIndex] +=
+        answer * weight;
+
+      maxScores[dIndex] +=
+        maxOption * weight;
+    });
+  });
+
+  const dimensionScores = rawScores.map((score, i) =>
+    Math.round((score / maxScores[i]) * 100)
+  );
+
+  const overall =
+    Math.round(
+      dimensionScores.reduce((a,b) => a+b, 0)
+      / dimensionScores.length
+    );
+
+  showResults(dimensionScores, overall);
+}
+
+function showResults(scores, overall) {
+
+  document.getElementById("assessment")
+    .classList.add("hidden");
+
+  document.getElementById("results")
+    .classList.remove("hidden");
+
+  document.getElementById("overallScore")
+    .textContent = overall;
+
+  let level;
+
+  if (overall < 40) {
+    level = "Your responses suggest that there may be significant opportunities to create greater alignment between how you think, who you believe yourself to be, what you intend and how you act.";
+  } else if (overall < 60) {
+    level = "Your responses suggest developing alignment, with some areas of strength and some areas where greater consistency could create new possibilities.";
+  } else if (overall < 80) {
+    level = "Your responses suggest a solid level of alignment, with identifiable opportunities to strengthen consistency and expand your capacity.";
+  } else {
+    level = "Your responses suggest a strong level of alignment across the areas measured, with opportunities to deepen and sustain your next level of growth.";
+  }
+
+  document.getElementById("summary").innerHTML =
+    `<p class="lead">${level}</p>`;
+
+  const sorted = scores
+    .map((score, index) => ({ score, index }))
+    .sort((a,b) => b.score - a.score);
+
+  const strongest = dimensions[sorted[0].index];
+  const lowest = dimensions[sorted[sorted.length - 1].index];
+
+  document.getElementById("patternText").textContent =
+    `Your strongest measured area is ${strongest}. Your greatest development opportunity in this assessment is ${lowest}. The important question is not simply the score, but how these dimensions interact in your everyday life.`;
+
+  const dimensionsContainer =
+    document.getElementById("dimensions");
+
+  dimensionsContainer.innerHTML = "";
+
+  scores.forEach((score, index) => {
+
+    dimensionsContainer.innerHTML += `
+      <div class="dimension">
+        <div class="dimension-top">
+          <span>${dimensions[index]}</span>
+          <span>${score}</span>
+        </div>
+
+        <div class="dimension-bar">
+          <div
+            class="dimension-fill"
+            style="width:${score}%">
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("recommendation").textContent =
+    `Begin by focusing on ${lowest}. Greater alignment often begins by becoming more aware of the gap between what you currently believe, intend and do—and then deliberately closing that gap. The next stage of your Mind Alignment journey will help you work through this systematically.`;
+}
+
+function saveLead() {
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const message =
+    document.getElementById("leadMessage");
+
+  if (!name || !email) {
+    message.textContent =
+      "Please enter your name and email.";
+    return;
+  }
+
+  /*
+    Temporary V1 behaviour.
+
+    Later this will send the information to our
+    database and automatically create the user's profile.
+  */
+
+  localStorage.setItem(
+    "mindAlignmentLead",
+    JSON.stringify({
+      name,
+      email,
+      answers,
+      savedAt: new Date().toISOString()
+    })
+  );
+
+  message.textContent =
+    "Your profile has been saved on this device. The full automated profile system will be connected in the next build.";
+}
+
+</script>
+
+</body>
+</html>
