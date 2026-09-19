@@ -855,27 +855,7 @@ async function saveLead() {
       "Your profile has been saved on this device. We could not sync it to the profile system right now.";
   }
 }
-  /*
-    Temporary V1 behaviour.
-
-    Later this will send the information to our
-    database and automatically create the user's profile.
-  */
-
-  localStorage.setItem(
-    "mindAlignmentLead",
-    JSON.stringify({
-      name,
-      email,
-      answers,
-      savedAt: new Date().toISOString()
-    })
-  );
-
-  message.textContent =
-    "Your profile has been saved on this device. The full automated profile system will be connected in the next build.";
-}
-
+  
 </script>
 
 </body>
