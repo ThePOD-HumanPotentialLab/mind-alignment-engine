@@ -44,17 +44,17 @@ const recommendationCTA = String(data.recommendationCTA || "").trim();
     raw_dimension_scores,
     profile_mean,
     profile_sd,
-    dimension_deviations,
-    gaps,
-    primary_pattern,
-    secondary_pattern,
-    response_quality
-    recommended_product,
+   dimension_deviations,
+gaps,
+primary_pattern,
+secondary_pattern,
+response_quality,
+recommended_product,
 recommendation_stage,
 recommendation_reason,
 recommendation_cta
-  )
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `)
 .bind(
             name,
