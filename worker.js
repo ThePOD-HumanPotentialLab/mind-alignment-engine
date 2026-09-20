@@ -87,7 +87,7 @@ recommendationCTA
         return Response.json(
           {
             success: false,
-            error: "Unable to save profile."
+            error: String(error?.message || error)
           },
           { status: 500 }
         );
