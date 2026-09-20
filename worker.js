@@ -2,7 +2,6 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // API: save a completed Mind Alignment profile
     if (url.pathname === "/api/save-profile") {
       if (request.method !== "POST") {
         return new Response("Method Not Allowed", { status: 405 });
@@ -10,7 +9,6 @@ export default {
 
       try {
         const data = await request.json();
-
         const name = String(data.name || "").trim();
         const email = String(data.email || "").trim();
         const overallScore = Number(data.overallScore);
@@ -32,15 +30,39 @@ export default {
 
         const result = await env.DB.prepare(`
           INSERT INTO assessment_results
-          (name, email, overall_score, dimension_scores, answers)
-          VALUES (?, ?, ?, ?, ?)
+          (
+            name,
+            email,
+            overall_score,
+            dimension_scores,
+            answers,
+            assessment_version,
+            raw_dimension_scores,
+            profile_mean,
+            profile_sd,
+            dimension_deviations,
+            gaps,
+            primary_pattern,
+            secondary_pattern,
+            response_quality
+          )
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `)
           .bind(
             name,
             email,
             Math.round(overallScore),
             JSON.stringify(dimensionScores),
-            JSON.stringify(answers)
+            JSON.stringify(answers),
+            String(data.assessmentVersion || "1.0"),
+            JSON.stringify(data.rawDimensionScores || null),
+            data.profileMean == null ? null : Number(data.profileMean),
+            data.profileSD == null ? null : Number(data.profileSD),
+            JSON.stringify(data.dimensionDeviations || null),
+            JSON.stringify(data.gaps || null),
+            data.primaryPattern ? String(data.primaryPattern) : null,
+            data.secondaryPattern ? String(data.secondaryPattern) : null,
+            JSON.stringify(data.responseQuality || null)
           )
           .run();
 
@@ -59,7 +81,6 @@ export default {
       }
     }
 
-    // Everything else: serve the existing assessment website
     return env.ASSETS.fetch(request);
   }
 };
