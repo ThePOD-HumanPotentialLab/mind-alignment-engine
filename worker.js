@@ -14,6 +14,11 @@ export default {
         const overallScore = Number(data.overallScore);
         const dimensionScores = data.dimensionScores;
         const answers = data.answers;
+        
+        const recommendedProduct = String(data.recommendedProduct || "").trim();
+const recommendationStage = String(data.recommendationStage || "").trim();
+const recommendationReason = String(data.recommendationReason || "").trim();
+const recommendationCTA = String(data.recommendationCTA || "").trim();
 
         if (
           !name ||
@@ -45,8 +50,12 @@ export default {
             primary_pattern,
             secondary_pattern,
             response_quality
+            recommended_product,
+recommendation_stage,
+recommendation_reason,
+recommendation_cta
           )
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          VALUES VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `)
           .bind(
             name,
@@ -62,7 +71,11 @@ export default {
             JSON.stringify(data.gaps || null),
             data.primaryPattern ? String(data.primaryPattern) : null,
             data.secondaryPattern ? String(data.secondaryPattern) : null,
-            JSON.stringify(data.responseQuality || null)
+            JSON.stringify(data.responseQuality || null),
+            recommendedProduct,
+recommendationStage,
+recommendationReason,
+recommendationCTA
           )
           .run();
 
