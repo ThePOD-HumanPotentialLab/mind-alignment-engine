@@ -943,10 +943,89 @@ function derivePatterns(scores,mean,sd,gaps){
  if(candidates.length>1 && candidates[1].strength>=15 && candidates[1].key!==primary) secondary=candidates[1].key;
  return {primary,secondary};
 }
-function showResults(result){
+const productRecommendations = {
+  visionExecution: {
+    product: "Personal Optimization Drill (POD)",
+    stage: "Activation",
+    reason: "Your results suggest that the opportunity is to strengthen the connection between what you envision and what you consistently put into action.",
+    cta: "Begin Your Personal Optimization Drill"
+  },
+
+  identityExecution: {
+    product: "12-Week Mind Alignment & Human Potential Programme (MAHPP)",
+    stage: "Transformation",
+    reason: "Your results suggest that bringing your desired identity and your repeated behaviour into greater alignment is the deeper development opportunity.",
+    cta: "Begin Your MAHPP Journey"
+  },
+
+  emotionalOverride: {
+    product: "7-Day Mind Reset",
+    stage: "Reset",
+    reason: "Your results suggest that creating greater mental and emotional space may be an important first step toward intentional alignment.",
+    cta: "Begin Your 7-Day Mind Reset"
+  },
+
+  agencyAction: {
+    product: "Personal Optimization Drill (POD)",
+    stage: "Activation",
+    reason: "Your results suggest that strengthening personal agency and turning intention into deliberate action may be your most useful next step.",
+    cta: "Begin Your Personal Optimization Drill"
+  },
+
+  relationalAdaptation: {
+    product: "12-Week Mind Alignment & Human Potential Programme (MAHPP)",
+    stage: "Transformation",
+    reason: "Your results suggest that deeper work around authentic alignment, relationships and behavioural patterns may be valuable at this stage.",
+    cta: "Begin Your MAHPP Journey"
+  },
+
+  fragmentedDirection: {
+    product: "7-Day Mind Reset",
+    stage: "Reset",
+    reason: "Your results suggest that creating greater clarity and direction may be the most useful place to begin.",
+    cta: "Begin Your 7-Day Mind Reset"
+  },
+
+  expansionReadiness: {
+    product: "Personal Optimization Drill (POD)",
+    stage: "Activation",
+    reason: "Your results suggest that you have a foundation to build on and may benefit from turning your current awareness into more deliberate practice.",
+    cta: "Begin Your Personal Optimization Drill"
+  },
+
+  integrated: {
+    product: "Personal Optimization Drill (POD)",
+    stage: "Activation",
+    reason: "Your results suggest a relatively integrated profile. The next opportunity is to strengthen and consistently apply that alignment in everyday life.",
+    cta: "Begin Your Personal Optimization Drill"
+  }
+};
+
+function getProductRecommendation(result) {
+  return productRecommendations[result.primaryPattern] || productRecommendations.integrated;
+}
+
+ function showResults(result){
  document.getElementById("assessment").classList.add("hidden"); document.getElementById("results").classList.remove("hidden");
  document.getElementById("overallScore").textContent=result.overall;
  document.getElementById("summary").innerHTML=`<p class="lead">Your Mind Alignment Index summarizes your responses across the eight POD dimensions using the current POD scoring model. The most useful part of the result is the pattern within your profile, not the number by itself.</p>`;
+  const recommendation = getProductRecommendation(result);
+
+const existingRecommendation = document.getElementById("productRecommendation");
+if (existingRecommendation) existingRecommendation.remove();
+
+const recommendationBox = document.createElement("div");
+recommendationBox.id = "productRecommendation";
+recommendationBox.className = "notice";
+recommendationBox.style.marginTop = "18px";
+recommendationBox.innerHTML = `
+  <h3 style="margin-top:0;">Your Recommended POD Pathway</h3>
+  <p><strong>${recommendation.product}</strong></p>
+  <p>${recommendation.reason}</p>
+  <p><strong>Recommended next step:</strong> ${recommendation.cta}</p>
+`;
+
+document.getElementById("summary").after(recommendationBox); 
  const primary=patterns[result.primaryPattern];
  document.getElementById("primaryPatternTitle").textContent=primary[0];
  document.getElementById("primaryPatternText").textContent=primary[1];
@@ -970,8 +1049,14 @@ async function saveLead(){
  const name=document.getElementById("name").value.trim(), email=document.getElementById("email").value.trim(), message=document.getElementById("leadMessage");
  if(!name||!email){message.textContent="Please enter your name and email.";return;}
  if(!latestResult){message.textContent="Your results are not ready yet.";return;}
- const profile={name,email,assessmentVersion:ASSESSMENT_VERSION,overallScore:latestResult.overall,dimensionScores:latestResult.scores,rawDimensionScores:latestResult.raw,profileMean:latestResult.mean,profileSD:latestResult.sd,dimensionDeviations:latestResult.deviations,gaps:latestResult.gaps,primaryPattern:latestResult.primaryPattern,secondaryPattern:latestResult.secondaryPattern,responseQuality:latestResult.quality,answers:latestResult.answers,savedAt:new Date().toISOString()};
- localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); message.textContent="Saving your profile...";
+  const recommendation = getProductRecommendation(latestResult);
+
+  const profile={name,email,assessmentVersion:ASSESSMENT_VERSION,overallScore:latestResult.overall,dimensionScores:latestResult.scores,rawDimensionScores:latestResult.raw,profileMean:latestResult.mean,profileSD:latestResult.sd,dimensionDeviations:latestResult.deviations,gaps:latestResult.gaps,primaryPattern:latestResult.primaryPattern,secondaryPattern:latestResult.secondaryPattern,responseQuality:latestResult.quality,answers:latestResult.answers,savedAt:new Date().toISOString()};
+profile.recommendedProduct = recommendation.product;
+profile.recommendationStage = recommendation.stage;
+profile.recommendationReason = recommendation.reason;
+profile.recommendationCTA = recommendation.cta;
+  localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); message.textContent="Saving your profile...";
  try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
 }
 </script>
