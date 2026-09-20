@@ -33,31 +33,30 @@ const recommendationCTA = String(data.recommendationCTA || "").trim();
           );
         }
 
-        const result = await env.DB.prepare(`
-          INSERT INTO assessment_results
-          (
-            name,
-            email,
-            overall_score,
-            dimension_scores,
-            answers,
-            assessment_version,
-            raw_dimension_scores,
-            profile_mean,
-            profile_sd,
-            dimension_deviations,
-            gaps,
-            primary_pattern,
-            secondary_pattern,
-            response_quality
-            recommended_product,
+       const result = await env.DB.prepare(`
+  INSERT INTO assessment_results (
+    name,
+    email,
+    overall_score,
+    dimension_scores,
+    answers,
+    assessment_version,
+    raw_dimension_scores,
+    profile_mean,
+    profile_sd,
+    dimension_deviations,
+    gaps,
+    primary_pattern,
+    secondary_pattern,
+    response_quality
+    recommended_product,
 recommendation_stage,
 recommendation_reason,
 recommendation_cta
-          )
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `)
-          .bind(
+  )
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`)
+.bind(
             name,
             email,
             Math.round(overallScore),
