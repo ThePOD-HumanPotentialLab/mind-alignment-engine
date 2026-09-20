@@ -1,1087 +1,978 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mind Alignment Index | The POD Human Potential Lab</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --ink: #111827;
-      --muted: #6b7280;
-      --paper: #f7f7f4;
-      --white: #ffffff;
-      --accent: #b88a44;
-      --accent-dark: #8d682f;
-      --line: #e5e7eb;
-      --success: #176b4d;
-    }
-
-    body {
-      font-family: Inter, Arial, sans-serif;
-      background: var(--paper);
-      color: var(--ink);
-      line-height: 1.6;
-    }
-
-    .container {
-      width: min(920px, 92%);
-      margin: auto;
-    }
-
-    header {
-      padding: 28px 0;
-      border-bottom: 1px solid var(--line);
-      background: var(--white);
-    }
-
-    .brand {
-      font-weight: 800;
-      letter-spacing: .08em;
-      font-size: 14px;
-    }
-
-    .brand span {
-      color: var(--accent);
-    }
-
-    .screen {
-      min-height: calc(100vh - 90px);
-      display: flex;
-      align-items: center;
-      padding: 60px 0;
-    }
-
-    .card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: clamp(28px, 6vw, 60px);
-      box-shadow: 0 15px 50px rgba(0,0,0,.05);
-      width: 100%;
-    }
-
-    .eyebrow {
-      color: var(--accent-dark);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      font-size: clamp(38px, 7vw, 70px);
-      line-height: 1.02;
-      margin-bottom: 22px;
-      letter-spacing: -.04em;
-    }
-
-    h2 {
-      font-size: clamp(28px, 5vw, 44px);
-      line-height: 1.1;
-      margin-bottom: 18px;
-    }
-
-    h3 {
-      margin-bottom: 10px;
-    }
-
-    .lead {
-      font-size: 19px;
-      color: var(--muted);
-      max-width: 680px;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      display: inline-block;
-      border: none;
-      border-radius: 999px;
-      padding: 15px 25px;
-      background: var(--ink);
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      background: #000;
-    }
-
-    .btn.secondary {
-      background: transparent;
-      color: var(--ink);
-      border: 1px solid var(--ink);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    .progress-wrap {
-      margin-bottom: 35px;
-    }
-
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .progress {
-      height: 7px;
-      background: #eee;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: var(--accent);
-      transition: width .3s;
-    }
-
-    .question-number {
-      color: var(--accent-dark);
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .question {
-      font-size: clamp(25px, 4vw, 38px);
-      line-height: 1.2;
-      margin-bottom: 28px;
-    }
-
-    .options {
-      display: grid;
-      gap: 12px;
-    }
-
-    .option {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: white;
-      cursor: pointer;
-      font-size: 16px;
-      text-align: left;
-      transition: .2s;
-    }
-
-    .option:hover {
-      border-color: var(--accent);
-      transform: translateX(3px);
-    }
-
-    .option.selected {
-      border-color: var(--accent);
-      background: #faf5ec;
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 25px;
-      gap: 12px;
-    }
-
-    .score {
-      font-size: 80px;
-      font-weight: 900;
-      line-height: 1;
-      color: var(--accent-dark);
-      margin: 15px 0;
-    }
-
-    .score-label {
-      color: var(--muted);
-      margin-bottom: 30px;
-    }
-
-    .dimensions {
-      display: grid;
-      gap: 14px;
-      margin: 30px 0;
-    }
-
-    .dimension {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .dimension-top {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-
-    .dimension-bar {
-      height: 8px;
-      background: #eee;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .dimension-fill {
-      height: 100%;
-      background: var(--accent);
-    }.dimension-insight {
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.75;
-  white-space: pre-line;
-}
-
-    .pattern {
-      background: #f7f2e9;
-      border-left: 4px solid var(--accent);
-      padding: 20px;
-      margin: 25px 0;
-      border-radius: 10px;
-    }
-
-    .capture {
-      margin-top: 35px;
-      padding-top: 30px;
-      border-top: 1px solid var(--line);
-    }
-
-    input {
-      width: 100%;
-      padding: 16px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      font-size: 16px;
-      margin: 8px 0 14px;
-    }
-
-    .small {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    @media(max-width:600px) {
-      .screen {
-        padding: 30px 0;
-      }
-
-      .card {
-        border-radius: 18px;
-        padding: 25px;
-      }
-
-      .score {
-        font-size: 65px;
-      }
-
-      .nav {
-        flex-direction: column-reverse;
-      }
-
-      .nav .btn {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mind Alignment Index | The POD Human Potential Lab</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}:root{--ink:#111827;--muted:#6b7280;--paper:#f7f7f4;--white:#fff;--accent:#b88a44;--accent-dark:#8d682f;--line:#e5e7eb}body{font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}.container{width:min(920px,92%);margin:auto}header{padding:28px 0;border-bottom:1px solid var(--line);background:#fff}.screen{min-height:calc(100vh - 90px);display:flex;align-items:center;padding:60px 0}.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(28px,6vw,60px);box-shadow:0 15px 50px rgba(0,0,0,.05);width:100%}.eyebrow{color:var(--accent-dark);font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}h1{font-size:clamp(38px,7vw,70px);line-height:1.02;margin-bottom:22px;letter-spacing:-.04em}h2{font-size:clamp(28px,5vw,44px);line-height:1.1;margin-bottom:18px}h3{margin-bottom:10px}.lead{font-size:19px;color:var(--muted);max-width:680px;margin-bottom:24px}.btn{display:inline-block;border:none;border-radius:999px;padding:15px 25px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px);background:#000}.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--ink)}.hidden{display:none!important}.progress-wrap{margin-bottom:35px}.progress-info{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}.progress{height:7px;background:#eee;border-radius:99px;overflow:hidden}.progress-bar{height:100%;width:0;background:var(--accent);transition:width .3s}.question-number{color:var(--accent-dark);font-weight:800;margin-bottom:12px}.question{font-size:clamp(25px,4vw,38px);line-height:1.2;margin-bottom:28px}.options{display:grid;gap:12px}.option{padding:18px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font-size:16px;text-align:left;transition:.2s}.option:hover{border-color:var(--accent);transform:translateX(3px)}.option.selected{border-color:var(--accent);background:#faf5ec}.nav{display:flex;justify-content:space-between;margin-top:25px;gap:12px}.score{font-size:80px;font-weight:900;line-height:1;color:var(--accent-dark);margin:15px 0}.score-label{color:var(--muted);margin-bottom:25px}.dimensions{display:grid;gap:14px;margin:30px 0}.dimension{border:1px solid var(--line);border-radius:14px;padding:16px}.dimension-top{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:700}.dimension-bar{height:8px;background:#eee;border-radius:99px;overflow:hidden}.dimension-fill{height:100%;background:var(--accent)}.dimension-meta{color:var(--muted);font-size:13px;margin-top:7px}.dimension-insight{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:15px;line-height:1.7;white-space:pre-line}.pattern{background:#f7f2e9;border-left:4px solid var(--accent);padding:20px;margin:25px 0;border-radius:10px}.pattern .small-title{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:6px}.pattern p{margin-bottom:10px}.capture{margin-top:35px;padding-top:30px;border-top:1px solid var(--line)}input{width:100%;padding:16px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin:8px 0 14px}.small{color:var(--muted);font-size:13px}.notice{padding:14px 16px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:13px;margin-top:20px}footer{text-align:center;padding:30px;color:var(--muted);font-size:13px}@media(max-width:600px){.screen{padding:30px 0}.card{border-radius:18px;padding:25px}.score{font-size:65px}.nav{flex-direction:column-reverse}.nav .btn{width:100%}}
+</style>
 </head>
-
 <body>
-
-<header>
-  <div class="container">
-  <div class="brand" style="text-align:center;">
-  <img
-    src="/pod-logo.png"
-    alt="The POD Human Potential Lab"
-    style="width:130px; height:auto; display:block; margin:0 auto;"
-  />
-</div>
-  </div>
-</header>
-
+<header><div class="container"><div style="text-align:center"><img src="/pod-logo.png" alt="The POD Human Potential Lab" style="width:130px;height:auto;display:block;margin:0 auto"></div></div></header>
 <main>
-
-  <!-- INTRO -->
-  <section id="intro" class="screen">
-    <div class="container">
-      <div class="card">
-        <div class="eyebrow">The Mind Alignment Index</div>
-
-        <h1>
-          How aligned is the mind that is creating your life?
-        </h1>
-
-        <p class="lead">
-          Your thoughts, identity, emotions, intentions and actions
-          influence how you experience yourself, make decisions and
-          pursue your potential.
-        </p>
-
-        <p class="lead">
-          Take this short assessment to discover your current
-          Mind Alignment Index and the patterns that may be shaping
-          your results.
-        </p>
-
-        <button class="btn" onclick="startAssessment()">
-          Begin Assessment →
-        </button>
-
-        <p class="small" style="margin-top:18px;">
-          12 questions · Approximately 3–5 minutes
-        </p>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ASSESSMENT -->
-  <section id="assessment" class="screen hidden">
-    <div class="container">
-      <div class="card">
-
-        <div class="progress-wrap">
-          <div class="progress-info">
-            <span id="progressText">Question 1 of 12</span>
-            <span id="percent">0%</span>
-          </div>
-
-          <div class="progress">
-            <div id="progressBar" class="progress-bar"></div>
-          </div>
-        </div>
-
-        <div id="questionNumber" class="question-number"></div>
-        <div id="questionText" class="question"></div>
-        <div id="options" class="options"></div>
-
-        <div class="nav">
-          <button class="btn secondary" onclick="previousQuestion()">
-            ← Back
-          </button>
-
-          <button id="nextButton" class="btn" onclick="nextQuestion()" disabled>
-            Continue →
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- RESULTS -->
-  <section id="results" class="screen hidden">
-    <div class="container">
-      <div class="card">
-
-        <div class="eyebrow">Your Mind Alignment Profile</div>
-
-        <h2>Your Mind Alignment Index</h2>
-
-        <div id="overallScore" class="score">0</div>
-
-        <div class="score-label">
-          out of 100
-        </div>
-
-        <div id="summary"></div>
-
-        <div class="pattern">
-          <h3>Your dominant pattern</h3>
-          <p id="patternText"></p>
-        </div>
-
-        <h3>Alignment across eight dimensions</h3>
-
-        <div id="dimensions" class="dimensions"></div>
-
-        <div class="pattern">
-          <h3>Your recommended next step</h3>
-          <p id="recommendation"></p>
-        </div>
-
-        <div class="capture">
-          <h3>Get your full profile</h3>
-
-          <p class="small">
-            Enter your details to save your result and receive
-            information about your personalized Mind Alignment journey.
-          </p>
-
-          <input id="name" type="text" placeholder="Your name" />
-          <input id="email" type="email" placeholder="Your email address" />
-
-          <button class="btn" onclick="saveLead()">
-            Save My Profile →
-          </button>
-
-          <p id="leadMessage" class="small" style="margin-top:15px;"></p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<footer>
-  © The POD Human Potential Lab · Mind Alignment Engine
-</footer>
-
-
+<section id="intro" class="screen"><div class="container"><div class="card">
+<div class="eyebrow">The Mind Alignment Index · V2</div>
+<h1>How aligned is the mind that is creating your life?</h1>
+<p class="lead">This assessment explores eight dimensions of how you think, see yourself, regulate emotion, choose direction, take ownership, act, relate and develop.</p>
+<p class="lead">There are no perfect answers. Choose the response that most closely describes how you <strong>usually operate</strong>, not how you think you should operate.</p>
+<button class="btn" onclick="startAssessment()">Begin Assessment →</button>
+<p class="small" style="margin-top:18px">32 questions · Approximately 8–10 minutes</p>
+<div class="notice">Your result is a developmental indicator based on the current POD scoring model. It is not a clinical diagnosis or a measure of your worth or potential.</div>
+</div></div></section>
+<section id="assessment" class="screen hidden"><div class="container"><div class="card">
+<div class="progress-wrap"><div class="progress-info"><span id="progressText">Question 1 of 32</span><span id="percent">0%</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div></div>
+<div id="questionNumber" class="question-number"></div><div id="questionText" class="question"></div><div id="options" class="options"></div>
+<div class="nav"><button class="btn secondary" onclick="previousQuestion()">← Back</button><button id="nextButton" class="btn" onclick="nextQuestion()" disabled>Continue →</button></div>
+</div></div></section>
+<section id="results" class="screen hidden"><div class="container"><div class="card">
+<div class="eyebrow">Your Mind Alignment Profile</div><h2>Your Mind Alignment Index</h2><div id="overallScore" class="score">0</div><div class="score-label">out of 100</div>
+<div id="summary"></div>
+<div class="pattern"><div class="small-title">Primary pattern</div><h3 id="primaryPatternTitle"></h3><p id="primaryPatternText"></p><p><strong>POD practice:</strong> <span id="primaryPatternPractice"></span></p></div>
+<div id="secondaryPattern" class="pattern hidden"><div class="small-title">Secondary pattern</div><h3 id="secondaryPatternTitle"></h3><p id="secondaryPatternText"></p><p><strong>POD practice:</strong> <span id="secondaryPatternPractice"></span></p></div>
+<h3>Alignment across eight dimensions</h3><div id="dimensions" class="dimensions"></div>
+<div class="pattern"><div class="small-title">Your next development step</div><p id="recommendation"></p></div>
+<div class="notice">The patterns above describe relationships within your response profile. They are developmental interpretations, not diagnoses.</div>
+<div class="capture"><h3>Save your profile</h3><p class="small">Enter your details to save this assessment result.</p><input id="name" type="text" placeholder="Your name"><input id="email" type="email" placeholder="Your email address"><button class="btn" onclick="saveLead()">Save My Profile →</button><p id="leadMessage" class="small" style="margin-top:15px"></p></div>
+</div></div></section>
+</main><footer>© The POD Human Potential Lab · Mind Alignment Engine</footer>
 <script>
-
-const dimensions = [
-  "Thought",
-  "Identity",
-  "Emotional Regulation",
-  "Intentionality",
-  "Ownership",
-  "Execution",
-  "Relational Alignment",
-  "Potential / Growth Orientation"
-];const dimensionGuidance = {
-
-  "Thought": {
-    opportunity: `
-      Your thoughts may be influencing your experience more than you consciously realize.
-      What you repeatedly think about becomes familiar, and what becomes familiar can begin
-      to shape what you expect, notice and act upon.
-
-      The mind must be trained, not merely informed. Become deliberate about the thoughts
-      you entertain, the assumptions you accept and the mental pictures you repeatedly rehearse.
-
-      What you consistently impress upon your mind eventually becomes a pattern from which
-      you operate. Change the inner conversation, and you begin to change the direction of your life.
-    `,
-    strength: `
-      You appear to have developed a deliberate relationship with your thoughts.
-      You are increasingly able to observe, question and direct the mental patterns
-      that influence your decisions and behaviour.
-
-      Continue to protect the quality of your inner conversation. The thoughts you
-      repeatedly entertain help shape the person you are becoming.
-
-      Your next level is not simply thinking more, but thinking more deliberately.
-    `
-  },
-
-  "Identity": {
-    opportunity: `
-      You may desire a different life while still operating from an identity built around who you have been.
-
-      Your results rarely move far beyond the picture you consistently hold of yourself.
-      If you continue to see yourself as the person who struggles, delays, lacks or cannot,
-      your behaviour can naturally organize itself around that identity.
-
-      Begin to consciously define who you are becoming. See that person clearly. Think from
-      that identity. Act in agreement with it until the new self-concept becomes more natural
-      than the old one.
-
-      You don't simply create a new result. You become the person capable of producing it.
-    `,
-    strength: `
-      You appear to have a relatively clear sense of who you are and who you are becoming.
-
-      This gives your decisions a stronger internal foundation. Continue to consciously
-      reinforce the identity that supports the life you intend to create.
-
-      Your next level is to ensure that your self-concept is not merely an idea,
-      but something consistently expressed through your choices and behaviour.
-    `
-  },
-
-  "Emotional Regulation": {
-    opportunity: `
-      Your emotions are powerful signals, but they do not have to become your instructions.
-
-      When an emotional reaction repeatedly determines your decisions, old conditioning
-      can continue to produce familiar outcomes. The goal is not to suppress emotion,
-      but to develop the capacity to observe it without surrendering your direction to it.
-
-      Pause. Become aware. Choose the state from which you want to respond.
-
-      The person who learns to govern their inner state gains greater freedom over their outer behaviour.
-    `,
-    strength: `
-      You appear to have developed an increasing ability to experience emotion without
-      automatically allowing it to determine your behaviour.
-
-      Continue cultivating awareness of your inner state and consciously choosing the
-      state from which you respond.
-
-      Emotional mastery is not the absence of emotion. It is the ability to remain
-      intentional while experiencing it.
-    `
-  },
-
-  "Intentionality": {
-    opportunity: `
-      You may have desires, ideas and ambitions, but desire becomes transformative
-      when it is given direction.
-
-      A definite purpose gives the mind something to organize around. Clarify what you want.
-      See it clearly. Give it meaning. Then decide what must become true in your behaviour
-      for that vision to become reality.
-
-      A vague desire creates a vague life. A clearly imagined future gives your mind
-      a direction to move toward.
-    `,
-    strength: `
-      You appear to have developed meaningful clarity about what you want and where you
-      are directing your energy.
-
-      Continue converting that clarity into definite purpose, deliberate priorities
-      and consistent action.
-
-      A clearly imagined future becomes more powerful when your daily choices continually
-      confirm the direction you have chosen.
-    `
-  },
-
-  "Ownership": {
-    opportunity: `
-      There may be circumstances around you that you did not choose, but your response
-      to them remains an area of personal power.
-
-      Ownership begins when you stop waiting for conditions to become perfect before
-      deciding who you will be and what you will do.
-
-      Examine your assumptions. Examine your choices. Examine the patterns producing
-      your current results.
-
-      When you reclaim responsibility for your response, you reclaim your ability
-      to create a different result.
-    `,
-    strength: `
-      You appear to recognize that your choices, responses and behaviour play an important
-      role in the results you create.
-
-      Continue strengthening this internal sense of responsibility without confusing
-      ownership with self-blame.
-
-      Ownership is power: it moves your attention from what you cannot control toward
-      what you can consciously choose, change and create.
-    `
-  },
-
-  "Execution": {
-    opportunity: `
-      You know what you want, yet your daily actions don't fully match the vision in your mind.
-
-      The gap is not necessarily knowledge. It may be the conditioning of your subconscious mind—
-      the patterns that continue to express what has been deeply impressed upon you.
-
-      Assume the feeling of your wish fulfilled. Then give it a body: a definite plan,
-      deliberate action, and a daily practice repeated until it becomes habit.
-
-      Desire without a plan remains a wish. When your inner picture and your outer routine agree,
-      execution stops being something you struggle to do and begins to become who you are.
-    `,
-    strength: `
-      You appear to have developed a relatively strong connection between intention
-      and daily action.
-
-      Continue reinforcing the behaviours that support your desired identity.
-      Repetition gives an intention a body, and disciplined practice turns behaviour
-      into something increasingly natural.
-
-      Your next level is not simply doing more, but ensuring that what you repeatedly
-      do remains aligned with the person and future you have chosen.
-    `
-  },
-
-  "Relational Alignment": {
-    opportunity: `
-      The quality of your relationships is often influenced by the beliefs, expectations
-      and identity you bring into them.
-
-      Alignment does not mean pleasing everyone or abandoning yourself to maintain harmony.
-      It means learning to relate from clarity, self-respect, purpose and conscious choice
-      rather than fear, insecurity or the need for approval.
-
-      Become deliberate about the person you are being in your relationships.
-
-      As your inner relationship with yourself changes, the way you experience and engage
-      with others can change with it.
-    `,
-    strength: `
-      You appear to have developed an ability to maintain relationships while remaining
-      reasonably connected to your own values, boundaries and purpose.
-
-      Continue bringing intention into the way you communicate, listen and respond.
-
-      Strong relationships are not created by losing yourself in others. They are created
-      when people meet from greater awareness, honesty and mutual respect.
-    `
-  },
-
-  "Potential / Growth Orientation": {
-    opportunity: `
-      Your current results are not necessarily a complete picture of what you are capable of becoming.
-
-      Growth begins when you stop treating your present circumstances as the final definition
-      of your potential. What you repeatedly learn, believe, imagine and practise can expand
-      the range of what you are capable of doing.
-
-      Give your mind a greater possibility to work toward. Learn continuously. Stretch your
-      capacity. Develop the person required for the next level.
-
-      Potential becomes power when possibility is followed by belief, practice and persistent action.
-    `,
-    strength: `
-      You appear to have a strong orientation toward learning, expansion and becoming more capable.
-
-      Protect that orientation. Continue exposing yourself to greater possibilities while
-      developing the skills, habits and identity required to embody them.
-
-      Potential becomes power when imagination is followed by belief, disciplined practice
-      and persistent action.
-    `
-  }
-
-};
-
-/*
-  Each question contributes to multiple dimensions.
-
-  Weight = importance of the question for that dimension.
-
-  This structure will later become our configurable
-  assessment/scoring engine.
-*/
-
+const ASSESSMENT_VERSION = "2.0";
+const dimensions = ["Thought","Identity","Emotional Regulation","Intentionality","Ownership","Execution","Relational Alignment","Potential / Growth Orientation"];
 const questions = [
-
   {
-    text: "When something important does not go as planned, what is your most natural response?",
-    options: [
-      "I immediately look for someone or something to blame.",
-      "I become frustrated, but eventually try to understand what happened.",
-      "I ask myself what I can learn or control and decide what to do next.",
-      "I pause, examine my response carefully, and deliberately choose my next action."
-    ],
-    weights: [1,1,0.5,0.5,1,0.5,0,0.5]
-  },
-
-  {
-    text: "Which statement most closely describes how you see yourself?",
-    options: [
-      "I am largely shaped by my circumstances.",
-      "I know who I am, but I sometimes lose sight of it under pressure.",
-      "I have a clear sense of who I am and what matters to me.",
-      "I intentionally shape and continually evolve the person I am becoming."
-    ],
-    weights: [0.5,1.5,0.5,1,1,0,0.5,1]
-  },
-
-  {
-    text: "When strong emotions appear, what usually happens?",
-    options: [
-      "My emotions often determine what I say or do.",
-      "I notice them, but sometimes react before thinking.",
-      "I usually create enough space to choose my response.",
-      "I can observe, regulate and intentionally redirect my emotional energy."
-    ],
-    weights: [0.5,0.5,1.5,1,0.5,0.5,1,0.5]
-  },
-
-  {
-    text: "How clearly do you know what you are trying to create in the next 12 months?",
-    options: [
-      "I have no clear direction.",
-      "I have some ideas, but they are not yet organized.",
-      "I have clear goals and know what matters most.",
-      "I have a clear vision, priorities and deliberate actions connected to it."
-    ],
-    weights: [0.5,0.5,0.5,1.5,1,1,0,1]
-  },
-
-  {
-    text: "When you make a mistake, what do you tend to do?",
-    options: [
-      "Avoid responsibility or explain why it was not really my fault.",
-      "Accept it, but may dwell on it.",
-      "Take responsibility and focus on correcting it.",
-      "Own it fully, extract the lesson and redesign my approach."
-    ],
-    weights: [0.5,1,1,0.5,1.5,1,0.5,1]
-  },
-
-  {
-    text: "How consistently do your daily actions match your stated priorities?",
-    options: [
-      "Not very consistently.",
-      "Sometimes, depending on circumstances.",
-      "Most of the time.",
-      "Very consistently; I deliberately structure my environment around my priorities."
-    ],
-    weights: [0.5,0.5,0.5,1.5,1,1.5,0,1]
-  },
-
-  {
-    text: "When there is tension with another person, what is your usual approach?",
-    options: [
-      "I withdraw, attack or try to prove I am right.",
-      "I try to resolve it, although emotions can interfere.",
-      "I seek understanding and communicate directly.",
-      "I protect the relationship while addressing the real issue honestly and constructively."
-    ],
-    weights: [0.5,0.5,1,0.5,1,0.5,1.5,0.5]
-  },
-
-  {
-    text: "How do you respond when you encounter a challenge you have never faced before?",
-    options: [
-      "I assume I probably cannot handle it.",
-      "I feel uncertain but look for help.",
-      "I believe I can learn what is necessary.",
-      "I see unfamiliar challenges as opportunities to expand my capacity."
-    ],
-    weights: [1,1,0.5,0.5,1,1,0.5,1.5]
-  },
-
-  {
-    text: "Which best describes your relationship with your thoughts?",
-    options: [
-      "I generally believe whatever my mind tells me.",
-      "I sometimes question my thoughts.",
-      "I can examine my thoughts before acting on them.",
-      "I deliberately observe, challenge and redirect thoughts that do not serve my purpose."
-    ],
-    weights: [1.5,0.5,0.5,1,0.5,0.5,0,1]
-  },
-
-  {
-    text: "When your current results are below what you want, what do you usually examine first?",
-    options: [
-      "External circumstances and other people's actions.",
-      "What went wrong.",
-      "My decisions, habits and actions.",
-      "The relationship between my thinking, identity, choices, systems and execution."
-    ],
-    weights: [1,1,0.5,1,1.5,1,0.5,1]
-  },
-
-  {
-    text: "How often do you intentionally review whether your life is aligned with what you say matters to you?",
-    options: [
-      "Rarely.",
-      "Occasionally, usually when something goes wrong.",
-      "Regularly.",
-      "Consistently; reflection and realignment are part of how I operate."
-    ],
-    weights: [0.5,1,0.5,1.5,1,1,0.5,1.5]
-  },
-
-  {
-    text: "When you imagine the person you could become, which statement feels closest?",
-    options: [
-      "I mostly want things around me to change.",
-      "I want to improve, but I am not always sure how.",
-      "I believe I can develop significantly through deliberate effort.",
-      "I see human potential as expandable and intentionally build the identity, thinking and behaviours required for my next level."
-    ],
-    weights: [1,1.5,0.5,1,1,1,0.5,1.5]
-  }
-
-];
-
-let currentQuestion = 0;
-let answers = [];  let latestDimensionScores = []; let latestOverall = null;
-
-function startAssessment() {
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("assessment").classList.remove("hidden");
-  renderQuestion();
-}
-
-function renderQuestion() {
-
-  const q = questions[currentQuestion];
-
-  document.getElementById("questionNumber").textContent =
-    `QUESTION ${currentQuestion + 1}`;
-
-  document.getElementById("questionText").textContent =
-    q.text;
-
-  document.getElementById("progressText").textContent =
-    `Question ${currentQuestion + 1} of ${questions.length}`;
-
-  const pct =
-    Math.round((currentQuestion / questions.length) * 100);
-
-  document.getElementById("percent").textContent = `${pct}%`;
-  document.getElementById("progressBar").style.width = `${pct}%`;
-
-  const options = document.getElementById("options");
-  options.innerHTML = "";
-
-  q.options.forEach((option, index) => {
-
-    const button = document.createElement("button");
-
-    button.className = "option";
-    button.textContent = option;
-
-    if (answers[currentQuestion] === index) {
-      button.classList.add("selected");
-    }
-
-    button.onclick = () => selectOption(index);
-
-    options.appendChild(button);
-  });
-
-  document.getElementById("nextButton").disabled =
-    answers[currentQuestion] === undefined;
-
-  document.getElementById("nextButton").textContent =
-    currentQuestion === questions.length - 1
-      ? "See My Results →"
-      : "Continue →";
-}
-
-function selectOption(index) {
-
-  answers[currentQuestion] = index;
-
-  document.querySelectorAll(".option")
-    .forEach((button, i) => {
-      button.classList.toggle("selected", i === index);
-    });
-
-  document.getElementById("nextButton").disabled = false;
-}
-
-function nextQuestion() {
-
-  if (answers[currentQuestion] === undefined) return;
-
-  if (currentQuestion < questions.length - 1) {
-    currentQuestion++;
-    renderQuestion();
-  } else {
-    calculateResults();
-  }
-}
-
-function previousQuestion() {
-
-  if (currentQuestion > 0) {
-    currentQuestion--;
-    renderQuestion();
-  }
-}
-
-function calculateResults() {
-
-  const rawScores = new Array(dimensions.length).fill(0);
-  const maxScores = new Array(dimensions.length).fill(0);
-
-  questions.forEach((question, qIndex) => {
-
-    question.weights.forEach((weight, dIndex) => {
-
-      const maxOption = 3;
-      const answer = answers[qIndex];
-
-      rawScores[dIndex] +=
-        answer * weight;
-
-      maxScores[dIndex] +=
-        maxOption * weight;
-    });
-  });
-
-  const dimensionScores = rawScores.map((score, i) =>
-    Math.round((score / maxScores[i]) * 100)
-  );
-
-  const overall =
-    Math.round(
-      dimensionScores.reduce((a,b) => a+b, 0)
-      / dimensionScores.length
-    );
-
-  latestDimensionScores = dimensionScores; latestOverall = overall;  showResults(dimensionScores, overall);
-}
-
-function showResults(scores, overall) {
-
-  document.getElementById("assessment")
-    .classList.add("hidden");
-
-  document.getElementById("results")
-    .classList.remove("hidden");
-
-  document.getElementById("overallScore")
-    .textContent = overall;
-
-  let level;
-
-  if (overall < 40) {
-    level = "Your responses suggest that there may be significant opportunities to create greater alignment between how you think, who you believe yourself to be, what you intend and how you act.";
-  } else if (overall < 60) {
-    level = "Your responses suggest developing alignment, with some areas of strength and some areas where greater consistency could create new possibilities.";
-  } else if (overall < 80) {
-    level = "Your responses suggest a solid level of alignment, with identifiable opportunities to strengthen consistency and expand your capacity.";
-  } else {
-    level = "Your responses suggest a strong level of alignment across the areas measured, with opportunities to deepen and sustain your next level of growth.";
-  }
-
-  document.getElementById("summary").innerHTML =
-    `<p class="lead">${level}</p>`;
-
-  const sorted = scores
-    .map((score, index) => ({ score, index }))
-    .sort((a,b) => b.score - a.score);
-
-  const strongest = dimensions[sorted[0].index];
-  const lowest = dimensions[sorted[sorted.length - 1].index];
-
-  document.getElementById("patternText").textContent =
-    `Your strongest measured area is ${strongest}. Your greatest development opportunity in this assessment is ${lowest}. The important question is not simply the score, but how these dimensions interact in your everyday life.`;
-
-  const dimensionsContainer =
-    document.getElementById("dimensions");
-
-  dimensionsContainer.innerHTML = "";
-
-  scores.forEach((score, index) => {
-
-  const dimension = dimensions[index];
-
-  const insight =
-    score < 60
-      ? dimensionGuidance[dimension].opportunity
-      : dimensionGuidance[dimension].strength;
-
-  dimensionsContainer.innerHTML += `
-    <div class="dimension">
-
-      <div class="dimension-top">
-        <span>${dimension}</span>
-        <span>${score}</span>
-      </div>
-
-      <div class="dimension-bar">
-        <div
-          class="dimension-fill"
-          style="width:${score}%">
-        </div>
-      </div>
-
-      <div class="dimension-insight">
-        ${insight}
-      </div>
-
-    </div>
-  `;
-});
-
-  document.getElementById("recommendation").textContent =
-    `Begin by focusing on ${lowest}. Greater alignment often begins by becoming more aware of the gap between what you currently believe, intend and do—and then deliberately closing that gap. The next stage of your Mind Alignment journey will help you work through this systematically.`;
-}
-
-async function saveLead() {
-  const name =
-    document.getElementById("name").value.trim();
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const message =
-    document.getElementById("leadMessage");
-
-  if (!name || !email) {
-    message.textContent =
-      "Please enter your name and email.";
-    return;
-  }
-
-  if (
-    latestOverall === null ||
-    !latestDimensionScores.length
-  ) {
-    message.textContent =
-      "Your results are not ready yet. Please complete the assessment again.";
-    return;
-  }
-
-  // Always keep a local backup.
-  const profile = {
-    name,
-    email,
-    overallScore: latestOverall,
-    dimensionScores: latestDimensionScores,
-    answers,
-    savedAt: new Date().toISOString()
-  };
-
-  localStorage.setItem(
-    "mindAlignmentLead",
-    JSON.stringify(profile)
-  );
-
-  message.textContent =
-    "Saving your profile...";
-
-  try {
-    const response = await fetch(
-      "/api/save-profile",
+    "id": "T1",
+    "dimension": "Thought",
+    "text": "When a worrying thought keeps returning, what usually happens?",
+    "options": [
       {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(profile)
+        "text": "I tend to accept the thought as accurate in the moment.",
+        "score": 0
+      },
+      {
+        "text": "I notice it and try to shift my attention.",
+        "score": 2
+      },
+      {
+        "text": "I examine what is fact, what is assumption, and what is interpretation.",
+        "score": 3
+      },
+      {
+        "text": "I usually discuss it with someone before deciding what to make of it.",
+        "score": 1
       }
-    );
-
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      throw new Error("Profile save failed");
-    }
-
-    message.textContent =
-      "Your Mind Alignment Profile has been saved successfully.";
-  } catch (error) {
-    message.textContent =
-      "Your profile has been saved on this device. We could not sync it to the profile system right now.";
+    ]
+  },
+  {
+    "id": "T2",
+    "dimension": "Thought",
+    "text": "Before an important event, which description most closely matches your usual preparation?",
+    "options": [
+      {
+        "text": "I focus mainly on practical preparation.",
+        "score": 2
+      },
+      {
+        "text": "I tend to imagine several things that could go wrong.",
+        "score": 1
+      },
+      {
+        "text": "I mentally rehearse how I want to think, respond and perform.",
+        "score": 3
+      },
+      {
+        "text": "I prefer to deal with the situation when it actually happens.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "T3",
+    "dimension": "Thought",
+    "text": "You encounter information that challenges something you strongly believe. What do you usually do first?",
+    "options": [
+      {
+        "text": "I look for evidence that supports my existing view.",
+        "score": 1
+      },
+      {
+        "text": "I consider whether the new information changes any part of my understanding.",
+        "score": 3
+      },
+      {
+        "text": "I set the information aside until I have more context.",
+        "score": 2
+      },
+      {
+        "text": "I defend my existing position.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "T4",
+    "dimension": "Thought",
+    "text": "When you have been thinking about the same problem repeatedly without resolving it, what are you most likely to do?",
+    "options": [
+      {
+        "text": "I continue examining it from the same perspective.",
+        "score": 1
+      },
+      {
+        "text": "I deliberately change my approach or perspective.",
+        "score": 3
+      },
+      {
+        "text": "I put it aside and return to it later.",
+        "score": 2
+      },
+      {
+        "text": "I allow the thoughts to continue until something changes.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "I1",
+    "dimension": "Identity",
+    "text": "After a significant setback, which response is most typical for you?",
+    "options": [
+      {
+        "text": "I begin questioning whether I am capable of achieving the goal.",
+        "score": 1
+      },
+      {
+        "text": "I focus on what happened without allowing it to completely define me.",
+        "score": 2
+      },
+      {
+        "text": "I examine what the experience reveals about who I need to become.",
+        "score": 3
+      },
+      {
+        "text": "I quickly move on to something else.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "I2",
+    "dimension": "Identity",
+    "text": "Which description is closest to how you currently see yourself?",
+    "options": [
+      {
+        "text": "My circumstances strongly influence the person I can realistically become.",
+        "score": 0
+      },
+      {
+        "text": "My circumstances influence me, but I can deliberately develop beyond them.",
+        "score": 2
+      },
+      {
+        "text": "I am still working out which parts of my identity genuinely belong to me.",
+        "score": 1
+      },
+      {
+        "text": "I deliberately define the person I am becoming and use that identity to guide important choices.",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "I3",
+    "dimension": "Identity",
+    "text": "When you set a goal that requires you to operate differently from how you currently do, what usually happens?",
+    "options": [
+      {
+        "text": "I concentrate on the tasks required and let the rest develop naturally.",
+        "score": 2
+      },
+      {
+        "text": "I question whether the goal fits who I am.",
+        "score": 0
+      },
+      {
+        "text": "I identify the qualities and behaviors I need to develop.",
+        "score": 3
+      },
+      {
+        "text": "I usually try to achieve the goal using the way I already operate.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "I4",
+    "dimension": "Identity",
+    "text": "Which statement most closely describes your relationship with personal change?",
+    "options": [
+      {
+        "text": "I tend to remain fairly consistent even when my circumstances change.",
+        "score": 1
+      },
+      {
+        "text": "I change when circumstances require it.",
+        "score": 0
+      },
+      {
+        "text": "I deliberately revise parts of myself when I recognize that my current way of operating no longer serves my direction.",
+        "score": 3
+      },
+      {
+        "text": "I gradually adapt as I encounter new experiences.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "ER1",
+    "dimension": "Emotional Regulation",
+    "text": "During a heated disagreement, what usually happens?",
+    "options": [
+      {
+        "text": "I respond quickly and think about it afterward.",
+        "score": 0
+      },
+      {
+        "text": "I notice the emotional reaction and slow myself down before responding.",
+        "score": 3
+      },
+      {
+        "text": "I try to pause, although the emotion may still influence what I say.",
+        "score": 1
+      },
+      {
+        "text": "I generally give myself enough time to respond rather than react.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "ER2",
+    "dimension": "Emotional Regulation",
+    "text": "When something you strongly wanted does not happen, what usually follows?",
+    "options": [
+      {
+        "text": "The disappointment can affect my decisions for some time.",
+        "score": 0
+      },
+      {
+        "text": "I move quickly toward the next objective.",
+        "score": 2
+      },
+      {
+        "text": "I allow myself to process the disappointment and then decide what to do next.",
+        "score": 3
+      },
+      {
+        "text": "I need some time before I regain my usual momentum.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "ER3",
+    "dimension": "Emotional Regulation",
+    "text": "When you notice yourself becoming angry, anxious or frustrated, what do you typically do?",
+    "options": [
+      {
+        "text": "I usually express the feeling immediately.",
+        "score": 0
+      },
+      {
+        "text": "I try to understand what triggered it before deciding what to do.",
+        "score": 3
+      },
+      {
+        "text": "I distract myself until the feeling becomes less intense.",
+        "score": 1
+      },
+      {
+        "text": "I give myself some time before acting.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "ER4",
+    "dimension": "Emotional Regulation",
+    "text": "You have an important decision to make while emotionally unsettled. What are you most likely to do?",
+    "options": [
+      {
+        "text": "I make the decision quickly so I can move past it.",
+        "score": 0
+      },
+      {
+        "text": "I consider the decision but wait if my emotional state may be affecting my judgment.",
+        "score": 2
+      },
+      {
+        "text": "I settle myself first, then deliberately examine the decision.",
+        "score": 3
+      },
+      {
+        "text": "I ask someone else to decide what I should do.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "IN1",
+    "dimension": "Intentionality",
+    "text": "When you think about the next 12 months, which description fits you best?",
+    "options": [
+      {
+        "text": "I have several things I want, but they compete for attention.",
+        "score": 1
+      },
+      {
+        "text": "I have a reasonably clear picture of what I want and several priorities.",
+        "score": 2
+      },
+      {
+        "text": "Much of my attention is currently shaped by what circumstances require.",
+        "score": 0
+      },
+      {
+        "text": "I have a definite picture of what I am trying to create and why it matters.",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "IN2",
+    "dimension": "Intentionality",
+    "text": "Several opportunities require your attention at the same time. How do you usually decide what to pursue?",
+    "options": [
+      {
+        "text": "I tend to respond to whichever feels most urgent.",
+        "score": 1
+      },
+      {
+        "text": "I consider how each option fits my larger priorities.",
+        "score": 3
+      },
+      {
+        "text": "I initially pursue several and narrow them down later.",
+        "score": 0
+      },
+      {
+        "text": "I consider urgency alongside how each option fits my current direction.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "IN3",
+    "dimension": "Intentionality",
+    "text": "You have a clear long-term vision. What usually happens next?",
+    "options": [
+      {
+        "text": "I keep the vision in mind while managing immediate responsibilities.",
+        "score": 1
+      },
+      {
+        "text": "I translate it into priorities and near-term actions.",
+        "score": 3
+      },
+      {
+        "text": "I create goals, although they may change frequently.",
+        "score": 2
+      },
+      {
+        "text": "I spend more time thinking about the vision than organizing around it.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "IN4",
+    "dimension": "Intentionality",
+    "text": "How do you usually recognize that your current direction needs to change?",
+    "options": [
+      {
+        "text": "Usually when circumstances force me to reconsider it.",
+        "score": 0
+      },
+      {
+        "text": "I periodically review whether my actions still reflect what matters to me.",
+        "score": 3
+      },
+      {
+        "text": "I reconsider when my results become disappointing.",
+        "score": 1
+      },
+      {
+        "text": "I review my direction at important milestones or major changes.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "O1",
+    "dimension": "Ownership",
+    "text": "When an important outcome does not happen, what do you usually examine first?",
+    "options": [
+      {
+        "text": "The external factors that affected the result.",
+        "score": 1
+      },
+      {
+        "text": "What I could have influenced or done differently.",
+        "score": 3
+      },
+      {
+        "text": "What happened and what I can learn before deciding what to change.",
+        "score": 2
+      },
+      {
+        "text": "Who or what caused the problem.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "O2",
+    "dimension": "Ownership",
+    "text": "You discover that an important decision you made was wrong. What do you typically do?",
+    "options": [
+      {
+        "text": "I explain why the decision made sense at the time.",
+        "score": 1
+      },
+      {
+        "text": "I focus on fixing the immediate consequences.",
+        "score": 2
+      },
+      {
+        "text": "I examine the reasoning or process that produced the decision.",
+        "score": 3
+      },
+      {
+        "text": "I prefer to move on rather than examine it closely.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "O3",
+    "dimension": "Ownership",
+    "text": "Someone gives you feedback that you believe is partly unfair. What usually happens?",
+    "options": [
+      {
+        "text": "I explain my perspective and then decide whether anything is useful.",
+        "score": 2
+      },
+      {
+        "text": "I immediately defend my position.",
+        "score": 0
+      },
+      {
+        "text": "I consider whether there is useful information even if I disagree with the delivery.",
+        "score": 3
+      },
+      {
+        "text": "I listen but generally leave the issue there.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "O4",
+    "dimension": "Ownership",
+    "text": "Something outside your control seriously disrupts an important plan. What is most typical?",
+    "options": [
+      {
+        "text": "I spend some time dealing with the frustration before moving forward.",
+        "score": 1
+      },
+      {
+        "text": "I adjust the plan once I understand what has changed.",
+        "score": 2
+      },
+      {
+        "text": "I focus quickly on the part of the situation I can still influence.",
+        "score": 3
+      },
+      {
+        "text": "I find it difficult to regain momentum until circumstances improve.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "EX1",
+    "dimension": "Execution",
+    "text": "You planned an important task, but unexpected demands consume most of your day. What usually happens?",
+    "options": [
+      {
+        "text": "I push the task to another day.",
+        "score": 0
+      },
+      {
+        "text": "I try to fit it in if enough time remains.",
+        "score": 1
+      },
+      {
+        "text": "I identify another defined time to complete it.",
+        "score": 2
+      },
+      {
+        "text": "I identify the essential outcome and find another way to complete it.",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "EX2",
+    "dimension": "Execution",
+    "text": "When you decide that a new behavior is important, what do you usually rely on most?",
+    "options": [
+      {
+        "text": "Remembering to do it each day.",
+        "score": 1
+      },
+      {
+        "text": "Creating a routine or environment that makes the behavior easier to repeat.",
+        "score": 3
+      },
+      {
+        "text": "Starting strongly and adjusting as I learn what works.",
+        "score": 2
+      },
+      {
+        "text": "Waiting until I feel sufficiently motivated.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "EX3",
+    "dimension": "Execution",
+    "text": "You know an important task needs to be done, but you do not feel motivated. What usually happens?",
+    "options": [
+      {
+        "text": "I wait until I feel more motivated.",
+        "score": 0
+      },
+      {
+        "text": "I remind myself why it matters and begin anyway.",
+        "score": 3
+      },
+      {
+        "text": "I start with a smaller part of the task.",
+        "score": 2
+      },
+      {
+        "text": "I usually work on something else first.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "EX4",
+    "dimension": "Execution",
+    "text": "At the end of a demanding week, how often do your most important priorities receive meaningful attention?",
+    "options": [
+      {
+        "text": "Being busy often leaves little room for what matters most.",
+        "score": 0
+      },
+      {
+        "text": "It depends considerably on what happens that week.",
+        "score": 1
+      },
+      {
+        "text": "The important things usually receive attention, although some are postponed.",
+        "score": 2
+      },
+      {
+        "text": "I deliberately protect time for the things that matter most.",
+        "score": 3
+      }
+    ]
+  },
+  {
+    "id": "R1",
+    "dimension": "Relational Alignment",
+    "text": "Someone important to you strongly disagrees with you. What do you usually do?",
+    "options": [
+      {
+        "text": "I focus on explaining why my position is correct.",
+        "score": 0
+      },
+      {
+        "text": "I listen to their position before deciding how to respond.",
+        "score": 3
+      },
+      {
+        "text": "I explain my position and look for a practical way forward.",
+        "score": 2
+      },
+      {
+        "text": "I tend to avoid the disagreement unless it becomes unavoidable.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "R2",
+    "dimension": "Relational Alignment",
+    "text": "Someone you care about repeatedly asks you to do something that conflicts with an important priority. What usually happens?",
+    "options": [
+      {
+        "text": "I agree and deal with the consequences later.",
+        "score": 0
+      },
+      {
+        "text": "I sometimes say no but feel uncomfortable about it.",
+        "score": 1
+      },
+      {
+        "text": "I explain the conflict and try to find an alternative.",
+        "score": 3
+      },
+      {
+        "text": "I negotiate what I can realistically do while protecting the priority.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "R3",
+    "dimension": "Relational Alignment",
+    "text": "You need to raise an issue that may disappoint someone you value. What are you most likely to do?",
+    "options": [
+      {
+        "text": "I postpone it until the issue becomes unavoidable.",
+        "score": 0
+      },
+      {
+        "text": "I choose my words carefully and address it directly.",
+        "score": 3
+      },
+      {
+        "text": "I hint at the issue and hope the person understands.",
+        "score": 1
+      },
+      {
+        "text": "I address it directly but focus strongly on getting my position accepted.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "R4",
+    "dimension": "Relational Alignment",
+    "text": "When keeping the peace conflicts with something you genuinely believe is important, what usually happens?",
+    "options": [
+      {
+        "text": "I generally keep the peace even when it means suppressing my position.",
+        "score": 0
+      },
+      {
+        "text": "I express my position while trying to protect the relationship.",
+        "score": 3
+      },
+      {
+        "text": "I may remain quiet initially and decide later whether to raise it.",
+        "score": 1
+      },
+      {
+        "text": "I state my position clearly even if the conversation becomes uncomfortable.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "G1",
+    "dimension": "Potential / Growth Orientation",
+    "text": "You receive a responsibility you have never handled before. What usually happens?",
+    "options": [
+      {
+        "text": "I look for someone experienced and learn from them.",
+        "score": 2
+      },
+      {
+        "text": "I assume the lack of experience will probably limit me.",
+        "score": 0
+      },
+      {
+        "text": "I identify what I need to learn and begin developing it.",
+        "score": 3
+      },
+      {
+        "text": "I feel uncertain but begin learning as I go.",
+        "score": 1
+      }
+    ]
+  },
+  {
+    "id": "G2",
+    "dimension": "Potential / Growth Orientation",
+    "text": "Feedback reveals a weakness you were not previously aware of. What usually happens?",
+    "options": [
+      {
+        "text": "I consider whether the feedback is fair.",
+        "score": 1
+      },
+      {
+        "text": "I become curious about what I could do differently.",
+        "score": 3
+      },
+      {
+        "text": "I focus first on whether the person giving the feedback is qualified to judge me.",
+        "score": 0
+      },
+      {
+        "text": "I identify something I can test or improve.",
+        "score": 2
+      }
+    ]
+  },
+  {
+    "id": "G3",
+    "dimension": "Potential / Growth Orientation",
+    "text": "Your performance has reached a comfortable level but is no longer improving. What are you most likely to do?",
+    "options": [
+      {
+        "text": "I continue what works unless a new challenge appears.",
+        "score": 1
+      },
+      {
+        "text": "I introduce a new challenge, skill or environment.",
+        "score": 3
+      },
+      {
+        "text": "I gradually improve the existing process.",
+        "score": 2
+      },
+      {
+        "text": "I accept the plateau if the results are satisfactory.",
+        "score": 0
+      }
+    ]
+  },
+  {
+    "id": "G4",
+    "dimension": "Potential / Growth Orientation",
+    "text": "When you think about who you could become over the next few years, what most closely describes your approach?",
+    "options": [
+      {
+        "text": "I have a general desire to improve.",
+        "score": 1
+      },
+      {
+        "text": "I focus mainly on what I need to accomplish.",
+        "score": 0
+      },
+      {
+        "text": "I think about the capabilities I would need to develop.",
+        "score": 2
+      },
+      {
+        "text": "I deliberately define qualities, thinking patterns and behaviors I want to embody and practice them.",
+        "score": 3
+      }
+    ]
   }
-}
-  
-</script>
+];
+const dimensionGuidance = {
+  "Thought": [
+    "Thought Development",
+    "Your responses suggest an opportunity to become more deliberate about the thoughts, assumptions and mental patterns you repeatedly entertain.",
+    "Your responses suggest a developed ability to observe and examine your thinking rather than automatically treating every thought as a fact or instruction."
+  ],
+  "Identity": [
+    "Identity Development",
+    "Your responses suggest an opportunity to make your self-concept more deliberate and increasingly consistent with the person you intend to become.",
+    "Your responses suggest a relatively deliberate relationship with identity and personal development. The next step is to keep turning self-concept into repeated evidence through behaviour."
+  ],
+  "Emotional Regulation": [
+    "Emotional Regulation Development",
+    "Your responses suggest an opportunity to create more space between emotional activation and deliberate response.",
+    "Your responses suggest an increasing ability to experience emotion without automatically handing it control of your behaviour."
+  ],
+  "Intentionality": [
+    "Intentionality Development",
+    "Your responses suggest an opportunity to clarify direction and organize choices around what matters most.",
+    "Your responses suggest meaningful clarity about direction and priorities. The next step is to keep translating that clarity into deliberate choices and action."
+  ],
+  "Ownership": [
+    "Ownership Development",
+    "Your responses suggest an opportunity to focus more consistently on the part of each situation you can influence, change or learn from.",
+    "Your responses suggest a developed sense of personal agency. Continue strengthening ownership without turning responsibility into self-blame."
+  ],
+  "Execution": [
+    "Execution Development",
+    "Your responses suggest an opportunity to close the distance between intention and repeated behaviour through systems, environment and deliberate practice.",
+    "Your responses suggest a relatively strong connection between intention and action. Continue reinforcing the routines that make desired behaviour easier to repeat."
+  ],
+  "Relational Alignment": [
+    "Relational Alignment Development",
+    "Your responses suggest an opportunity to strengthen direct communication, healthy boundaries and authentic connection.",
+    "Your responses suggest an ability to remain constructive with others while maintaining your own values and priorities."
+  ],
+  "Potential / Growth Orientation": [
+    "Growth Development",
+    "Your responses suggest an opportunity to become more deliberate about learning, adaptation and capability development.",
+    "Your responses suggest a strong orientation toward learning and expansion. Continue converting possibility into capability through practice and experience."
+  ]
+};
+const patterns = {
+  "visionExecution": [
+    "Vision–Execution Gap",
+    "Your responses suggest that your clarity about what you want may currently be developing faster than the behavioural system translating that clarity into daily action.",
+    "Move from intention to embodiment: choose one important behaviour, design the environment around it, and repeat it until it becomes familiar."
+  ],
+  "identityExecution": [
+    "Identity–Behavior Gap",
+    "The person you believe you are becoming may currently be ahead of the routines that consistently express that identity.",
+    "Give the desired identity repeated behavioural evidence. Choose one action that the person you are becoming would do consistently and make it non-negotiable."
+  ],
+  "emotionalOverride": [
+    "Emotional Override",
+    "You may understand what you want to do cognitively while emotional activation makes consistent responding harder in the moment.",
+    "Practice the pause: notice the state, name what is happening, settle your response, then choose the behaviour that serves your direction."
+  ],
+  "agencyAction": [
+    "Agency-to-Action Gap",
+    "Your responses suggest that recognizing your influence over outcomes may currently be stronger than consistently converting that recognition into action.",
+    "Turn responsibility into one observable behaviour. Ask: 'What is the next thing within my control that I can actually do?'"
+  ],
+  "relationalAdaptation": [
+    "Relational Over-Adaptation",
+    "Your responses suggest that maintaining relational harmony may sometimes take precedence over expressing your own direction and priorities.",
+    "Practice authentic boundaries: communicate what matters to you clearly while remaining respectful of the relationship."
+  ],
+  "fragmentedDirection": [
+    "Fragmented Direction",
+    "Different areas of your profile appear to be developing at different speeds while your larger direction may not yet be sufficiently defined.",
+    "Choose a definite direction before trying to optimize everything at once. Clarify what matters most, then organize your priorities around it."
+  ],
+  "expansionReadiness": [
+    "Expansion Readiness",
+    "Your responses show a strong developmental orientation across identity, intentionality and growth, without a major negative gap dominating the profile.",
+    "Protect the pattern through deliberate challenge, learning and identity-consistent action. Expansion becomes meaningful when possibility is followed by practice."
+  ],
+  "integrated": [
+    "Integrated Alignment",
+    "Your responses are relatively consistent across the eight dimensions, without one major developmental gap dominating your profile.",
+    "Your next opportunity is refinement rather than repair: identify the area that would create the greatest leverage and strengthen it deliberately."
+  ]
+};
+const dimensionKey = Object.fromEntries(dimensions.map(d => [d, d]));
+let currentQuestion = 0;
+let answers = [];
+let latestResult = null;
 
-</body>
-</html>
+function startAssessment(){
+ document.getElementById("intro").classList.add("hidden");
+ document.getElementById("assessment").classList.remove("hidden");
+ currentQuestion=0; answers=[]; renderQuestion();
+}
+function renderQuestion(){
+ const q=questions[currentQuestion];
+ document.getElementById("questionNumber").textContent=`QUESTION ${currentQuestion+1}`;
+ document.getElementById("questionText").textContent=q.text;
+ document.getElementById("progressText").textContent=`Question ${currentQuestion+1} of ${questions.length}`;
+ const pct=Math.round(((currentQuestion+1)/questions.length)*100);
+ document.getElementById("percent").textContent=`${pct}%`;
+ document.getElementById("progressBar").style.width=`${pct}%`;
+ const options=document.getElementById("options"); options.innerHTML="";
+ q.options.forEach((option,index)=>{
+   const button=document.createElement("button"); button.className="option"; button.textContent=option.text;
+   if(answers[currentQuestion]===index) button.classList.add("selected");
+   button.onclick=()=>selectOption(index); options.appendChild(button);
+ });
+ document.getElementById("nextButton").disabled=answers[currentQuestion]===undefined;
+ document.getElementById("nextButton").textContent=currentQuestion===questions.length-1?"See My Results →":"Continue →";
+}
+function selectOption(index){
+ answers[currentQuestion]=index;
+ document.querySelectorAll(".option").forEach((b,i)=>b.classList.toggle("selected",i===index));
+ document.getElementById("nextButton").disabled=false;
+}
+function nextQuestion(){
+ if(answers[currentQuestion]===undefined) return;
+ if(currentQuestion<questions.length-1){currentQuestion++;renderQuestion();}else calculateResults();
+}
+function previousQuestion(){if(currentQuestion>0){currentQuestion--;renderQuestion();}}
+function calculateResults(){
+ if(answers.length!==questions.length || answers.some(a=>a===undefined)) return;
+ const raw={}; dimensions.forEach(d=>raw[d]=0);
+ const responseValues=[];
+ questions.forEach((q,i)=>{const value=q.options[answers[i]].score; raw[q.dimension]+=value; responseValues.push(value);});
+ const scores={}; dimensions.forEach(d=>scores[d]=Math.round((raw[d]/12)*100));
+ const values=Object.values(scores); const mean=values.reduce((a,b)=>a+b,0)/values.length;
+ const variance=values.reduce((s,v)=>s+Math.pow(v-mean,2),0)/values.length;
+ const sd=Math.sqrt(variance);
+ const deviations={}; dimensions.forEach(d=>deviations[d]=Math.round((scores[d]-mean)*10)/10);
+ const gaps={
+   intentionalityExecution:scores["Intentionality"]-scores["Execution"],
+   identityExecution:scores["Identity"]-scores["Execution"],
+   thoughtEmotion:scores["Thought"]-scores["Emotional Regulation"],
+   ownershipExecution:scores["Ownership"]-scores["Execution"],
+   relationalIdentity:scores["Relational Alignment"]-scores["Identity"]
+ };
+ const quality={
+   complete:true,
+   sameResponseCount: new Set(answers).size===1 ? answers.length : Math.max(...answers.map(a=>answers.filter(x=>x===a).length)),
+   extremeResponseRate: responseValues.filter(v=>v===0||v===3).length/responseValues.length,
+   flags:[]
+ };
+ if(quality.sameResponseCount>=28) quality.flags.push("possible_straight_line");
+ if(quality.extremeResponseRate>=0.9) quality.flags.push("possible_extreme_response_style");
+ const overall=Math.round(mean);
+ const patternResult=derivePatterns(scores,mean,sd,gaps);
+ latestResult={version:ASSESSMENT_VERSION,overall,scores,raw,mean,sd,deviations,gaps,quality,primaryPattern:patternResult.primary,secondaryPattern:patternResult.secondary,answers};
+ showResults(latestResult);
+}
+function derivePatterns(scores,mean,sd,gaps){
+ const candidates=[];
+ if(gaps.intentionalityExecution>=20) candidates.push({key:"visionExecution",strength:gaps.intentionalityExecution});
+ if(gaps.identityExecution>=20) candidates.push({key:"identityExecution",strength:gaps.identityExecution});
+ if(gaps.thoughtEmotion>=20 && scores["Emotional Regulation"]<65) candidates.push({key:"emotionalOverride",strength:gaps.thoughtEmotion});
+ if(gaps.ownershipExecution>=20) candidates.push({key:"agencyAction",strength:gaps.ownershipExecution});
+ if(gaps.relationalIdentity>=20 && scores["Identity"]<70) candidates.push({key:"relationalAdaptation",strength:gaps.relationalIdentity});
+ if(scores["Intentionality"]<60 && sd>=15) candidates.push({key:"fragmentedDirection",strength:Math.round(sd)});
+ if(scores["Potential / Growth Orientation"]>=80 && scores["Identity"]>=75 && scores["Intentionality"]>=75 && !candidates.length) candidates.push({key:"expansionReadiness",strength:1});
+ candidates.sort((a,b)=>b.strength-a.strength);
+ const primary=candidates[0]?.key || (sd<12?"integrated":"integrated");
+ let secondary=null;
+ if(candidates.length>1 && candidates[1].strength>=15 && candidates[1].key!==primary) secondary=candidates[1].key;
+ return {primary,secondary};
+}
+function showResults(result){
+ document.getElementById("assessment").classList.add("hidden"); document.getElementById("results").classList.remove("hidden");
+ document.getElementById("overallScore").textContent=result.overall;
+ document.getElementById("summary").innerHTML=`<p class="lead">Your Mind Alignment Index summarizes your responses across the eight POD dimensions using the current POD scoring model. The most useful part of the result is the pattern within your profile, not the number by itself.</p>`;
+ const primary=patterns[result.primaryPattern];
+ document.getElementById("primaryPatternTitle").textContent=primary[0];
+ document.getElementById("primaryPatternText").textContent=primary[1];
+ document.getElementById("primaryPatternPractice").textContent=primary[2];
+ const secondaryBox=document.getElementById("secondaryPattern");
+ if(result.secondaryPattern){const p=patterns[result.secondaryPattern];secondaryBox.classList.remove("hidden");document.getElementById("secondaryPatternTitle").textContent=p[0];document.getElementById("secondaryPatternText").textContent=p[1];document.getElementById("secondaryPatternPractice").textContent=p[2];}else secondaryBox.classList.add("hidden");
+ const box=document.getElementById("dimensions"); box.innerHTML="";
+ dimensions.forEach(d=>{
+   const score=result.scores[d], deviation=result.deviations[d];
+   let relation="Relatively balanced"; let insight=dimensionGuidance[d][2];
+   if(deviation<=-8){relation="Development opportunity";insight=dimensionGuidance[d][1];}
+   else if(deviation>=8){relation="Relative strength";insight=dimensionGuidance[d][2];}
+   box.innerHTML+=`<div class="dimension"><div class="dimension-top"><span>${d}</span><span>${score}</span></div><div class="dimension-bar"><div class="dimension-fill" style="width:${score}%"></div></div><div class="dimension-meta">${relation} · ${deviation>0?"+":""}${deviation.toFixed(1)} vs your profile mean</div><div class="dimension-insight">${insight}</div></div>`;
+ });
+ const sorted=dimensions.map(d=>({d,dev:result.deviations[d]})).sort((a,b)=>a.dev-b.dev);
+ const focus=sorted[0].d;
+ document.getElementById("recommendation").textContent=`Start with ${focus}. Do not try to change everything at once. Choose one behaviour that would most directly strengthen this area, make it specific and repeatable, and build evidence through consistent practice.`;
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+async function saveLead(){
+ const name=document.getElementById("name").value.trim(), email=document.getElementById("email").value.trim(), message=document.getElementById("leadMessage");
+ if(!name||!email){message.textContent="Please enter your name and email.";return;}
+ if(!latestResult){message.textContent="Your results are not ready yet.";return;}
+ const profile={name,email,assessmentVersion:ASSESSMENT_VERSION,overallScore:latestResult.overall,dimensionScores:latestResult.scores,rawDimensionScores:latestResult.raw,profileMean:latestResult.mean,profileSD:latestResult.sd,dimensionDeviations:latestResult.deviations,gaps:latestResult.gaps,primaryPattern:latestResult.primaryPattern,secondaryPattern:latestResult.secondaryPattern,responseQuality:latestResult.quality,answers:latestResult.answers,savedAt:new Date().toISOString()};
+ localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); message.textContent="Saving your profile...";
+ try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
+}
+</script>
+</body></html>
