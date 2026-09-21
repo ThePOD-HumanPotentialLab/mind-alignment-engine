@@ -82,15 +82,15 @@ recommendationCTA
           success: true,
           id: result.meta.last_row_id
         });
-      } catch (error) {
-        return Response.json(
-          {
-            success: false,
-            error: String(error?.message || error)
-          },
-          { status: 500 }
-        );
-      }
+    } catch (error) {
+  return Response.json(
+    {
+      success: false,
+      error: "Unable to save profile."
+    },
+    { status: 500 }
+  );
+}
     }
 
     return env.ASSETS.fetch(request);
