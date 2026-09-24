@@ -946,68 +946,28 @@ function derivePatterns(scores,mean,sd,gaps){
  if(candidates.length>1 && candidates[1].strength>=15 && candidates[1].key!==primary) secondary=candidates[1].key;
  return {primary,secondary};
 }
-const productRecommendations = {
-  visionExecution: {
-    product: "Personal Optimization Drill (POD)",
-    stage: "Activation",
-    reason: "Your results suggest that the opportunity is to strengthen the connection between what you envision and what you consistently put into action.",
-    cta: "Begin Your Personal Optimization Drill"
-  },
-
-  identityExecution: {
-    product: "12-Week Mind Alignment & Human Potential Programme (MAHPP)",
-    stage: "Transformation",
-    reason: "Your results suggest that bringing your desired identity and your repeated behaviour into greater alignment is the deeper development opportunity.",
-    cta: "Begin Your MAHPP Journey"
-  },
-
-  emotionalOverride: {
-    product: "7-Day Mind Reset",
-    stage: "Reset",
-    reason: "Your results suggest that creating greater mental and emotional space may be an important first step toward intentional alignment.",
-    cta: "Begin Your 7-Day Mind Reset"
-  },
-
-  agencyAction: {
-    product: "Personal Optimization Drill (POD)",
-    stage: "Activation",
-    reason: "Your results suggest that strengthening personal agency and turning intention into deliberate action may be your most useful next step.",
-    cta: "Begin Your Personal Optimization Drill"
-  },
-
-  relationalAdaptation: {
-    product: "12-Week Mind Alignment & Human Potential Programme (MAHPP)",
-    stage: "Transformation",
-    reason: "Your results suggest that deeper work around authentic alignment, relationships and behavioural patterns may be valuable at this stage.",
-    cta: "Begin Your MAHPP Journey"
-  },
-
-  fragmentedDirection: {
-    product: "7-Day Mind Reset",
-    stage: "Reset",
-    reason: "Your results suggest that creating greater clarity and direction may be the most useful place to begin.",
-    cta: "Begin Your 7-Day Mind Reset"
-  },
-
-  expansionReadiness: {
-    product: "Personal Optimization Drill (POD)",
-    stage: "Activation",
-    reason: "Your results suggest that you have a foundation to build on and may benefit from turning your current awareness into more deliberate practice.",
-    cta: "Begin Your Personal Optimization Drill"
-  },
-
-  integrated: {
-    product: "Personal Optimization Drill (POD)",
-    stage: "Activation",
-    reason: "Your results suggest a relatively integrated profile. The next opportunity is to strengthen and consistently apply that alignment in everyday life.",
-    cta: "Begin Your Personal Optimization Drill"
-  }
-};
-
 function getProductRecommendation(result) {
-  return productRecommendations[result.primaryPattern] || productRecommendations.integrated;
-}
+  if (
+    typeof window !== "undefined" &&
+    window.PODPrescriptionEngine &&
+    typeof window.PODPrescriptionEngine.getDevelopmentPrescription === "function"
+  ) {
+    return window.PODPrescriptionEngine.getDevelopmentPrescription(result);
+  }
 
+  return {
+    product: "Personal Optimization Drill (POD)",
+    stage: "Refinement",
+    objective: "Strengthen the next leverage point through deliberate practice.",
+    practice: "Choose one behaviour that would most directly strengthen your development opportunity and practise it consistently.",
+    evidence: "Consistent practice produces observable behavioural evidence.",
+    metric: "Targeted practices completed / 7.",
+    reason: "Your result identifies a development opportunity to work on through deliberate practice.",
+    secondaryModifier: null,
+    pathway: "Personal Optimization Drill → MAP when deeper development is indicated.",
+    caution: "Developmental interpretation only; not a clinical diagnosis."
+  };
+}
  function showResults(result){
  document.getElementById("assessment").classList.add("hidden"); document.getElementById("results").classList.remove("hidden");
  document.getElementById("overallScore").textContent=result.overall;
