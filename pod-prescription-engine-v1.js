@@ -138,6 +138,15 @@ function buildResultExperience(result) {
   };
 }
 
+if (typeof window !== "undefined") {
+  window.PODPrescriptionEngine = {
+    PRESCRIPTIONS,
+    SECONDARY_MODIFIERS,
+    getDevelopmentPrescription,
+    buildResultExperience
+  };
+}
+
 if (typeof module !== "undefined") {
   module.exports = {
     PRESCRIPTIONS,
