@@ -37,7 +37,7 @@
 </div></div></section>
 </main><footer>© The POD Human Potential Lab · Mind Alignment Engine</footer>
 
-<script src="/pod-prescription-engine-v1.js"></script>
+
 <script src="/pod-prescription-engine-v1.js"></script>
 <script>
 const ASSESSMENT_VERSION = "2.0";
@@ -1114,7 +1114,7 @@ async function saveLead(){
 profile.recommendedProduct = recommendation.product;
 profile.recommendationStage = recommendation.stage;
 profile.recommendationReason = recommendation.reason;
-profile.recommendationCTA = recommendation.cta;
+
   localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); message.textContent="Saving your profile...";
  try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
 }
