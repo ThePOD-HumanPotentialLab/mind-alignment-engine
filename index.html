@@ -968,45 +968,141 @@ function getProductRecommendation(result) {
     caution: "Developmental interpretation only; not a clinical diagnosis."
   };
 }
- function showResults(result){
- document.getElementById("assessment").classList.add("hidden"); document.getElementById("results").classList.remove("hidden");
- document.getElementById("overallScore").textContent=result.overall;
- document.getElementById("summary").innerHTML=`<p class="lead">Your Mind Alignment Index summarizes your responses across the eight POD dimensions using the current POD scoring model. The most useful part of the result is the pattern within your profile, not the number by itself.</p>`;
+function showResults(result){
+  document.getElementById("assessment").classList.add("hidden");
+  document.getElementById("results").classList.remove("hidden");
+
+  document.getElementById("overallScore").textContent=result.overall;
+
+  document.getElementById("summary").innerHTML=`
+    <p class="lead">
+      Your Mind Alignment Index summarizes your responses across the eight POD dimensions using the current POD scoring model.
+      The most useful part of the result is the pattern within your profile, not the number by itself.
+    </p>
+  `;
+
   const recommendation = getProductRecommendation(result);
 
-const existingRecommendation = document.getElementById("productRecommendation");
-if (existingRecommendation) existingRecommendation.remove();
+  const existingRecommendation = document.getElementById("productRecommendation");
+  if(existingRecommendation) existingRecommendation.remove();
 
-const recommendationBox = document.createElement("div");
-recommendationBox.id = "productRecommendation";
-recommendationBox.className = "notice";
-recommendationBox.style.marginTop = "18px";
-recommendationBox.innerHTML = `
-  <h3 style="margin-top:0;">Your Recommended POD Pathway</h3>
-  <p><strong>${recommendation.product}</strong></p>
-  <p>${recommendation.reason}</p>
-  <p><strong>Recommended next step:</strong> ${recommendation.cta}</p>
-`;
+  const recommendationBox = document.createElement("div");
+  recommendationBox.id = "productRecommendation";
+  recommendationBox.className = "notice";
+  recommendationBox.style.marginTop = "18px";
 
-document.getElementById("summary").after(recommendationBox); 
- const primary=patterns[result.primaryPattern];
- document.getElementById("primaryPatternTitle").textContent=primary[0];
- document.getElementById("primaryPatternText").textContent=primary[1];
- document.getElementById("primaryPatternPractice").textContent=primary[2];
- const secondaryBox=document.getElementById("secondaryPattern");
- if(result.secondaryPattern){const p=patterns[result.secondaryPattern];secondaryBox.classList.remove("hidden");document.getElementById("secondaryPatternTitle").textContent=p[0];document.getElementById("secondaryPatternText").textContent=p[1];document.getElementById("secondaryPatternPractice").textContent=p[2];}else secondaryBox.classList.add("hidden");
- const box=document.getElementById("dimensions"); box.innerHTML="";
- dimensions.forEach(d=>{
-   const score=result.scores[d], deviation=result.deviations[d];
-   let relation="Relatively balanced"; let insight=dimensionGuidance[d][2];
-   if(deviation<=-8){relation="Development opportunity";insight=dimensionGuidance[d][1];}
-   else if(deviation>=8){relation="Relative strength";insight=dimensionGuidance[d][2];}
-   box.innerHTML+=`<div class="dimension"><div class="dimension-top"><span>${d}</span><span>${score}</span></div><div class="dimension-bar"><div class="dimension-fill" style="width:${score}%"></div></div><div class="dimension-meta">${relation} · ${deviation>0?"+":""}${deviation.toFixed(1)} vs your profile mean</div><div class="dimension-insight">${insight}</div></div>`;
- });
- const sorted=dimensions.map(d=>({d,dev:result.deviations[d]})).sort((a,b)=>a.dev-b.dev);
- const focus=sorted[0].d;
- document.getElementById("recommendation").textContent=`Start with ${focus}. Do not try to change everything at once. Choose one behaviour that would most directly strengthen this area, make it specific and repeatable, and build evidence through consistent practice.`;
- window.scrollTo({top:0,behavior:"smooth"});
+  recommendationBox.innerHTML = `
+    <h3 style="margin-top:0;">Your Development Prescription</h3>
+
+    <p><strong>Recommended pathway:</strong> ${recommendation.product}</p>
+
+    <p>
+      <strong>Development objective:</strong><br>
+      ${recommendation.objective}
+    </p>
+
+    <p>
+      <strong>Your practice:</strong><br>
+      ${recommendation.practice}
+    </p>
+
+    <p>
+      <strong>Evidence to build:</strong><br>
+      ${recommendation.evidence}
+    </p>
+
+    <p>
+      <strong>How to measure it:</strong><br>
+      ${recommendation.metric}
+    </p>
+
+    ${recommendation.secondaryModifier ? `
+      <p>
+        <strong>Secondary pattern modifier:</strong><br>
+        ${recommendation.secondaryModifier}
+      </p>
+    ` : ""}
+
+    <p>
+      <strong>Development pathway:</strong><br>
+      ${recommendation.pathway}
+    </p>
+
+    <p class="small">${recommendation.caution}</p>
+  `;
+
+  document.getElementById("summary").after(recommendationBox);
+
+  const primary=patterns[result.primaryPattern];
+
+  document.getElementById("primaryPatternTitle").textContent=primary[0];
+  document.getElementById("primaryPatternText").textContent=primary[1];
+  document.getElementById("primaryPatternPractice").textContent=primary[2];
+
+  const secondaryBox=document.getElementById("secondaryPattern");
+
+  if(result.secondaryPattern){
+    const p=patterns[result.secondaryPattern];
+
+    secondaryBox.classList.remove("hidden");
+
+    document.getElementById("secondaryPatternTitle").textContent=p[0];
+    document.getElementById("secondaryPatternText").textContent=p[1];
+    document.getElementById("secondaryPatternPractice").textContent=p[2];
+  }else{
+    secondaryBox.classList.add("hidden");
+  }
+
+  const box=document.getElementById("dimensions");
+  box.innerHTML="";
+
+  dimensions.forEach(d=>{
+    const score=result.scores[d];
+    const deviation=result.deviations[d];
+
+    let relation="Relatively balanced";
+    let insight=dimensionGuidance[d][2];
+
+    if(deviation<=-8){
+      relation="Development opportunity";
+      insight=dimensionGuidance[d][1];
+    }else if(deviation>=8){
+      relation="Relative strength";
+      insight=dimensionGuidance[d][2];
+    }
+
+    box.innerHTML+=`
+      <div class="dimension">
+        <div class="dimension-top">
+          <span>${d}</span>
+          <span>${score}</span>
+        </div>
+
+        <div class="dimension-bar">
+          <div class="dimension-fill" style="width:${score}%"></div>
+        </div>
+
+        <div class="dimension-meta">
+          ${relation} · ${deviation>0?"+":""}${deviation.toFixed(1)} vs your profile mean
+        </div>
+
+        <div class="dimension-insight">
+          ${insight}
+        </div>
+      </div>
+    `;
+  });
+
+  const sorted=dimensions
+    .map(d=>({d,dev:result.deviations[d]}))
+    .sort((a,b)=>a.dev-b.dev);
+
+  const focus=sorted[0].d;
+
+  document.getElementById("recommendation").textContent=
+    `Start with ${focus}. Do not try to change everything at once. Choose one behaviour that would most directly strengthen this area, make it specific and repeatable, and build evidence through consistent practice.`;
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 async function saveLead(){
  const name=document.getElementById("name").value.trim(), email=document.getElementById("email").value.trim(), message=document.getElementById("leadMessage");
