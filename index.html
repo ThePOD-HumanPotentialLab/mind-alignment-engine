@@ -31,7 +31,16 @@
 <div class="pattern"><div class="small-title">Primary pattern</div><h3 id="primaryPatternTitle"></h3><p id="primaryPatternText"></p><p><strong>POD practice:</strong> <span id="primaryPatternPractice"></span></p></div>
 <div id="secondaryPattern" class="pattern hidden"><div class="small-title">Secondary pattern</div><h3 id="secondaryPatternTitle"></h3><p id="secondaryPatternText"></p><p><strong>POD practice:</strong> <span id="secondaryPatternPractice"></span></p></div>
 <h3>Alignment across eight dimensions</h3><div id="dimensions" class="dimensions"></div>
-<div class="pattern"><div class="small-title">Your next development step</div><p id="recommendation"></p></div>
+<div id="prescriptionBox" class="pattern">
+  <div class="small-title">Your Recommended Next Step</div>
+  <h3 id="prescriptionProduct"></h3>
+  <p id="prescriptionFocus"></p>
+  <p><strong>Try This</strong><br><span id="prescriptionPractice"></span></p>
+  <p><strong>You’ll Know It’s Working When</strong><br><span id="prescriptionSuccess"></span></p>
+  <p><strong>Where This Leads</strong><br><span id="prescriptionNextStep"></span></p>
+  <p class="small" style="margin-top:16px"><strong>7-Day Measure:</strong> <span id="prescriptionMetric"></span></p>
+  <p class="small" id="prescriptionFooter"></p>
+</div>
 <div class="notice">The patterns above describe relationships within your response profile. They are developmental interpretations, not diagnoses.</div>
 <div class="capture"><h3>Save your profile</h3><p class="small">Enter your details to save this assessment result.</p><input id="name" type="text" placeholder="Your name"><input id="email" type="email" placeholder="Your email address"><button class="btn" onclick="saveLead()">Save My Profile →</button><p id="leadMessage" class="small" style="margin-top:15px"></p></div>
 </div></div></section>
@@ -39,7 +48,8 @@
 
 
 <script src="/pod-prescription-engine-v1.js"></script>
-<script>
+<script src="/pod-prescription-data-v2-mahpp.js"></script>
+  <script>
 const ASSESSMENT_VERSION = "2.0";
 const dimensions = ["Thought","Identity","Emotional Regulation","Intentionality","Ownership","Execution","Relational Alignment","Potential / Growth Orientation"];
 const questions = [
