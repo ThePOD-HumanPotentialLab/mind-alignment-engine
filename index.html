@@ -1109,21 +1109,73 @@ function showResults(result){
 
   const focus=sorted[0].d;
 
-  document.getElementById("recommendation").textContent=
-    `Start with ${focus}. Do not try to change everything at once. Choose one behaviour that would most directly strengthen this area, make it specific and repeatable, and build evidence through consistent practice.`;
+ const prescriptionData = window.PODPrescriptionData;
 
+const prescription =
+  prescriptionData?.PRESCRIPTIONS?.[result.primaryPattern] ||
+  prescriptionData?.PRESCRIPTIONS?.integrated;
+
+const prescriptionBox = document.getElementById("prescriptionBox");
+
+if (prescription) {
+  document.getElementById("prescriptionProduct").textContent =
+    prescription.productFullName || prescription.product || "";
+
+  document.getElementById("prescriptionFocus").textContent =
+    prescription.focus || "";
+
+  document.getElementById("prescriptionPractice").textContent =
+    prescription.practice || "";
+
+  document.getElementById("prescriptionSuccess").textContent =
+    prescription.successSignal || "";
+
+  document.getElementById("prescriptionNextStep").textContent =
+    prescription.nextStep || "";
+
+  document.getElementById("prescriptionMetric").textContent =
+    prescription.metricTarget || prescription.metric || "";
+
+  document.getElementById("prescriptionFooter").textContent =
+    prescription.footer ||
+    "This is a developmental reflection, not a clinical diagnosis.";
+
+  prescriptionBox.style.display = "block";
+}
   window.scrollTo({top:0,behavior:"smooth"});
 }
 async function saveLead(){
  const name=document.getElementById("name").value.trim(), email=document.getElementById("email").value.trim(), message=document.getElementById("leadMessage");
  if(!name||!email){message.textContent="Please enter your name and email.";return;}
  if(!latestResult){message.textContent="Your results are not ready yet.";return;}
-  const recommendation = getProductRecommendation(latestResult);
+  const prescriptionData = window.PODPrescriptionData;
+
+const prescription =
+  prescriptionData?.PRESCRIPTIONS?.[latestResult.primaryPattern] ||
+  prescriptionData?.PRESCRIPTIONS?.integrated;
+
+const recommendedProduct =
+  prescription?.productFullName ||
+  prescription?.product ||
+  "";
+
+const recommendationStage =
+  prescription?.stage ||
+  "";
+
+const recommendationReason =
+  prescription?.reason ||
+  "";
+
+const recommendationCTA =
+  prescription?.nextStep ||
+  "";
 
   const profile={name,email,assessmentVersion:ASSESSMENT_VERSION,overallScore:latestResult.overall,dimensionScores:latestResult.scores,rawDimensionScores:latestResult.raw,profileMean:latestResult.mean,profileSD:latestResult.sd,dimensionDeviations:latestResult.deviations,gaps:latestResult.gaps,primaryPattern:latestResult.primaryPattern,secondaryPattern:latestResult.secondaryPattern,responseQuality:latestResult.quality,answers:latestResult.answers,savedAt:new Date().toISOString()};
-profile.recommendedProduct = recommendation.product;
-profile.recommendationStage = recommendation.stage;
-profile.recommendationReason = recommendation.reason;
+profile.recommendedProduct = recommendedProduct;
+profile.recommendationStage = recommendationStage;
+profile.recommendationReason = recommendationReason;
+profile.recommendationCTA = recommendationCTA;
 
   localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); message.textContent="Saving your profile...";
  try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
