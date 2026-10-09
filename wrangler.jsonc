@@ -15,5 +15,14 @@
       "database_name": "mind-alignment-db",
       "database_id": "3cda333b-061c-46a5-8de7-f2df1341d15e"
     }
-  ]
+  ],
+  "previews": {
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "mind-alignment-db-staging",
+        "database_id": "cf475404-8937-4818-a758-36f15f555da6"
+      }
+    ]
+  }
 }
