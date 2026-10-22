@@ -1177,8 +1177,8 @@ profile.recommendationStage = recommendationStage;
 profile.recommendationReason = recommendationReason;
 profile.recommendationCTA = recommendationCTA;
 
-  localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); message.textContent="Saving your profile...";
- try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
+  localStorage.setItem("mindAlignmentLead",JSON.stringify(profile));   localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); const saveButton=document.querySelector(".capture .btn"); if(saveButton.dataset.saved==="1"){message.textContent="Your profile has already been saved.";return;} saveButton.disabled=true; message.textContent="Saving your profile...";
+ try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");saveButton.dataset.saved="1";message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){saveButton.disabled=false;message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
 }
 </script>
 </body></html>
