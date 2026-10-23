@@ -94,6 +94,7 @@ footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13p
   <p class="msg" id="progressText"></p>
   <div class="days" id="dayList"></div>
   <p class="msg" id="dashMsg"></p>
+  <button class="btn hidden" id="nextStepBtn">See your next step →</button>
 </section>
 
 <section id="dayView" class="card fade hidden">
@@ -125,7 +126,11 @@ footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13p
   <div class="eyebrow">7-Day Mind Reset</div>
   <h2>Well done.</h2>
   <div id="completionText"></div>
-  <div class="row"><button class="btn secondary" onclick="showDashboard()">Review my week</button></div>
+  <div class="row">
+    <button class="btn" id="notifyBtn">Notify me when the POD opens</button>
+    <button class="btn secondary" onclick="showDashboard()">Review my week</button>
+  </div>
+  <p class="msg" id="notifyMsg"></p>
 </section>
 
 <div class="notice" id="footerNote"></div>
@@ -194,6 +199,7 @@ function showDashboard() {
   el("bar").style.width = Math.round(doneCount / 7 * 100) + "%";
   el("progressText").textContent = doneCount + " of 7 days completed";
   el("dashMsg").textContent = "";
+  el("nextStepBtn").classList.toggle("hidden", doneCount < 7);
   el("dayList").replaceChildren(...CONTENT.days.map(d => {
     const s = dayStatus(d.day);
     const item = document.createElement(s.key === "locked" ? "div" : "button");
@@ -259,7 +265,7 @@ async function completeDay(n) {
     const body = await api("/api/reset/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: state.token, day: n, reflection }) });
     applyState(body);
     const saved = localReflections(); saved[n] = reflection; store(REFLECT_KEY, JSON.stringify(saved));
-    if (n === 7) { el("completionText").replaceChildren(...paras(CONTENT.completion)); show("complete"); }
+    if (n === 7) { showComplete(); }
     else { showDashboard(); el("dashMsg").textContent = "Day " + n + " completed. Day " + (n + 1) + " opens tomorrow."; }
   } catch (e) {
     btn.disabled = false;
@@ -267,6 +273,30 @@ async function completeDay(n) {
     msg.className = "msg error";
   }
 }
+
+function showComplete() {
+  el("completionText").replaceChildren(...paras(CONTENT.completion));
+  el("notifyMsg").textContent = "";
+  el("notifyMsg").className = "msg";
+  el("notifyBtn").disabled = false;
+  show("complete");
+}
+el("nextStepBtn").onclick = showComplete;
+
+el("notifyBtn").onclick = async () => {
+  const btn = el("notifyBtn"), msg = el("notifyMsg");
+  btn.disabled = true;
+  msg.textContent = "Saving...";
+  msg.className = "msg";
+  try {
+    await api("/api/reset/notify-pod", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: state.token }) });
+    msg.textContent = "You are on the list. We will let you know as soon as the POD opens.";
+  } catch (e) {
+    btn.disabled = false;
+    msg.textContent = e.message;
+    msg.className = "msg error";
+  }
+};
 
 el("startBtn").onclick = async () => {
   const name = el("name").value.trim(), email = el("email").value.trim(), msg = el("startMsg");
