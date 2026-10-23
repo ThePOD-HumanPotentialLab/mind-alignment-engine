@@ -332,7 +332,7 @@
         : d.practice,
       example: d.example || "",
       successSignal: d.success,
-      nextStep: `If you want ${d.next.want}, the ${PRODUCT_NAMES.map} ${d.next.close}.`,
+           nextStep: d.nextStep || `If you want ${d.next.want}, the ${PRODUCT_NAMES.map} ${d.next.close}.`,
       footer: PARTICIPANT_FOOTER,
 
       // Extended fields (aliases kept for backward compatibility)
