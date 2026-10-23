@@ -19,7 +19,8 @@
     "This is a developmental reflection, not a clinical diagnosis.";
 
   const PRODUCT_NAMES = {
-    pod: "Personal Optimization Drill (POD)",
+    reset: "7-Day Mind Reset",
+        pod: "Personal Optimization Drill (POD)",
     map: "Mind Alignment & Human Potential Program (MAHPP)"
   };
 
@@ -108,8 +109,10 @@
 
     emotionalOverride: {
       title: "Creating space before you respond",
-      product: "pod",
-      stage: "Activation",
+           product: "reset",
+      stage: "Reset",
+      nextStep:
+        "Start Your 7-Day Mind Reset to become more aware of your inner patterns and deliberately redirect your mind. From there, the Personal Optimization Drill (POD) helps you turn that awareness into consistent action, and the Mind Alignment & Human Potential Program (MAHPP) is an option for going deeper.",
       focus:
         "Create enough space between what you feel and what you choose to do next.",
       practice:
@@ -206,8 +209,10 @@
 
     fragmentedDirection: {
       title: "Creating clearer direction",
-      product: "pod",
-      stage: "Activation",
+           product: "reset",
+      stage: "Reset",
+      nextStep:
+        "Start Your 7-Day Mind Reset to clear competing priorities and redirect your attention. From there, the Personal Optimization Drill (POD) helps you act on one clear direction, and the Mind Alignment & Human Potential Program (MAHPP) is an option for building long-term alignment.",
       focus: "Create enough clarity to know what matters most right now.",
       practice:
         "Choose one meaningful direction for the next 30 days, identify three priorities that support it, and choose one next action each morning.",
@@ -311,7 +316,7 @@
       throw new Error(`Unknown product key "${d.product}" in pattern "${id}"`);
     }
 
-    const pathway = `${PRODUCT_NAMES.map} ${d.next.close}.`;
+        const pathway = d.nextStep || `${PRODUCT_NAMES.map} ${d.next.close}.`;
 
     return {
       id,
@@ -327,7 +332,7 @@
         : d.practice,
       example: d.example || "",
       successSignal: d.success,
-      nextStep: `If you want ${d.next.want}, the ${PRODUCT_NAMES.map} ${d.next.close}.`,
+           nextStep: d.nextStep || `If you want ${d.next.want}, the ${PRODUCT_NAMES.map} ${d.next.close}.`,
       footer: PARTICIPANT_FOOTER,
 
       // Extended fields (aliases kept for backward compatibility)

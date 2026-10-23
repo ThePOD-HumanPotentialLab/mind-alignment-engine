@@ -40,6 +40,7 @@
   <p><strong>Where This Leads</strong><br><span id="prescriptionNextStep"></span></p>
   <p class="small" style="margin-top:16px"><strong>7-Day Measure:</strong> <span id="prescriptionMetric"></span></p>
   <p class="small" id="prescriptionFooter"></p>
+    <a id="resetCta" class="btn hidden" href="/reset" style="text-decoration:none;text-align:center;margin-top:8px">Start Your 7-Day Mind Reset →</a>
 </div>
 <div class="notice">The patterns above describe relationships within your response profile. They are developmental interpretations, not diagnoses.</div>
 <div class="capture"><h3>Save your profile</h3><p class="small">Enter your details to save this assessment result.</p><input id="name" type="text" placeholder="Your name"><input id="email" type="email" placeholder="Your email address"><button class="btn" onclick="saveLead()">Save My Profile →</button><p id="leadMessage" class="small" style="margin-top:15px"></p></div>
@@ -1141,6 +1142,7 @@ if (prescription) {
     "This is a developmental reflection, not a clinical diagnosis.";
 
   prescriptionBox.style.display = "block";
+    document.getElementById("resetCta").classList.toggle("hidden", prescription.product !== "7-Day Mind Reset");
 }
   window.scrollTo({top:0,behavior:"smooth"});
 }
