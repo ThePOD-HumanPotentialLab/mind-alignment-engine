@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>7-Day Mind Reset | The POD Human Potential Lab</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#2b2a26;--muted:#77736a;--bg1:#f6f1e7;--bg2:#e9efe6;--card:rgba(255,255,255,.72);--accent:#7d9179;--accent-dark:#55684f;--gold:#b0874a;--line:#e3ddd0;--soft:#eef2ea;--btn:#3f4a3c;--btn-hover:#2f382c}
+body.evening{--ink:#ece6da;--muted:#b3ab9c;--bg1:#1f2229;--bg2:#2a2a33;--card:rgba(40,42,50,.78);--accent:#a9b8a2;--accent-dark:#c9d4c1;--gold:#d2ad74;--line:#3a3c45;--soft:#2f3338;--btn:#c9d4c1;--btn-hover:#e2e9dc}
+body{font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);line-height:1.75;min-height:100vh;background:linear-gradient(160deg,var(--bg1) 0%,var(--bg2) 100%);background-attachment:fixed;transition:background .6s,color .6s}
+.container{width:min(720px,92%);margin:auto}
+header{padding:26px 0 10px;text-align:center}
+header img{width:96px;height:auto;border-radius:12px;opacity:.95}
+body.evening header img{background:#fff;padding:6px}
+main{padding:24px 0 20px}
+.card{background:var(--card);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid var(--line);border-radius:28px;padding:clamp(26px,6vw,56px);box-shadow:0 20px 60px rgba(60,55,40,.06)}
+.fade{animation:fadeUp 1.1s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{color:var(--accent-dark);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.01em}
+h1{font-size:clamp(36px,7vw,56px);line-height:1.12;margin-bottom:18px}
+h2{font-size:clamp(30px,6vw,44px);line-height:1.15;margin-bottom:10px}
+h3{font-family:Georgia,serif;font-weight:400;font-size:22px;margin:30px 0 10px}
+p{margin-bottom:16px}
+.lead{font-size:19px;color:var(--muted);font-family:Georgia,serif;font-style:italic}
+.theme{font-family:Georgia,serif;font-style:italic;color:var(--muted);font-size:20px;margin-bottom:22px}
+.law{background:var(--soft);border-radius:18px;padding:20px 22px;margin:20px 0 28px;text-align:center}
+.label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-dark);margin:30px 0 8px}
+.law .label{margin-top:0}
+.law p{font-family:Georgia,serif;font-size:21px;line-height:1.45;margin:0}
+.example{font-family:Georgia,serif;font-style:italic;color:var(--muted)}
+ul.how{margin:6px 0 18px 20px}ul.how li{margin-bottom:10px}
+.btn{display:inline-block;border:none;border-radius:999px;padding:15px 28px;background:var(--btn);color:var(--bg1);font-size:16px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .3s,transform .3s}
+.btn:hover{background:var(--btn-hover);transform:translateY(-1px)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}
+input,textarea{width:100%;padding:15px 16px;border:1px solid var(--line);border-radius:14px;font-size:16px;font-family:inherit;margin:6px 0 14px;background:rgba(255,255,255,.6);color:var(--ink)}
+body.evening input,body.evening textarea{background:rgba(0,0,0,.2)}
+textarea{min-height:140px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus{outline:none;border-color:var(--accent)}
+.days{display:grid;gap:12px;margin:26px 0}
+.day{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:18px;padding:18px 20px;background:var(--card);color:var(--ink);text-align:left;font-size:16px;font-family:inherit;width:100%;transition:border-color .3s,transform .3s}
+button.day{cursor:pointer}button.day:hover{border-color:var(--accent);transform:translateX(3px)}
+.day strong{display:block;font-family:Georgia,serif;font-weight:400;font-size:20px}.day small{color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.status{font-size:13px;font-weight:600;white-space:nowrap}
+.status.done{color:var(--accent-dark)}.status.open{color:var(--gold)}.status.locked{color:var(--muted)}
+.day.locked{opacity:.55}
+.progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0 4px}
+.progress div{height:100%;background:var(--accent);width:0;transition:width 1.2s ease}
+.msg{font-size:14px;color:var(--muted);margin-top:10px;min-height:20px}
+.msg.error{color:#b4533c}
+.reflections{border-top:1px solid var(--line);margin-top:28px;padding-top:16px}
+.reflections p{font-size:15px}
+.notice{padding:14px 16px;border:1px solid var(--line);border-radius:14px;color:var(--muted);font-size:13px;margin-top:28px;text-align:center}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.hidden{display:none!important}
+.breath{text-align:center;padding:26px 10px 30px;margin:10px 0 6px;border-radius:22px;background:var(--soft)}
+.breath .label{margin-top:0}
+.orb-wrap{height:190px;display:flex;align-items:center;justify-content:center}
+.orb{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,var(--accent) 70%);box-shadow:0 0 40px var(--accent);opacity:.85;transform:scale(1)}
+.orb.in{transition:transform 4s ease-in-out;transform:scale(2)}
+.orb.out{transition:transform 6s ease-in-out;transform:scale(1)}
+.breath-word{font-family:Georgia,serif;font-size:20px;min-height:30px;color:var(--muted);margin-bottom:12px}
+.sound{position:fixed;right:16px;bottom:16px;z-index:10;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(6px);color:var(--ink);border-radius:999px;padding:11px 16px;font-size:14px;font-family:inherit;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.sound.on{border-color:var(--accent);color:var(--accent-dark)}
+footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13px}
+@media(max-width:600px){main{padding:12px 0}.card{border-radius:22px}.row .btn{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.fade{animation:none}.orb.in,.orb.out{transition-duration:.01s}}
+</style>
+</head>
+<body>
+<header><a href="/"><img src="/pod-logo.png" alt="The POD Human Potential Lab"></a></header>
+<main><div class="container">
+
+<section id="intro" class="card fade hidden">
+  <div class="eyebrow">The POD Human Potential Lab</div>
+  <h1 id="introTitle"></h1>
+  <p class="lead" id="introPromise"></p>
+  <div id="welcome"></div>
+  <h3>How it works</h3>
+  <ul class="how" id="how"></ul>
+  <h3>Begin</h3>
+  <input id="name" type="text" placeholder="Your name" autocomplete="name">
+  <input id="email" type="email" placeholder="Your email address" autocomplete="email">
+  <button id="startBtn" class="btn"></button>
+  <p class="msg" id="startMsg"></p>
+  <p class="small" style="font-size:13px;color:var(--muted)">Already started? Enter the same email to continue where you stopped.</p>
+</section>
+
+<section id="dashboard" class="card fade hidden">
+  <div class="eyebrow">7-Day Mind Reset</div>
+  <h2 id="hello"></h2>
+  <div class="progress"><div id="bar"></div></div>
+  <p class="msg" id="progressText"></p>
+  <div class="days" id="dayList"></div>
+  <p class="msg" id="dashMsg"></p>
+  <button class="btn hidden" id="nextStepBtn">See your next step →</button>
+</section>
+
+<section id="dayView" class="card fade hidden">
+  <div class="eyebrow" id="dayEyebrow"></div>
+  <h2 id="dayTitle"></h2>
+  <p class="theme" id="dayTheme"></p>
+  <div class="law"><div class="label">Today's law</div><p id="dayLaw"></p></div>
+  <div class="breath">
+    <div class="label">Begin with one minute of breath</div>
+    <div class="orb-wrap"><div class="orb" id="orb"></div></div>
+    <div class="breath-word" id="breathWord">Settle in. When you are ready, begin.</div>
+    <button class="btn secondary" id="breathBtn">Begin breathing</button>
+  </div>
+  <div id="dayTeaching"></div>
+  <div class="label">Today's practice</div><p id="dayPractice"></p>
+  <div class="label">For example</div><p class="example" id="dayExample"></p>
+  <div class="label">You have completed today when</div><p id="dayEvidence"></p>
+  <div id="weekReview" class="reflections hidden"><div class="label">Your reflections this week</div><div id="weekList"></div></div>
+  <div class="label">Evening reflection</div><p id="dayReflection"></p>
+  <textarea id="reflectionInput" placeholder="Write your reflection here..."></textarea>
+  <div class="row">
+    <button id="completeBtn" class="btn"></button>
+    <button class="btn secondary" onclick="showDashboard()">Back to my week</button>
+  </div>
+  <p class="msg" id="dayMsg"></p>
+</section>
+
+<section id="complete" class="card fade hidden">
+  <div class="eyebrow">7-Day Mind Reset</div>
+  <h2>Well done.</h2>
+  <div id="completionText"></div>
+  <div class="row">
+    <button class="btn" id="notifyBtn">Notify me when the POD opens</button>
+    <button class="btn secondary" onclick="showDashboard()">Review my week</button>
+  </div>
+  <p class="msg" id="notifyMsg"></p>
+</section>
+
+<div class="notice" id="footerNote"></div>
+</div></main>
+<button class="sound" id="soundBtn" aria-pressed="false">♪ Play calming sound</button>
+<footer>© The POD Human Potential Lab · 7-Day Mind Reset</footer>
+
+<script src="/reset-content.js"></script>
+<script>
+const CONTENT = window.RESET_CONTENT;
+const STORE_KEY = "podMindResetToken";
+const REFLECT_KEY = "podMindResetReflections";
+let state = { token: null, name: "", today: "", progress: [] };
+
+function store(key, value) { try { value === null ? localStorage.removeItem(key) : localStorage.setItem(key, value); } catch (e) {} }
+function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+function localReflections() { try { return JSON.parse(load(REFLECT_KEY) || "{}"); } catch (e) { return {}; } }
+function el(id) { return document.getElementById(id); }
+function paras(list) { return list.map(t => { const p = document.createElement("p"); p.textContent = t; return p; }); }
+function show(id) {
+  stopBreath();
+  ["intro", "dashboard", "dayView", "complete"].forEach(s => {
+    const node = el(s);
+    node.classList.toggle("hidden", s !== id);
+    if (s === id) { node.classList.remove("fade"); void node.offsetWidth; node.classList.add("fade"); }
+  });
+  window.scrollTo({ top: 0 });
+}
+
+async function api(path, options) {
+  const res = await fetch(path, options);
+  let body = {};
+  try { body = await res.json(); } catch (e) {}
+  if (!res.ok || !body.success) throw new Error(body.error || "Something went wrong. Please try again.");
+  return body;
+}
+
+function applyState(body) {
+  state.name = body.name || state.name;
+  state.today = body.today;
+  state.progress = body.progress || [];
+}
+
+function dayStatus(n) {
+  const done = state.progress.find(p => p.day === n);
+  if (done) return { key: "done", text: "Completed ✓" };
+  if (n === 1) return { key: "open", text: "Open now" };
+  const prev = state.progress.find(p => p.day === n - 1);
+  if (!prev) return { key: "locked", text: "Locked" };
+  if (prev.completedOn >= state.today) return { key: "locked", text: "Opens tomorrow" };
+  return { key: "open", text: "Open now" };
+}
+
+function renderIntro() {
+  el("introTitle").textContent = CONTENT.title;
+  el("introPromise").textContent = CONTENT.promise;
+  el("welcome").replaceChildren(...paras(CONTENT.welcome));
+  el("how").replaceChildren(...CONTENT.howItWorks.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  el("startBtn").textContent = CONTENT.cta + " →";
+  show("intro");
+}
+
+function showDashboard() {
+  const doneCount = state.progress.length;
+  el("hello").textContent = "Welcome, " + state.name.split(" ")[0] + ".";
+  el("bar").style.width = Math.round(doneCount / 7 * 100) + "%";
+  el("progressText").textContent = doneCount + " of 7 days completed";
+  el("dashMsg").textContent = "";
+  el("nextStepBtn").classList.toggle("hidden", doneCount < 7);
+  el("dayList").replaceChildren(...CONTENT.days.map(d => {
+    const s = dayStatus(d.day);
+    const item = document.createElement(s.key === "locked" ? "div" : "button");
+    item.className = "day" + (s.key === "locked" ? " locked" : "");
+    item.innerHTML = '<span><small></small><strong></strong></span><span class="status ' + s.key + '"></span>';
+    item.querySelector("small").textContent = "Day " + d.day;
+    item.querySelector("strong").textContent = d.title;
+    item.querySelector(".status").textContent = s.text;
+    if (s.key !== "locked") item.onclick = () => openDay(d.day);
+    return item;
+  }));
+  show("dashboard");
+}
+
+function openDay(n) {
+  const d = CONTENT.days[n - 1];
+  const s = dayStatus(n);
+  el("dayEyebrow").textContent = "Day " + n + " of 7";
+  el("dayTitle").textContent = d.title;
+  el("dayTheme").textContent = d.theme;
+  el("dayLaw").textContent = d.law;
+  el("dayTeaching").replaceChildren(...paras(d.teaching));
+  el("dayPractice").textContent = d.practice;
+  el("dayExample").textContent = d.example;
+  el("dayEvidence").textContent = d.evidence;
+  el("dayReflection").textContent = d.reflection;
+  const saved = localReflections();
+  el("reflectionInput").value = saved[n] || "";
+  const review = el("weekReview");
+  if (n === 7) {
+    const items = [1, 2, 3, 4, 5, 6].filter(i => saved[i]).map(i => {
+      const p = document.createElement("p");
+      p.innerHTML = "<strong></strong> ";
+      p.querySelector("strong").textContent = "Day " + i + ", " + CONTENT.days[i - 1].title + ":";
+      p.append(saved[i]);
+      return p;
+    });
+    el("weekList").replaceChildren(...(items.length ? items : paras(["Your earlier reflections were saved on another device or browser, so they are not shown here."])));
+    review.classList.remove("hidden");
+  } else {
+    review.classList.add("hidden");
+  }
+  const btn = el("completeBtn");
+  const done = s.key === "done";
+  btn.textContent = done ? "Day " + n + " completed ✓" : "Complete Day " + n;
+  btn.disabled = done;
+  el("reflectionInput").disabled = done;
+  el("dayMsg").textContent = "";
+  el("dayMsg").className = "msg";
+  btn.onclick = () => completeDay(n);
+  show("dayView");
+}
+
+async function completeDay(n) {
+  const reflection = el("reflectionInput").value.trim();
+  const msg = el("dayMsg");
+  if (!reflection) { msg.textContent = "Write your evening reflection before completing the day."; msg.className = "msg error"; return; }
+  const btn = el("completeBtn");
+  btn.disabled = true;
+  msg.textContent = "Saving...";
+  msg.className = "msg";
+  try {
+    const body = await api("/api/reset/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: state.token, day: n, reflection }) });
+    applyState(body);
+    const saved = localReflections(); saved[n] = reflection; store(REFLECT_KEY, JSON.stringify(saved));
+    if (n === 7) { showComplete(); }
+    else { showDashboard(); el("dashMsg").textContent = "Day " + n + " completed. Day " + (n + 1) + " opens tomorrow."; }
+  } catch (e) {
+    btn.disabled = false;
+    msg.textContent = e.message;
+    msg.className = "msg error";
+  }
+}
+
+function showComplete() {
+  el("completionText").replaceChildren(...paras(CONTENT.completion));
+  el("notifyMsg").textContent = "";
+  el("notifyMsg").className = "msg";
+  el("notifyBtn").disabled = false;
+  show("complete");
+}
+el("nextStepBtn").onclick = showComplete;
+
+el("notifyBtn").onclick = async () => {
+  const btn = el("notifyBtn"), msg = el("notifyMsg");
+  btn.disabled = true;
+  msg.textContent = "Saving...";
+  msg.className = "msg";
+  try {
+    await api("/api/reset/notify-pod", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: state.token }) });
+    msg.textContent = "You are on the list. We will let you know as soon as the POD opens.";
+  } catch (e) {
+    btn.disabled = false;
+    msg.textContent = e.message;
+    msg.className = "msg error";
+  }
+};
+
+el("startBtn").onclick = async () => {
+  const name = el("name").value.trim(), email = el("email").value.trim(), msg = el("startMsg");
+  if (!name || !email) { msg.textContent = "Please enter your name and email."; msg.className = "msg error"; return; }
+  el("startBtn").disabled = true;
+  msg.textContent = "Starting your Reset...";
+  msg.className = "msg";
+  try {
+    const body = await api("/api/reset/start", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, email }) });
+    state.token = body.token;
+    store(STORE_KEY, body.token);
+    applyState(body);
+    showDashboard();
+  } catch (e) {
+    msg.textContent = e.message;
+    msg.className = "msg error";
+  } finally {
+    el("startBtn").disabled = false;
+  }
+};
+
+
+/* ---------- Evening mode: 6 p.m. to 5 a.m. on the participant's own clock ---------- */
+(function () { const h = new Date().getHours(); if (h >= 18 || h < 5) document.body.classList.add("evening"); })();
+
+/* ---------- Guided breathing: 4 seconds in, 6 seconds out, six cycles ---------- */
+let breathTimer = null, breathCycles = 0;
+function stopBreath() {
+  clearTimeout(breathTimer); breathTimer = null; breathCycles = 0;
+  const orb = el("orb"); if (orb) orb.className = "orb";
+  if (el("breathWord")) el("breathWord").textContent = "Settle in. When you are ready, begin.";
+  if (el("breathBtn")) el("breathBtn").textContent = "Begin breathing";
+}
+function breathStep(phase) {
+  const orb = el("orb"), word = el("breathWord");
+  if (phase === "in") {
+    if (breathCycles >= 6) { stopBreath(); word.textContent = "Well done. Carry this stillness into today."; return; }
+    breathCycles++; orb.className = "orb in"; word.textContent = "Breathe in…";
+    breathTimer = setTimeout(() => breathStep("out"), 4000);
+  } else {
+    orb.className = "orb out"; word.textContent = "Breathe out…";
+    breathTimer = setTimeout(() => breathStep("in"), 6000);
+  }
+}
+el("breathBtn").onclick = () => {
+  if (breathTimer) { stopBreath(); return; }
+  el("breathBtn").textContent = "Stop";
+  breathStep("in");
+};
+
+/* ---------- Calming sound, generated in the browser (no file, no data cost) ---------- */
+let audio = null;
+function startSound() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return false;
+  const ctx = new AC();
+  const master = ctx.createGain(); master.gain.value = 0;
+  const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 900;
+  filter.connect(master); master.connect(ctx.destination);
+  [130.81, 196.0, 261.63, 329.63, 392.0].forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = "sine"; osc.frequency.value = f; osc.detune.value = (i % 2 ? 4 : -4);
+    const g = ctx.createGain(); g.gain.value = 0.05;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.04 + i * 0.017;
+    const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.035;
+    lfo.connect(lfoGain); lfoGain.connect(g.gain);
+    osc.connect(g); g.connect(filter); osc.start(); lfo.start();
+  });
+  master.gain.setTargetAtTime(0.5, ctx.currentTime, 2.5);
+  audio = { ctx, master };
+  return true;
+}
+function stopSound() {
+  if (!audio) return;
+  const a = audio; audio = null;
+  a.master.gain.setTargetAtTime(0, a.ctx.currentTime, 0.8);
+  setTimeout(() => a.ctx.close(), 3000);
+}
+el("soundBtn").onclick = () => {
+  const btn = el("soundBtn");
+  if (audio) { stopSound(); btn.textContent = "♪ Play calming sound"; btn.classList.remove("on"); btn.setAttribute("aria-pressed", "false"); }
+  else if (startSound()) { btn.textContent = "♪ Pause sound"; btn.classList.add("on"); btn.setAttribute("aria-pressed", "true"); }
+};
+
+(async function init() {
+  el("footerNote").textContent = CONTENT.footer;
+  const token = load(STORE_KEY);
+  if (token) {
+    try {
+      const body = await api("/api/reset/progress?token=" + encodeURIComponent(token));
+      state.token = token;
+      applyState(body);
+      showDashboard();
+      return;
+    } catch (e) { store(STORE_KEY, null); }
+  }
+  renderIntro();
+})();
+</script>
+</body>
+</html>
