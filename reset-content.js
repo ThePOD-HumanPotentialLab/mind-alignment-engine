@@ -120,7 +120,7 @@ window.RESET_CONTENT = {
   "completion": [
     "You have completed the 7-Day Mind Reset.",
     "You have begun to walk the law deliberately. You have noticed your mind, questioned its stories and planted the thoughts you choose to grow. A week is a beginning, not an ending. Seeds need tending, and patterns that took years to form deserve more than seven days of attention.",
-    "The next step is to turn this awareness into consistent daily practice. The Personal Optimization Drill (POD) helps you keep walking the law until the change becomes part of how you live."
+       "Your next step is the Personal Optimization Drill (POD). You will set clear goals, then spend 21 days programming your deeper mind for the results you seek, guided every day by the Optimizer, Josh Ochu's AI Mind Coach. The POD opens soon."
   ],
   "footer": "This is a developmental reflection, not a clinical diagnosis."
 };
