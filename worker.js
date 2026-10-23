@@ -182,6 +182,21 @@ async function handleResetComplete(request, env) {
   }
 }
 
+
+async function handleResetNotifyPod(request, env) {
+  if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405 });
+  const data = await readJson(request);
+  try {
+    const participant = await getParticipant(env, data?.token);
+    if (!participant) return json({ success: false, error: "Please start your Reset again." }, 404);
+    await env.DB.prepare(
+      "INSERT OR IGNORE INTO pod_waitlist (participant_id, created_at) VALUES (?, ?)"
+    ).bind(participant.id, new Date().toISOString()).run();
+    return json({ success: true });
+  } catch (error) {
+    return json({ success: false, error: "We could not save your request. Please try again." }, 500);
+  }
+}
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -191,6 +206,7 @@ export default {
       case "/api/reset/start": return handleResetStart(request, env);
       case "/api/reset/progress": return handleResetProgress(request, env);
       case "/api/reset/complete": return handleResetComplete(request, env);
+              case "/api/reset/notify-pod": return handleResetNotifyPod(request, env);
     }
 
     if (url.pathname.startsWith("/api/")) {
