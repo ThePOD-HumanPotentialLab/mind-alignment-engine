@@ -94,12 +94,12 @@ window.RESET_CONTENT = {
       "theme": "A mind with one clear direction stops scattering its energy.",
       "teaching": [
         "A mind pulled in many directions produces a life pulled in many directions. When too many priorities compete for your attention, every choice becomes heavier and very little moves.",
-        "Your mind is constantly filtering what you notice. When you hold one intention clearly, you begin to see the people, ideas and openings that serve it, things that were there all along but went unseen. Today you give your mind that direction. Not ten goals. One intention, clear enough to organise your attention for the next 30 days."
+        "Your mind is constantly filtering what you notice. When you hold one intention clearly, you begin to see the people, ideas and openings that serve it, things that were there all along but went unseen. Today you give your mind that direction. Not a list of wishes. One clear picture of the person you are becoming, strong enough to organise your attention and your choices."
       ],
-      "practice": "Write one intention for the next 30 days in a single sentence. Then name one thing you will stop giving attention to so that this intention has room to grow.",
-      "example": "\"For the next 30 days, my intention is to complete and launch my training programme. I will stop starting new projects until it is done.\"",
+      "practice": "Write one sentence describing how you will show up to the world ten years from now, written in the possessive, as though it is already true. Then name one thing you will stop giving attention to so that this picture has room to grow.",
+      "example": "\"I am a respected leader who builds people, and I live in my own home with my family.\" To make room for it, I will stop scrolling before bed.",
       "reflection": "Is what I did today serving the direction I chose, or competing with it?",
-      "evidence": "One 30-day intention written, and one competing priority deliberately set aside.",
+      "evidence": "One ten-year picture written in the possessive, and one competing priority deliberately set aside.",
       "law": "Where your attention goes, your energy and your life follow."
     },
     {
@@ -110,7 +110,7 @@ window.RESET_CONTENT = {
         "Over six days you have noticed what is growing in your mind, separated fact from interpretation, made room for emotion, interrupted old loops, planted a new thought and set a clear direction. Today you bring them together.",
         "Alignment is not a feeling you wait for. It is the law at work. When your actions agree with the thought you have planted and the direction you have set, you give the deeper mind evidence, and the deeper mind produces more of what it is given. Walk the law daily, and the result will follow."
       ],
-      "practice": "Take one deliberate action today that the person in your replacement thought would take, in service of your 30-day intention. Then review your week: read back your reflections and write the one pattern you most want to keep changing.",
+      "practice": "Take one deliberate action today that the person in your replacement thought would take, in service of the picture you wrote yesterday. Then review your week: read back your reflections and write the one pattern you most want to keep changing.",
       "example": "\"I am choosing to move with intention, so today I will spend one focused hour on my programme before I open my messages.\"",
       "reflection": "Who did I begin to become this week, and what is the one pattern I will keep working on?",
       "evidence": "One aligned action completed and your week reviewed.",
@@ -119,8 +119,21 @@ window.RESET_CONTENT = {
   ],
   "completion": [
     "You have completed the 7-Day Mind Reset.",
-    "You have begun to walk the law deliberately. You have noticed your mind, questioned its stories and planted the thoughts you choose to grow. A week is a beginning, not an ending. Seeds need tending, and patterns that took years to form deserve more than seven days of attention.",
-       "Your next step is the Personal Optimization Drill (POD). You will set clear goals, then spend 21 days programming your deeper mind for the results you seek, guided every day by the Optimizer, Josh Ochu's AI Mind Coach. The POD opens soon."
+    "You have begun to walk the law deliberately. You have noticed your mind, questioned its stories and planted the thoughts you choose to grow. A week is a beginning, not an ending. Seeds need tending, and patterns that took years to form deserve more than seven days of attention."
   ],
+  "talk": {
+    "label": "Your goal-setting talk",
+    "intro": "Before you begin the Personal Optimization Drill (POD), watch this short talk from Josh Ochu. Then complete the assignment below. It is the threshold between the Reset and the Drill."
+  },
+  "assignment": {
+    "label": "Your assignment",
+    "steps": [
+      "Write 50 goals on paper: anything and everything you want to see in your life.",
+      "Write every goal in the possessive: I am, I have, I drive, I live in.",
+      "Sort them into three horizons: 1 year, 5 years and 10 years.",
+      "Choose your top 5. You will enter them when you begin the POD."
+    ]
+  },
+  "pod": "The POD is one hour of unbroken silence, every day for 21 days, guided by the Optimizer, Josh Ochu's AI Mind Coach. It opens soon.",
   "footer": "This is a developmental reflection, not a clinical diagnosis."
 };
