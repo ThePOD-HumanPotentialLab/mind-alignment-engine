@@ -337,4 +337,84 @@ el("startBtn").onclick = async () => {
 };
 
 
-/*
+/* ---------- Evening mode: 6 p.m. to 5 a.m. on the participant's own clock ---------- */
+(function () { const h = new Date().getHours(); if (h >= 18 || h < 5) document.body.classList.add("evening"); })();
+
+/* ---------- Guided breathing: 4 seconds in, 6 seconds out, six cycles ---------- */
+let breathTimer = null, breathCycles = 0;
+function stopBreath() {
+  clearTimeout(breathTimer); breathTimer = null; breathCycles = 0;
+  const orb = el("orb"); if (orb) orb.className = "orb";
+  if (el("breathWord")) el("breathWord").textContent = "Settle in. When you are ready, begin.";
+  if (el("breathBtn")) el("breathBtn").textContent = "Begin breathing";
+}
+function breathStep(phase) {
+  const orb = el("orb"), word = el("breathWord");
+  if (phase === "in") {
+    if (breathCycles >= 6) { stopBreath(); word.textContent = "Well done. Carry this stillness into today."; return; }
+    breathCycles++; orb.className = "orb in"; word.textContent = "Breathe in…";
+    breathTimer = setTimeout(() => breathStep("out"), 4000);
+  } else {
+    orb.className = "orb out"; word.textContent = "Breathe out…";
+    breathTimer = setTimeout(() => breathStep("in"), 6000);
+  }
+}
+el("breathBtn").onclick = () => {
+  if (breathTimer) { stopBreath(); return; }
+  el("breathBtn").textContent = "Stop";
+  breathStep("in");
+};
+
+/* ---------- Calming sound, generated in the browser (no file, no data cost) ---------- */
+let audio = null;
+function startSound() {
+  const AC = window.AudioContext || window.webkitAudioContext;
+  if (!AC) return false;
+  const ctx = new AC();
+  const master = ctx.createGain(); master.gain.value = 0;
+  const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 900;
+  filter.connect(master); master.connect(ctx.destination);
+  [130.81, 196.0, 261.63, 329.63, 392.0].forEach((f, i) => {
+    const osc = ctx.createOscillator(); osc.type = "sine"; osc.frequency.value = f; osc.detune.value = (i % 2 ? 4 : -4);
+    const g = ctx.createGain(); g.gain.value = 0.05;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.04 + i * 0.017;
+    const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.035;
+    lfo.connect(lfoGain); lfoGain.connect(g.gain);
+    osc.connect(g); g.connect(filter); osc.start(); lfo.start();
+  });
+  master.gain.setTargetAtTime(0.5, ctx.currentTime, 2.5);
+  audio = { ctx, master };
+  return true;
+}
+function stopSound() {
+  if (!audio) return;
+  const a = audio; audio = null;
+  a.master.gain.setTargetAtTime(0, a.ctx.currentTime, 0.8);
+  setTimeout(() => a.ctx.close(), 3000);
+}
+el("talkVideo").addEventListener("play", () => {
+  if (audio) { stopSound(); const b = el("soundBtn"); b.textContent = "♪ Play calming sound"; b.classList.remove("on"); b.setAttribute("aria-pressed", "false"); }
+});
+el("soundBtn").onclick = () => {
+  const btn = el("soundBtn");
+  if (audio) { stopSound(); btn.textContent = "♪ Play calming sound"; btn.classList.remove("on"); btn.setAttribute("aria-pressed", "false"); }
+  else if (startSound()) { btn.textContent = "♪ Pause sound"; btn.classList.add("on"); btn.setAttribute("aria-pressed", "true"); }
+};
+
+(async function init() {
+  el("footerNote").textContent = CONTENT.footer;
+  const token = load(STORE_KEY);
+  if (token) {
+    try {
+      const body = await api("/api/reset/progress?token=" + encodeURIComponent(token));
+      state.token = token;
+      applyState(body);
+      showDashboard();
+      return;
+    } catch (e) { store(STORE_KEY, null); }
+  }
+  renderIntro();
+})();
+</script>
+</body>
+</html>
