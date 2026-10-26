@@ -62,6 +62,10 @@ button.day{cursor:pointer}button.day:hover{border-color:var(--accent);transform:
 .orb.out{transition:transform 6s ease-in-out;transform:scale(1)}
 .breath-word{font-family:Georgia,serif;font-size:20px;min-height:30px;color:var(--muted);margin-bottom:12px}
 .sound{position:fixed;right:16px;bottom:16px;z-index:10;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(6px);color:var(--ink);border-radius:999px;padding:11px 16px;font-size:14px;font-family:inherit;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.talk{width:100%;max-width:360px;display:block;margin:6px auto 22px;border-radius:18px;background:#000;box-shadow:0 12px 40px rgba(0,0,0,.12);aspect-ratio:9/16}
+.assignment{background:var(--soft);border-radius:18px;padding:18px 22px;margin:8px 0 22px}
+.assignment .label{margin-top:0}
+.assignment ol{margin:6px 0 0 20px}.assignment li{margin-bottom:8px}
 .sound.on{border-color:var(--accent);color:var(--accent-dark)}
 footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13px}
 @media(max-width:600px){main{padding:12px 0}.card{border-radius:22px}.row .btn{width:100%;text-align:center}}
@@ -126,6 +130,14 @@ footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13p
   <div class="eyebrow">7-Day Mind Reset</div>
   <h2>Well done.</h2>
   <div id="completionText"></div>
+  <div class="label" id="talkLabel"></div>
+  <p id="talkIntro"></p>
+  <video id="talkVideo" class="talk" src="/goal-talk.mp4.mp4#t=2" controls playsinline preload="metadata"></video>
+  <div class="assignment">
+    <div class="label" id="assignLabel"></div>
+    <ol id="assignSteps"></ol>
+  </div>
+  <p id="podNote"></p>
   <div class="row">
     <button class="btn" id="notifyBtn">Notify me when the POD opens</button>
     <button class="btn secondary" onclick="showDashboard()">Review my week</button>
@@ -152,6 +164,7 @@ function el(id) { return document.getElementById(id); }
 function paras(list) { return list.map(t => { const p = document.createElement("p"); p.textContent = t; return p; }); }
 function show(id) {
   stopBreath();
+  const v = el("talkVideo"); if (v && !v.paused) v.pause();
   ["intro", "dashboard", "dayView", "complete"].forEach(s => {
     const node = el(s);
     node.classList.toggle("hidden", s !== id);
@@ -276,6 +289,11 @@ async function completeDay(n) {
 
 function showComplete() {
   el("completionText").replaceChildren(...paras(CONTENT.completion));
+  el("talkLabel").textContent = CONTENT.talk.label;
+  el("talkIntro").textContent = CONTENT.talk.intro;
+  el("assignLabel").textContent = CONTENT.assignment.label;
+  el("assignSteps").replaceChildren(...CONTENT.assignment.steps.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  el("podNote").textContent = CONTENT.pod;
   el("notifyMsg").textContent = "";
   el("notifyMsg").className = "msg";
   el("notifyBtn").disabled = false;
@@ -319,81 +337,4 @@ el("startBtn").onclick = async () => {
 };
 
 
-/* ---------- Evening mode: 6 p.m. to 5 a.m. on the participant's own clock ---------- */
-(function () { const h = new Date().getHours(); if (h >= 18 || h < 5) document.body.classList.add("evening"); })();
-
-/* ---------- Guided breathing: 4 seconds in, 6 seconds out, six cycles ---------- */
-let breathTimer = null, breathCycles = 0;
-function stopBreath() {
-  clearTimeout(breathTimer); breathTimer = null; breathCycles = 0;
-  const orb = el("orb"); if (orb) orb.className = "orb";
-  if (el("breathWord")) el("breathWord").textContent = "Settle in. When you are ready, begin.";
-  if (el("breathBtn")) el("breathBtn").textContent = "Begin breathing";
-}
-function breathStep(phase) {
-  const orb = el("orb"), word = el("breathWord");
-  if (phase === "in") {
-    if (breathCycles >= 6) { stopBreath(); word.textContent = "Well done. Carry this stillness into today."; return; }
-    breathCycles++; orb.className = "orb in"; word.textContent = "Breathe in…";
-    breathTimer = setTimeout(() => breathStep("out"), 4000);
-  } else {
-    orb.className = "orb out"; word.textContent = "Breathe out…";
-    breathTimer = setTimeout(() => breathStep("in"), 6000);
-  }
-}
-el("breathBtn").onclick = () => {
-  if (breathTimer) { stopBreath(); return; }
-  el("breathBtn").textContent = "Stop";
-  breathStep("in");
-};
-
-/* ---------- Calming sound, generated in the browser (no file, no data cost) ---------- */
-let audio = null;
-function startSound() {
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return false;
-  const ctx = new AC();
-  const master = ctx.createGain(); master.gain.value = 0;
-  const filter = ctx.createBiquadFilter(); filter.type = "lowpass"; filter.frequency.value = 900;
-  filter.connect(master); master.connect(ctx.destination);
-  [130.81, 196.0, 261.63, 329.63, 392.0].forEach((f, i) => {
-    const osc = ctx.createOscillator(); osc.type = "sine"; osc.frequency.value = f; osc.detune.value = (i % 2 ? 4 : -4);
-    const g = ctx.createGain(); g.gain.value = 0.05;
-    const lfo = ctx.createOscillator(); lfo.frequency.value = 0.04 + i * 0.017;
-    const lfoGain = ctx.createGain(); lfoGain.gain.value = 0.035;
-    lfo.connect(lfoGain); lfoGain.connect(g.gain);
-    osc.connect(g); g.connect(filter); osc.start(); lfo.start();
-  });
-  master.gain.setTargetAtTime(0.5, ctx.currentTime, 2.5);
-  audio = { ctx, master };
-  return true;
-}
-function stopSound() {
-  if (!audio) return;
-  const a = audio; audio = null;
-  a.master.gain.setTargetAtTime(0, a.ctx.currentTime, 0.8);
-  setTimeout(() => a.ctx.close(), 3000);
-}
-el("soundBtn").onclick = () => {
-  const btn = el("soundBtn");
-  if (audio) { stopSound(); btn.textContent = "♪ Play calming sound"; btn.classList.remove("on"); btn.setAttribute("aria-pressed", "false"); }
-  else if (startSound()) { btn.textContent = "♪ Pause sound"; btn.classList.add("on"); btn.setAttribute("aria-pressed", "true"); }
-};
-
-(async function init() {
-  el("footerNote").textContent = CONTENT.footer;
-  const token = load(STORE_KEY);
-  if (token) {
-    try {
-      const body = await api("/api/reset/progress?token=" + encodeURIComponent(token));
-      state.token = token;
-      applyState(body);
-      showDashboard();
-      return;
-    } catch (e) { store(STORE_KEY, null); }
-  }
-  renderIntro();
-})();
-</script>
-</body>
-</html>
+/*
