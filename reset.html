@@ -62,6 +62,10 @@ button.day{cursor:pointer}button.day:hover{border-color:var(--accent);transform:
 .orb.out{transition:transform 6s ease-in-out;transform:scale(1)}
 .breath-word{font-family:Georgia,serif;font-size:20px;min-height:30px;color:var(--muted);margin-bottom:12px}
 .sound{position:fixed;right:16px;bottom:16px;z-index:10;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(6px);color:var(--ink);border-radius:999px;padding:11px 16px;font-size:14px;font-family:inherit;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.talk{width:100%;max-width:360px;display:block;margin:6px auto 22px;border-radius:18px;background:#000;box-shadow:0 12px 40px rgba(0,0,0,.12);aspect-ratio:9/16}
+.assignment{background:var(--soft);border-radius:18px;padding:18px 22px;margin:8px 0 22px}
+.assignment .label{margin-top:0}
+.assignment ol{margin:6px 0 0 20px}.assignment li{margin-bottom:8px}
 .sound.on{border-color:var(--accent);color:var(--accent-dark)}
 footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13px}
 @media(max-width:600px){main{padding:12px 0}.card{border-radius:22px}.row .btn{width:100%;text-align:center}}
@@ -126,6 +130,14 @@ footer{text-align:center;padding:30px 20px 80px;color:var(--muted);font-size:13p
   <div class="eyebrow">7-Day Mind Reset</div>
   <h2>Well done.</h2>
   <div id="completionText"></div>
+  <div class="label" id="talkLabel"></div>
+  <p id="talkIntro"></p>
+  <video id="talkVideo" class="talk" src="/goal-talk.mp4.mp4#t=2" controls playsinline preload="metadata"></video>
+  <div class="assignment">
+    <div class="label" id="assignLabel"></div>
+    <ol id="assignSteps"></ol>
+  </div>
+  <p id="podNote"></p>
   <div class="row">
     <button class="btn" id="notifyBtn">Notify me when the POD opens</button>
     <button class="btn secondary" onclick="showDashboard()">Review my week</button>
@@ -152,6 +164,7 @@ function el(id) { return document.getElementById(id); }
 function paras(list) { return list.map(t => { const p = document.createElement("p"); p.textContent = t; return p; }); }
 function show(id) {
   stopBreath();
+  const v = el("talkVideo"); if (v && !v.paused) v.pause();
   ["intro", "dashboard", "dayView", "complete"].forEach(s => {
     const node = el(s);
     node.classList.toggle("hidden", s !== id);
@@ -276,6 +289,11 @@ async function completeDay(n) {
 
 function showComplete() {
   el("completionText").replaceChildren(...paras(CONTENT.completion));
+  el("talkLabel").textContent = CONTENT.talk.label;
+  el("talkIntro").textContent = CONTENT.talk.intro;
+  el("assignLabel").textContent = CONTENT.assignment.label;
+  el("assignSteps").replaceChildren(...CONTENT.assignment.steps.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  el("podNote").textContent = CONTENT.pod;
   el("notifyMsg").textContent = "";
   el("notifyMsg").className = "msg";
   el("notifyBtn").disabled = false;
@@ -374,6 +392,9 @@ function stopSound() {
   a.master.gain.setTargetAtTime(0, a.ctx.currentTime, 0.8);
   setTimeout(() => a.ctx.close(), 3000);
 }
+el("talkVideo").addEventListener("play", () => {
+  if (audio) { stopSound(); const b = el("soundBtn"); b.textContent = "♪ Play calming sound"; b.classList.remove("on"); b.setAttribute("aria-pressed", "false"); }
+});
 el("soundBtn").onclick = () => {
   const btn = el("soundBtn");
   if (audio) { stopSound(); btn.textContent = "♪ Play calming sound"; btn.classList.remove("on"); btn.setAttribute("aria-pressed", "false"); }
