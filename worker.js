@@ -1,3 +1,4 @@
+import { handlePod } from "./pod-api.js";
 const LAGOS_OFFSET_MS = 60 * 60 * 1000; // Programme days follow Africa/Lagos time (UTC+1)
 
 function lagosDate(ms) {
@@ -208,6 +209,7 @@ export default {
       case "/api/reset/complete": return handleResetComplete(request, env);
               case "/api/reset/notify-pod": return handleResetNotifyPod(request, env);
     }
+    if (url.pathname.startsWith("/api/pod/")) return handlePod(request, env, url);
 
     if (url.pathname.startsWith("/api/")) {
       return json({ success: false, error: "Not found." }, 404);
