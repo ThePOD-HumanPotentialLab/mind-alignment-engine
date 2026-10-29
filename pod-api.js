@@ -81,6 +81,7 @@ function handleConfig(env) {
   return json({
     success: true,
     open: podOpen(env),
+        checks: { switchOn: env.POD_OPEN === "true", keyPresent: !!env.PAYSTACK_SECRET_KEY },
     plans: Object.entries(PLANS).map(([id, p]) => ({ id, name: p.name, amount: p.amountKobo / 100, currency: p.currency })),
     vow: VOW
   });
