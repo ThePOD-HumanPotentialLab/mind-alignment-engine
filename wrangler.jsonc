@@ -17,6 +17,9 @@
     }
   ],
   "previews": {
+    "vars": {
+      "POD_OPEN": "true"
+    },
     "d1_databases": [
       {
         "binding": "DB",
