@@ -71,6 +71,7 @@
       var li = document.createElement("li"); li.textContent = g; $("readyGoals").appendChild(li);
     });
     show("ready");
+        if (window.PODTracker) window.PODTracker.start(read(TOKEN_KEY));
   }
 
   function startJoin() {
