@@ -1,19 +1,13 @@
 /* The POD: the 21-day tracker screen (front end) */
 (function () {
   var css = [
-    ".marks{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:6px 0 22px;max-width:360px}",
-    ".marks span{aspect-ratio:1;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);background:rgba(255,255,255,.5)}",
-    ".marks span.kept{background:var(--accent);border-color:var(--accent);color:#fff}",
-    ".marks span.next{border:2px solid var(--gold);color:var(--gold);font-weight:700}",
-    ".reply{border-left:3px solid var(--gold);background:var(--soft);border-radius:0 16px 16px 0;padding:16px 20px;margin:0 0 22px;font-family:Georgia,serif;font-size:18px;line-height:1.55}",
-    ".reply .label{margin:0 0 6px;font-family:Inter,'Segoe UI',Arial,sans-serif}",
-    ".prompt{font-family:Georgia,serif;font-style:italic;font-size:19px;line-height:1.55;margin:0}",
-    ".stats{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:14px;color:var(--muted);margin:22px 0 4px}",
-    ".stats strong{color:var(--ink);font-size:16px}",
+    ".prompt{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.55;margin:0;color:var(--ink)}",
+    ".stats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;font-size:13px;color:var(--muted);margin:22px 0 4px}",
+    ".stats strong{color:var(--ink);font-size:18px;font-weight:600}",
     ".boundary{font-size:14px;color:var(--muted);font-style:italic;margin:-4px 0 14px}",
-    "details{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}",
-    "summary{cursor:pointer;color:var(--accent-dark);font-size:14px;font-weight:600}",
-    ".tq{font-family:Georgia,serif;font-size:22px;line-height:1.35;margin:4px 0 16px}"
+    "#ready details.yours{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}",
+    ".tq{font-family:var(--serif-display);font-size:26px;line-height:1.25;color:var(--ink);margin:4px 0 16px}",
+    "#ready .card + .card{margin-top:16px}"
   ].join("\n");
   var style = document.createElement("style");
   style.textContent = css;
@@ -47,20 +41,15 @@
     else if (t.kept === 0 && !t.checkinOpen) title = "Day 1 begins " + nice(t.day1Date) + ".";
     else title = "Day " + t.nextDay + " of 21";
 
-    var marks = "";
-    for (var i = 1; i <= 21; i++) {
-      var cls = i <= t.kept ? "kept" : (i === t.nextDay && !t.completed && !t.ended ? "next" : "");
-      marks += "<span class=\"" + cls + "\">" + i + "</span>";
-    }
-
-    var h = "<div class=\"eyebrow\">The Personal Optimization Drill</div>";
-    h += "<h2>" + esc(title) + "</h2>";
-    h += "<div class=\"marks\" aria-label=\"" + t.kept + " of 21 days kept\">" + marks + "</div>";
+    var h = "<div class=\"eyebrow center\" style=\"margin-top:4px\">The Personal Optimization Drill</div>";
+    h += "<h2 class=\"center\">" + esc(title) + "</h2>";
+    h += window.GardenArt ? window.GardenArt.vine(t.kept, t.completed || t.ended ? 0 : t.nextDay) : "";
 
     if (lastReply) h += "<div class=\"reply\"><div class=\"label\">The Optimizer</div>" + esc(lastReply) + "</div>";
     else if (t.notice) h += "<div class=\"reply\"><div class=\"label\">The Optimizer</div>" + esc(t.notice) + "</div>";
     if (t.warning) h += "<div class=\"reply\"><div class=\"label\">Your window</div>" + esc(t.warning) + "</div>";
 
+    h += "<div class=\"card\">";
     if (t.completed) {
       if (!lastReply) h += "<div class=\"reply\"><div class=\"label\">The Optimizer</div>" + esc(t.completion) + "</div>";
       h += "<a class=\"btn\" href=\"/pod-certificate\">Open my certificate and declaration</a>";
@@ -70,7 +59,7 @@
         h += "<div id=\"checkin\">";
         h += "<div class=\"label\">Your check-in · Day " + t.nextDay + "</div>";
         h += "<p class=\"tq\">Did you keep the hour in unbroken silence?</p>";
-        h += "<div class=\"row\" style=\"margin-top:0\"><button class=\"btn\" id=\"ciYes\">Yes, I kept it</button><button class=\"btn secondary\" id=\"ciNo\">No, it was broken</button></div>";
+        h += "<div class=\"row\" style=\"margin-top:0\"><button class=\"btn\" id=\"ciYes\">Yes, I kept it</button><button class=\"btn ghost\" id=\"ciNo\">No, it was broken</button></div>";
         h += "</div>";
         h += "<div id=\"mirror\" class=\"hidden\">";
         h += "<div class=\"label\">The Mirror Moment · Day " + t.nextDay + "</div>";
@@ -91,13 +80,14 @@
       }
     }
 
+    h += "</div>";
     h += "<div class=\"stats\"><span><strong>" + t.totalKept + "</strong> hours kept</span>";
     if (t.restarts) h += "<span><strong>" + t.restarts + "</strong> " + (t.restarts === 1 ? "return" : "returns") + " to Day 1</span>";
     if (!t.completed) h += "<span><strong>" + t.daysLeft + "</strong> days left in your window</span>";
     h += "</div>";
 
-    h += "<details><summary>Your hour and your top 5</summary>";
-    h += "<p style=\"margin:10px 0 6px\">" + (t.chosenHour === "morning" ? "First thing in the morning, before the day begins." : "Last thing at night, as the final act of your day.") + "</p><ol class=\"how\">";
+    h += "<details class=\"more yours\"><summary>Your hour and your top 5</summary>";
+    h += "<p style=\"margin:10px 0 6px\">" + (t.chosenHour === "morning" ? "First thing in the morning, before the day begins." : "Last thing at night, as the final act of your day.") + "</p><ol class=\"plain\">";
     t.top5.forEach(function (g) { h += "<li>" + esc(g) + "</li>"; });
     h += "</ol></details>";
 

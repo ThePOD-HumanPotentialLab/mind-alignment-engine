@@ -57,6 +57,10 @@ function firstName(name) {
   return f ? f.charAt(0).toUpperCase() + f.slice(1).toLowerCase() : "";
 }
 
+function clip(text) {
+  return String(text || "").trim().replace(/[.!?;:,\s]+$/, "");
+}
+
 function niceDate(date) {
   return new Date(date + "T00:00:00Z").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
 }
@@ -101,15 +105,15 @@ async function refresh(env, p, ms) {
 
 const MESSAGES = {
   prompt: (n, goal) =>
-    `Be still. Day ${n} of 21. What you plant and repeat, the deeper mind accepts and grows. Your seed today: "${goal}". Write it. See it. Act from it. Keep the hour.`,
+    `Be still. Day ${n} of 21. What you plant and repeat, the deeper mind accepts and grows. Your seed today: "${clip(goal)}". Write it. See it. Act from it. Keep the hour.`,
   kept: (name, carry, n) =>
-    `Thank you${name ? ", " + name : ""}. You kept the hour, and you looked at yourself honestly. You said you will carry this: "${carry}". Carry it fully today. Day ${n} is complete. Day ${n + 1} is next. Keep the hour.`,
+    `Thank you${name ? ", " + name : ""}. You kept the hour, and you looked at yourself honestly. You said you will carry this: "${clip(carry)}". Carry it fully today. Day ${n} is complete. Day ${n + 1} is next. Keep the hour.`,
   broken: date =>
     `Thank you for telling the truth. That honesty is part of the discipline. The silence was broken, so Day 1 begins ${niceDate(date)}. Before then, decide what will protect your hour. Walk the law.`,
   missed: date =>
     `A day passed without your check-in, so the count returns to Day 1. This is the rule, not a judgement. Day 1 begins ${niceDate(date)}. Return to the hour. Walk the law.`,
   day7: (name, carries) =>
-    `Seven unbroken days${name ? ", " + name : ""}. A week ago this was a decision. Now it is becoming a discipline. Look back at what you carried this week: ${carries.map(c => `"${c}"`).join("; ")}. The seed is taking root. Guard the hour. Day 8 is next.`,
+    `Seven unbroken days${name ? ", " + name : ""}. A week ago this was a decision. Now it is becoming a discipline. Look back at what you carried this week: ${carries.map(c => `"${clip(c)}"`).join("; ")}. The seed is taking root. Guard the hour. Day 8 is next.`,
   day14: () =>
     "Fourteen unbroken days. What you once had to force, you now return to. That is the law at work: what you repeat, you become. Seven days remain. Do not loosen your grip now. Finish what you started. Keep the hour.",
   day21: name =>
