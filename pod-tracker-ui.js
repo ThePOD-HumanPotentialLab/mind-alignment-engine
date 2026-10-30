@@ -86,8 +86,21 @@
     if (!t.completed) h += "<span><strong>" + t.daysLeft + "</strong> days left in your window</span>";
     h += "</div>";
 
-    h += "<details class=\"more yours\"><summary>Your hour and your top 5</summary>";
-    h += "<p style=\"margin:10px 0 6px\">" + (t.chosenHour === "morning" ? "First thing in the morning, before the day begins." : "Last thing at night, as the final act of your day.") + "</p><ol class=\"plain\">";
+    var morning = t.chosenHour === "morning";
+    var parts = [
+      ["Self-Judgment and Daily Goals", "10 min", morning ?
+        "Judge yesterday fairly: commend yourself for what you did well, then correct yourself where you fell short, in writing. Then write three to five things you will do today to move closer to the person you have decided to become." :
+        "Judge today fairly: commend yourself for what you did well, then correct yourself where you fell short, in writing. Then write three to five things you will do tomorrow to move closer to the person you have decided to become."],
+      ["How I'll Show Up: 1 to 5 Years", "10 min", "Rewrite your near goals in the possessive."],
+      ["How I'll Show Up: 5 to 10 Years", "10 min", "Rewrite your far goals in the possessive."],
+      ["Quest for Knowledge", "15 min", "Read an instructive book for ten minutes. Close it, then recall in writing what you read."],
+      ["Alone with God", "15 min", "Begin with gratitude. Then write to God every question, praise, fear, doubt, worry and need."]
+    ];
+    h += "<details class=\"more yours\"><summary>Your hour, part by part</summary>";
+    h += "<p class=\"small\" style=\"margin:4px 0 8px\">" + (morning ? "First thing in the morning, before the day begins." : "Last thing at night, as the final act of your day.") + " One hour, pen and paper only, in unbroken silence.</p><ol class=\"plain\">";
+    parts.forEach(function (pt) { h += "<li style=\"margin-bottom:10px\"><strong>" + esc(pt[0]) + "</strong> <span class=\"small\">· " + pt[1] + "</span><br>" + esc(pt[2]) + "</li>"; });
+    h += "</ol></details>";
+    h += "<details class=\"more yours\"><summary>Your top 5</summary><ol class=\"plain\">";
     t.top5.forEach(function (g) { h += "<li>" + esc(g) + "</li>"; });
     h += "</ol></details>";
 
