@@ -81,7 +81,7 @@ function handleConfig(env) {
   return json({
     success: true,
     open: podOpen(env),
-        checks: { switchOn: env.POD_OPEN === "true", keyPresent: !!env.PAYSTACK_SECRET_KEY },
+    checks: { switchOn: env.POD_OPEN === "true", keyPresent: !!env.PAYSTACK_SECRET_KEY },
     plans: Object.entries(PLANS).map(([id, p]) => ({ id, name: p.name, amount: p.amountKobo / 100, currency: p.currency })),
     vow: VOW
   });
@@ -148,14 +148,16 @@ async function handleJoin(request, env, url) {
   }
 }
 
-/* GET /api/pod/verify?reference=... */
+/* GET /api/pod/verify?reference=...&token=... */
+const CLAIM_WINDOW_MS = 30 * 60 * 1000; // the return link opens the POD only within 30 minutes of payment
+
 async function handleVerify(request, env, url) {
   if (request.method !== "GET") return new Response("Method Not Allowed", { status: 405 });
   const reference = String(url.searchParams.get("reference") || "").trim().slice(0, 40);
   if (!/^POD-[0-9A-F]{16}$/.test(reference)) return json({ success: false, error: "Unknown payment reference." }, 400);
 
   try {
-    const payment = await env.DB.prepare("SELECT * FROM pod_payments WHERE reference = ?").bind(reference).first();
+    let payment = await env.DB.prepare("SELECT * FROM pod_payments WHERE reference = ?").bind(reference).first();
     if (!payment) return json({ success: false, error: "Unknown payment reference." }, 404);
 
     if (payment.status !== "success") {
@@ -163,10 +165,21 @@ async function handleVerify(request, env, url) {
         headers: { Authorization: "Bearer " + env.PAYSTACK_SECRET_KEY }
       });
       const body = await res.json().catch(() => null);
-      if (res.ok && body?.status && body.data) await markPaid(env, payment, body.data);
+      if (res.ok && body?.status && body.data && await markPaid(env, payment, body.data)) {
+        payment = await env.DB.prepare("SELECT * FROM pod_payments WHERE reference = ?").bind(reference).first();
+      }
     }
 
     const p = await env.DB.prepare("SELECT * FROM pod_participants WHERE id = ?").bind(payment.participant_id).first();
+    const sameDevice = url.searchParams.get("token") === p.token;
+    const justPaid = payment.verified_at && Date.now() - Date.parse(payment.verified_at) < CLAIM_WINDOW_MS;
+    if (p.paid_at && !sameDevice && !justPaid) {
+      return json({
+        success: false,
+        restore: true,
+        error: "For your security, this link has expired. Use \"Restore my access\" with your email and the reference on your Paystack receipt."
+      }, 403);
+    }
     return json({ success: true, token: p.token, state: publicState(p) });
   } catch (error) {
     return json({ success: false, error: "We could not confirm your payment yet. Please refresh in a moment." }, 500);
