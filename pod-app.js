@@ -5,6 +5,9 @@
   var REF_KEY = "podReference";
   var config = null;
 
+    // Coming back with the browser's back arrow shows a frozen copy of the page; reload it instead.
+  window.addEventListener("pageshow", function (e) { if (e.persisted) window.location.reload(); });
+
   function $(id) { return document.getElementById(id); }
 
   function store(key, value) {
