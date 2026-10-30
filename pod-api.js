@@ -1,4 +1,5 @@
 /* ---------------- The POD: entry, payment and preparation ---------------- */
+import { handleTrackerRoutes } from "./pod-tracker.js";
 
 const PLANS = {
   "pod-founding": { name: "The POD (founding cohort)", amountKobo: 3000000, currency: "NGN" }
@@ -304,5 +305,5 @@ export async function handlePod(request, env, url) {
     case "/api/pod/mindprint": return handlePrep(request, env, "mindprint");
     case "/api/pod/vow": return handlePrep(request, env, "vow");
   }
-  return json({ success: false, error: "Not found." }, 404);
+   return handleTrackerRoutes(request, env, url);
 }
