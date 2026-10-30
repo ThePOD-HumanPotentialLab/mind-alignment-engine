@@ -4,49 +4,114 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Mind Alignment Index | The POD Human Potential Lab</title>
+<meta name="description" content="See what is growing in the garden of your mind. A free assessment across eight dimensions of how you think, choose and act.">
+<meta name="theme-color" content="#f8f4ea">
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<link rel="apple-touch-icon" href="/brand/icon-192.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preload" href="/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/garden.css">
+<script>(function(){var h=new Date().getHours();if(h>=18||h<5)document.documentElement.classList.add("night")})();</script>
+<script src="/garden-art.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}:root{--ink:#111827;--muted:#6b7280;--paper:#f7f7f4;--white:#fff;--accent:#b88a44;--accent-dark:#8d682f;--line:#e5e7eb}body{font-family:Inter,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6}.container{width:min(920px,92%);margin:auto}header{padding:28px 0;border-bottom:1px solid var(--line);background:#fff}.screen{min-height:calc(100vh - 90px);display:flex;align-items:center;padding:60px 0}.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(28px,6vw,60px);box-shadow:0 15px 50px rgba(0,0,0,.05);width:100%}.eyebrow{color:var(--accent-dark);font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}h1{font-size:clamp(38px,7vw,70px);line-height:1.02;margin-bottom:22px;letter-spacing:-.04em}h2{font-size:clamp(28px,5vw,44px);line-height:1.1;margin-bottom:18px}h3{margin-bottom:10px}.lead{font-size:19px;color:var(--muted);max-width:680px;margin-bottom:24px}.btn{display:inline-block;border:none;border-radius:999px;padding:15px 25px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px);background:#000}.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--ink)}.hidden{display:none!important}.progress-wrap{margin-bottom:35px}.progress-info{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}.progress{height:7px;background:#eee;border-radius:99px;overflow:hidden}.progress-bar{height:100%;width:0;background:var(--accent);transition:width .3s}.question-number{color:var(--accent-dark);font-weight:800;margin-bottom:12px}.question{font-size:clamp(25px,4vw,38px);line-height:1.2;margin-bottom:28px}.options{display:grid;gap:12px}.option{padding:18px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font-size:16px;text-align:left;transition:.2s}.option:hover{border-color:var(--accent);transform:translateX(3px)}.option.selected{border-color:var(--accent);background:#faf5ec}.nav{display:flex;justify-content:space-between;margin-top:25px;gap:12px}.score{font-size:80px;font-weight:900;line-height:1;color:var(--accent-dark);margin:15px 0}.score-label{color:var(--muted);margin-bottom:25px}.dimensions{display:grid;gap:14px;margin:30px 0}.dimension{border:1px solid var(--line);border-radius:14px;padding:16px}.dimension-top{display:flex;justify-content:space-between;margin-bottom:8px;font-weight:700}.dimension-bar{height:8px;background:#eee;border-radius:99px;overflow:hidden}.dimension-fill{height:100%;background:var(--accent)}.dimension-meta{color:var(--muted);font-size:13px;margin-top:7px}.dimension-insight{margin-top:14px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:15px;line-height:1.7;white-space:pre-line}.pattern{background:#f7f2e9;border-left:4px solid var(--accent);padding:20px;margin:25px 0;border-radius:10px}.pattern .small-title{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-dark);margin-bottom:6px}.pattern p{margin-bottom:10px}.capture{margin-top:35px;padding-top:30px;border-top:1px solid var(--line)}input{width:100%;padding:16px;border:1px solid var(--line);border-radius:10px;font-size:16px;margin:8px 0 14px}.small{color:var(--muted);font-size:13px}.notice{padding:14px 16px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:13px;margin-top:20px}footer{text-align:center;padding:30px;color:var(--muted);font-size:13px}@media(max-width:600px){.screen{padding:30px 0}.card{border-radius:18px;padding:25px}.score{font-size:65px}.nav{flex-direction:column-reverse}.nav .btn{width:100%}}
+.screen{padding:4px 0 10px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.pills span{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--sage-text);background:var(--card)}
+.progress-wrap{display:flex;align-items:flex-end;gap:12px;margin-bottom:24px}
+.progress-wrap .grow{flex:1}
+.progress-info{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px}
+.progress{height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:var(--sage);transition:width .5s ease}
+.question-number{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-text);font-weight:600;margin-bottom:10px}
+.question{font-family:var(--serif-display);font-weight:500;font-size:clamp(27px,6.5vw,36px);line-height:1.2;color:var(--ink);margin-bottom:22px}
+.options{display:grid;gap:10px}
+.option{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--text);cursor:pointer;font:16px/1.5 var(--sans);text-align:left;min-height:56px;transition:border-color .25s,background .25s,transform .25s}
+.option:hover{border-color:var(--gold)}
+.option.selected{border-color:var(--gold);background:var(--reply);box-shadow:inset 3px 0 0 var(--gold)}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
+.score-line{font-size:14px;color:var(--muted);margin:-4px 0 6px}
+.score-line strong{font-family:var(--serif-display);font-size:22px;color:var(--ink);font-weight:600}
+.pattern h3{margin-top:0}
+.pattern p{margin-bottom:10px}
+.dimension{border-top:1px solid var(--line)}
+.dimension:last-child{border-bottom:1px solid var(--line)}
+.dimension summary{list-style:none;cursor:pointer;padding:14px 2px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;min-height:56px}
+.dimension summary::-webkit-details-marker{display:none}
+.dimension .name{font-family:var(--serif-display);font-size:21px;color:var(--ink)}
+.dimension .val{font-weight:600;color:var(--ink)}
+.dimension-bar{grid-column:1 / -1;height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.dimension-fill{height:100%;background:var(--sage)}
+.dimension.low .dimension-fill{background:var(--gold)}
+.dimension-meta{grid-column:1 / -1;color:var(--muted);font-size:12px}
+.dimension-insight{padding:0 2px 16px;color:var(--text);font-family:var(--serif);font-size:18px;line-height:1.6;white-space:pre-line}
+.dimension[open]{background:linear-gradient(var(--panel),transparent)}
+#flower .petal:focus{outline:none}
+#flower .petal:focus path:first-child,#flower .petal:hover path:first-child{stroke-width:2.4}
+@media(max-width:600px){.nav{flex-direction:column-reverse}.nav .btn{width:100%}}
 </style>
 </head>
 <body>
-<header><div class="container"><div style="text-align:center"><img src="/pod-logo.png" alt="The POD Human Potential Lab" style="width:130px;height:auto;display:block;margin:0 auto"></div></div></header>
-<main>
-<section id="intro" class="screen"><div class="container"><div class="card">
-<div class="eyebrow">The Mind Alignment Index · V2</div>
-<h1>How aligned is the mind that is creating your life?</h1>
-<p class="lead">This assessment explores eight dimensions of how you think, see yourself, regulate emotion, choose direction, take ownership, act, relate and develop.</p>
-<p class="lead">There are no perfect answers. Choose the response that most closely describes how you <strong>usually operate</strong>, not how you think you should operate.</p>
-<button class="btn" onclick="startAssessment()">Begin Assessment →</button>
-<p class="small" style="margin-top:18px">32 questions · Approximately 8–10 minutes</p>
-<div class="notice">Your result is a developmental indicator based on the current POD scoring model. It is not a clinical diagnosis or a measure of your worth or potential.</div>
-</div></div></section>
-<section id="assessment" class="screen hidden"><div class="container"><div class="card">
-<div class="progress-wrap"><div class="progress-info"><span id="progressText">Question 1 of 32</span><span id="percent">0%</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div></div>
-<div id="questionNumber" class="question-number"></div><div id="questionText" class="question"></div><div id="options" class="options"></div>
-<div class="nav"><button class="btn secondary" onclick="previousQuestion()">← Back</button><button id="nextButton" class="btn" onclick="nextQuestion()" disabled>Continue →</button></div>
-</div></div></section>
-<section id="results" class="screen hidden"><div class="container"><div class="card">
-<div class="eyebrow">Your Mind Alignment Profile</div><h2>Your Mind Alignment Index</h2><div id="overallScore" class="score">0</div><div class="score-label">out of 100</div>
-<div id="summary"></div>
-<div class="pattern"><div class="small-title">Primary pattern</div><h3 id="primaryPatternTitle"></h3><p id="primaryPatternText"></p><p><strong>POD practice:</strong> <span id="primaryPatternPractice"></span></p></div>
-<div id="secondaryPattern" class="pattern hidden"><div class="small-title">Secondary pattern</div><h3 id="secondaryPatternTitle"></h3><p id="secondaryPatternText"></p><p><strong>POD practice:</strong> <span id="secondaryPatternPractice"></span></p></div>
-<h3>Alignment across eight dimensions</h3><div id="dimensions" class="dimensions"></div>
-<div id="prescriptionBox" class="pattern">
-  <div class="small-title">Your Recommended Next Step</div>
-  <h3 id="prescriptionProduct"></h3>
-  <p id="prescriptionFocus"></p>
-  <p><strong>Try This</strong><br><span id="prescriptionPractice"></span></p>
-  <p><strong>You’ll Know It’s Working When</strong><br><span id="prescriptionSuccess"></span></p>
-  <p><strong>Where This Leads</strong><br><span id="prescriptionNextStep"></span></p>
-  <p class="small" style="margin-top:16px"><strong>7-Day Measure:</strong> <span id="prescriptionMetric"></span></p>
-  <p class="small" id="prescriptionFooter"></p>
-    <a id="resetCta" class="btn hidden" href="/reset" style="text-decoration:none;text-align:center;margin-top:8px">Start Your 7-Day Mind Reset →</a>
-</div>
-<div class="notice">The patterns above describe relationships within your response profile. They are developmental interpretations, not diagnoses.</div>
-<div class="capture"><h3>Save your profile</h3><p class="small">Enter your details to save this assessment result.</p><input id="name" type="text" placeholder="Your name"><input id="email" type="email" placeholder="Your email address"><button class="btn" onclick="saveLead()">Save My Profile →</button><p id="leadMessage" class="small" style="margin-top:15px"></p></div>
-</div></div></section>
-</main><footer>© The POD Human Potential Lab · Mind Alignment Engine</footer>
+<header class="topbar"><a class="brand" href="/"><img class="logo-day" src="/brand/logo-horizontal.png" alt="The POD Human Potential Lab"><img class="logo-night" src="/brand/logo-horizontal-cream.png" alt="The POD Human Potential Lab"></a><div class="context">Mind Alignment Index</div></header>
+<main class="wrap">
 
+<section id="intro" class="screen fade">
+  <div data-art="seed" style="min-height:150px"></div>
+  <div class="eyebrow center">The Mind Alignment Index</div>
+  <h1 class="center">See what is growing in the garden of your mind.</h1>
+  <p class="lead center">Thirty-two honest questions across eight dimensions of how you think, choose and act.</p>
+  <div class="card">
+    <div class="pills"><span>Thought</span><span>Identity</span><span>Emotion</span><span>Intention</span><span>Ownership</span><span>Execution</span><span>Relationships</span><span>Growth</span></div>
+    <p>There are no perfect answers. Choose the response that most closely describes how you <em>usually</em> operate, not how you think you should.</p>
+    <button class="btn" onclick="startAssessment()">Begin the assessment <span aria-hidden="true">→</span></button>
+    <p class="small" style="margin-top:14px">32 questions · about 8 to 10 minutes · free</p>
+  </div>
+  <p class="notice">Your result is a developmental indicator based on the current POD scoring model. It is not a clinical diagnosis or a measure of your worth or potential.</p>
+</section>
+
+<section id="assessment" class="screen hidden">
+  <div class="card">
+    <div class="progress-wrap"><div id="stemArt" aria-hidden="true"></div><div class="grow"><div class="progress-info"><span id="progressText">Question 1 of 32</span><span id="percent">0%</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div></div></div>
+    <div id="questionNumber" class="question-number"></div><div id="questionText" class="question"></div><div id="options" class="options"></div>
+    <div class="nav"><button class="btn ghost" onclick="previousQuestion()">← Back</button><button id="nextButton" class="btn" onclick="nextQuestion()" disabled>Continue →</button></div>
+  </div>
+</section>
+
+<section id="results" class="screen hidden">
+  <div class="eyebrow center">Your Mind Alignment Profile</div>
+  <h2 class="center">Your garden today</h2>
+  <p class="lead center" style="font-size:19px">Each petal is one of your eight dimensions. The longer the petal, the stronger it grows. Petals in gold are where growth is most needed.</p>
+  <div id="flower"></div>
+  <p class="score-line center">Your Mind Alignment Index: <strong id="overallScore">0</strong> out of 100</p>
+  <div id="summary" class="center"></div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="pattern"><div class="label" style="color:var(--gold-text);margin-top:0">Primary pattern</div><h3 id="primaryPatternTitle"></h3><p id="primaryPatternText"></p><p><strong>POD practice:</strong> <span id="primaryPatternPractice"></span></p></div>
+    <div id="secondaryPattern" class="pattern hidden"><div class="ornament"></div><div class="label" style="color:var(--gold-text);margin-top:0">Secondary pattern</div><h3 id="secondaryPatternTitle"></h3><p id="secondaryPatternText"></p><p><strong>POD practice:</strong> <span id="secondaryPatternPractice"></span></p></div>
+    <div id="prescriptionBox">
+      <div class="ornament"></div>
+      <div class="label" style="margin-top:0">Your recommended next step</div>
+      <h3 id="prescriptionProduct"></h3>
+      <p id="prescriptionFocus"></p>
+      <a id="resetCta" class="btn hidden" href="/reset" style="margin:4px 0 16px">Start your 7-Day Mind Reset <span aria-hidden="true">→</span></a>
+      <details class="more"><summary>The practice, and how you will know it is working</summary>
+        <p><strong>Try this</strong><br><span id="prescriptionPractice"></span></p>
+        <p><strong>You will know it is working when</strong><br><span id="prescriptionSuccess"></span></p>
+        <p><strong>Where this leads</strong><br><span id="prescriptionNextStep"></span></p>
+        <p class="small"><strong>7-day measure:</strong> <span id="prescriptionMetric"></span></p>
+      </details>
+      <p class="small" id="prescriptionFooter"></p>
+    </div>
+  </div>
+
+  <div class="label" style="margin-top:30px">Your eight dimensions</div>
+  <p class="small" style="margin-bottom:8px">Tap a petal above, or a dimension below, to read what it means for you.</p>
+  <div id="dimensions" class="dimensions"></div>
+  <p class="notice">The patterns above describe relationships within your response profile. They are developmental interpretations, not diagnoses.</p>
+
+  <div class="card capture" style="margin-top:24px"><h3 style="margin-top:0">Save your profile</h3><p class="small">Enter your details to keep this result.</p><input id="name" type="text" placeholder="Your name" autocomplete="name"><input id="email" type="email" placeholder="Your email address" autocomplete="email"><button class="btn" onclick="saveLead()">Save my profile <span aria-hidden="true">→</span></button><p id="leadMessage" class="small" style="margin-top:15px"></p></div>
+</section>
+</main>
+<footer class="site-footer"><img src="/brand/logo-full.png" alt="The POD Human Potential Lab, POD Consulting Ltd">© The POD Human Potential Lab · Mind Alignment Index</footer>
 
 <script src="/pod-prescription-engine-v1.js"></script>
 <script src="/pod-prescription-data-v2-mahpp.js"></script>
@@ -887,12 +952,13 @@ function startAssessment(){
 }
 function renderQuestion(){
  const q=questions[currentQuestion];
- document.getElementById("questionNumber").textContent=`QUESTION ${currentQuestion+1}`;
+ document.getElementById("questionNumber").textContent=`Question ${currentQuestion+1}`;
  document.getElementById("questionText").textContent=q.text;
  document.getElementById("progressText").textContent=`Question ${currentQuestion+1} of ${questions.length}`;
  const pct=Math.round(((currentQuestion+1)/questions.length)*100);
  document.getElementById("percent").textContent=`${pct}%`;
  document.getElementById("progressBar").style.width=`${pct}%`;
+ if(window.GardenArt) document.getElementById("stemArt").innerHTML=window.GardenArt.stem(pct);
  const options=document.getElementById("options"); options.innerHTML="";
  q.options.forEach((option,index)=>{
    const button=document.createElement("button"); button.className="option"; button.textContent=option.text;
@@ -900,7 +966,7 @@ function renderQuestion(){
    button.onclick=()=>selectOption(index); options.appendChild(button);
  });
  document.getElementById("nextButton").disabled=answers[currentQuestion]===undefined;
- document.getElementById("nextButton").textContent=currentQuestion===questions.length-1?"See My Results →":"Continue →";
+ document.getElementById("nextButton").textContent=currentQuestion===questions.length-1?"See my results →":"Continue →";
 }
 function selectOption(index){
  answers[currentQuestion]=index;
@@ -986,9 +1052,8 @@ function showResults(result){
   document.getElementById("overallScore").textContent=result.overall;
 
   document.getElementById("summary").innerHTML=`
-    <p class="lead">
-      Your Mind Alignment Index summarizes your responses across the eight POD dimensions using the current POD scoring model.
-      The most useful part of the result is the pattern within your profile, not the number by itself.
+    <p class="small" style="max-width:520px;margin:0 auto">
+      The index summarises your responses across the eight POD dimensions. The most useful part of the result is the pattern within your profile, not the number by itself.
     </p>
   `;
 
@@ -1082,27 +1147,29 @@ function showResults(result){
       insight=dimensionGuidance[d][2];
     }
 
+    const low=deviation<=-8;
     box.innerHTML+=`
-      <div class="dimension">
-        <div class="dimension-top">
-          <span>${d}</span>
-          <span>${score}</span>
-        </div>
-
-        <div class="dimension-bar">
-          <div class="dimension-fill" style="width:${score}%"></div>
-        </div>
-
-        <div class="dimension-meta">
-          ${relation} · ${deviation>0?"+":""}${deviation.toFixed(1)} vs your profile mean
-        </div>
-
-        <div class="dimension-insight">
-          ${insight}
-        </div>
-      </div>
+      <details class="dimension${low?" low":""}" id="dim-${dimensions.indexOf(d)}">
+        <summary>
+          <span class="name">${d}</span>
+          <span class="val">${score}</span>
+          <span class="dimension-bar"><span class="dimension-fill" style="display:block;width:${score}%"></span></span>
+          <span class="dimension-meta">${relation} · ${deviation>0?"+":""}${deviation.toFixed(1)} against your own average</span>
+        </summary>
+        <div class="dimension-insight">${insight}</div>
+      </details>
     `;
   });
+
+  if(window.GardenArt){
+    const shortNames={"Thought":"Thought","Identity":"Identity","Emotional Regulation":"Emotion","Intentionality":"Intention","Ownership":"Ownership","Execution":"Execution","Relational Alignment":"Relationships","Potential / Growth Orientation":"Growth"};
+    const flowerBox=document.getElementById("flower");
+    flowerBox.innerHTML=window.GardenArt.flower(dimensions.map(d=>[shortNames[d]||d,result.scores[d]]),result.overall);
+    flowerBox.querySelectorAll(".petal").forEach(p=>{
+      const open=()=>{const el=document.getElementById("dim-"+p.dataset.i); if(el){el.open=true; el.scrollIntoView({behavior:"smooth",block:"center"});}};
+      p.addEventListener("click",open); p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}});
+    });
+  }
 
   const sorted=dimensions
     .map(d=>({d,dev:result.deviations[d]}))
@@ -1179,7 +1246,7 @@ profile.recommendationStage = recommendationStage;
 profile.recommendationReason = recommendationReason;
 profile.recommendationCTA = recommendationCTA;
 
-  localStorage.setItem("mindAlignmentLead",JSON.stringify(profile));   localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); const saveButton=document.querySelector(".capture .btn"); if(saveButton.dataset.saved==="1"){message.textContent="Your profile has already been saved.";return;} saveButton.disabled=true; message.textContent="Saving your profile...";
+  localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); const saveButton=document.querySelector(".capture .btn"); if(saveButton.dataset.saved==="1"){message.textContent="Your profile has already been saved.";return;} saveButton.disabled=true; message.textContent="Saving your profile...";
  try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");saveButton.dataset.saved="1";message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){saveButton.disabled=false;message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
 }
 </script>

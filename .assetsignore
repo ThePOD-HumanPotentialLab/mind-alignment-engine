@@ -3,3 +3,5 @@
 .assetsignore
 wrangler.jsonc
 worker.js
+pod-api.js
+pod-tracker.js

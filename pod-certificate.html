@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Certificate and Declaration | The POD Human Potential Lab</title>
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<style>
+@font-face{font-family:"Cormorant Garamond";font-weight:500;font-display:swap;src:url(/fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-weight:500;font-style:italic;font-display:swap;src:url(/fonts/cormorant-garamond-latin-500-italic.woff2) format("woff2")}
+@font-face{font-family:"Cormorant Garamond";font-weight:600;font-display:swap;src:url(/fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:400;font-display:swap;src:url(/fonts/inter-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:Inter;font-weight:600;font-display:swap;src:url(/fonts/inter-latin-600-normal.woff2) format("woff2")}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#2b2a26;--muted:#77736a;--paper:#fdfaf3;--gold:#b0874a;--gold-soft:#d9c29a;--sage:#55684f;--bg1:#f6f1e7;--bg2:#e9efe6}
+body{font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));min-height:100vh}
+.bar{max-width:820px;margin:24px auto 18px;padding:0 16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.bar a{color:var(--sage);font-size:14px}
+.btn{border:none;border-radius:999px;padding:13px 24px;background:#3f4a3c;color:#f6f1e7;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.msg{max-width:620px;margin:40px auto;padding:32px;background:rgba(255,255,255,.75);border:1px solid #e3ddd0;border-radius:24px;text-align:center;line-height:1.7}
+.msg h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:34px;margin-bottom:10px}
+.sheet{container-type:inline-size;width:min(820px,calc(100% - 32px));aspect-ratio:210/297;margin:0 auto 28px;background:var(--paper);position:relative;box-shadow:0 20px 60px rgba(60,55,40,.12);overflow:hidden}
+.frame{position:absolute;inset:3.2cqw;border:.35cqw solid var(--gold);}
+.frame::after{content:"";position:absolute;inset:.9cqw;border:.12cqw solid var(--gold-soft)}
+.sprig{position:absolute;width:15cqw;height:15cqw;opacity:.85}
+.sprig.tl{top:1.6cqw;left:1.6cqw}.sprig.tr{top:1.6cqw;right:1.6cqw;transform:scaleX(-1)}
+.sprig.bl{bottom:1.6cqw;left:1.6cqw;transform:scaleY(-1)}.sprig.br{bottom:1.6cqw;right:1.6cqw;transform:scale(-1,-1)}
+.inner{position:absolute;inset:9cqw 10cqw;display:flex;flex-direction:column;align-items:center;text-align:center}
+.logo{width:17cqw;height:auto;margin-bottom:.5cqw}
+.org{font-size:1.55cqw;letter-spacing:.42em;text-transform:uppercase;color:var(--sage);font-weight:600}
+.title{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:7.4cqw;line-height:1.05;margin:4cqw 0 1cqw}
+.sub{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:3.2cqw;color:var(--muted)}
+.rule{width:18cqw;height:.2cqw;background:var(--gold);margin:3.6cqw auto}
+.certifies{font-size:1.9cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.name{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:6.6cqw;margin:2.2cqw 0 2.6cqw;line-height:1.1}
+.body{font-family:"Cormorant Garamond",Georgia,serif;font-size:2.75cqw;line-height:1.5;max-width:62cqw}
+.seal{width:15cqw;height:15cqw;margin-top:auto}
+.foot{width:100%;display:flex;justify-content:space-between;align-items:flex-end;margin-top:3cqw}
+.sign{text-align:left}
+.sign .sig{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:4.2cqw;line-height:1}
+.sign .line{width:30cqw;height:.12cqw;background:var(--ink);margin:1cqw 0}
+.sign small,.ref small{font-size:1.45cqw;color:var(--muted);line-height:1.5;display:block}
+.ref{text-align:right;max-width:42cqw}
+.ref #cVerify{overflow-wrap:anywhere}
+.ref strong{font-size:1.6cqw;letter-spacing:.08em}
+.decl .inner{text-align:left;align-items:stretch;inset:9cqw 10.5cqw 8.5cqw}
+.decl .head{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:5cqw;line-height:1.1;margin:0 0 2.4cqw}
+.decl p{font-family:"Cormorant Garamond",Georgia,serif;font-size:2.4cqw;line-height:1.5;margin-bottom:1.6cqw}
+.decl .k{font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:1.4cqw;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:600;margin:1.8cqw 0 .8cqw}
+.decl ol{font-family:"Cormorant Garamond",Georgia,serif;font-size:2.35cqw;line-height:1.42;margin:0 0 1.2cqw 4cqw}
+.decl ul{list-style:none;font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-size:2.3cqw;line-height:1.42;margin-bottom:.6cqw}
+.decl ul li::before{content:"— ";color:var(--gold)}
+.decl .is{font-size:2.6cqw;font-weight:500;margin-top:1cqw}
+.decl .closing{margin-top:auto;margin-bottom:0;text-align:center;border-top:.12cqw solid var(--gold-soft);padding-top:2cqw;font-style:italic;font-size:2.6cqw}
+.decl .closing small{display:block;font-style:normal;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:1.4cqw;color:var(--muted);margin-top:.6cqw}
+.hidden{display:none!important}
+@page{size:A4;margin:0}
+@media print{
+  body{background:none}
+  .bar,.msg{display:none!important}
+  .sheet{width:210mm;height:297mm;aspect-ratio:auto;margin:0;box-shadow:none;page-break-after:always;break-after:page}
+  .sheet:last-of-type{page-break-after:auto;break-after:auto}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="bar hidden" id="bar">
+  <a href="/pod">← Back to my POD</a>
+  <button class="btn" onclick="window.print()">Print or save as PDF</button>
+</div>
+
+<div class="msg" id="msg"><p>One moment…</p></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="sprig" fill="none" stroke="#b0874a" stroke-width="1.4" stroke-linecap="round">
+      <path d="M8 92 C 30 70, 52 48, 92 8"/>
+      <path d="M30 70 C 22 58, 26 46, 38 44 C 40 56, 36 64, 30 70 Z" fill="#d9c29a" fill-opacity=".45"/>
+      <path d="M30 70 C 42 78, 54 74, 56 62 C 44 60, 36 64, 30 70 Z" fill="#d9c29a" fill-opacity=".45"/>
+      <path d="M52 48 C 46 36, 52 24, 64 24 C 64 36, 58 44, 52 48 Z" fill="#d9c29a" fill-opacity=".45"/>
+      <path d="M52 48 C 64 56, 76 52, 76 40 C 64 38, 56 42, 52 48 Z" fill="#d9c29a" fill-opacity=".45"/>
+      <path d="M72 28 C 70 20, 74 14, 82 14 C 82 22, 78 26, 72 28 Z" fill="#d9c29a" fill-opacity=".45"/>
+      <circle cx="92" cy="8" r="2.4" fill="#b0874a"/>
+    </g>
+  </defs>
+</svg>
+
+<section class="sheet hidden" id="cert">
+  <div class="frame"></div>
+  <svg class="sprig tl" viewBox="0 0 100 100"><use href="#sprig"/></svg>
+  <svg class="sprig tr" viewBox="0 0 100 100"><use href="#sprig"/></svg>
+  <svg class="sprig bl" viewBox="0 0 100 100"><use href="#sprig"/></svg>
+  <svg class="sprig br" viewBox="0 0 100 100"><use href="#sprig"/></svg>
+  <div class="inner">
+       <img class="logo" src="/pod-logo-gold.png" alt="The POD Human Potential Lab">
+    <div class="title">Certificate of Completion</div>
+    <div class="sub">The Personal Optimization Drill</div>
+    <div class="rule"></div>
+    <div class="certifies">This certifies that</div>
+    <div class="name" id="cName"></div>
+    <p class="body" id="cBody"></p>
+    <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="60" cy="60" r="56" fill="none" stroke="#b0874a" stroke-width="2"/>
+      <circle cx="60" cy="60" r="48" fill="none" stroke="#d9c29a" stroke-width="1"/>
+      <defs><path id="sealArc" d="M60 60 m-40 0 a40 40 0 1 1 80 0 a40 40 0 1 1 -80 0"/></defs>
+      <text font-family="Inter, Arial, sans-serif" font-size="8.2" letter-spacing="2.4" fill="#55684f" font-weight="600"><textPath href="#sealArc">TWENTY-ONE DAYS · UNBROKEN · WALK THE LAW ·</textPath></text>
+      <text x="60" y="70" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="30" fill="#b0874a" font-weight="600">21</text>
+    </svg>
+    <div class="foot">
+      <div class="sign">
+        <div class="sig">Josh Ochu</div>
+        <div class="line"></div>
+        <small>Josh Ochu, Founder &amp; CEO<br>The POD Human Potential Lab</small>
+      </div>
+      <div class="ref">
+        <small>Certificate number</small>
+        <strong id="cNo"></strong>
+        <small id="cVerify"></small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sheet decl hidden" id="decl">
+  <div class="frame"></div>
+  <svg class="sprig tl" viewBox="0 0 100 100"><use href="#sprig"/></svg>
+  <svg class="sprig br" viewBox="0 0 100 100"><use href="#sprig"/></svg>
+  <div class="inner">
+    <div class="org" style="margin-bottom:3cqw">The Declaration</div>
+    <div class="head" id="dHead"></div>
+    <p>For twenty-one days you kept the hour. You judged yourself fairly, you saw your future in your own hand, you fed your mind with knowledge, and you sat alone with God. You have proven that your word to yourself is good.</p>
+    <p>These are the goals you wrote in your own hand. You are no longer only writing them. You are becoming the person who lives them:</p>
+    <ol id="dGoals"></ol>
+    <div id="dSawWrap"><div class="k">What you saw in yourself</div><ul id="dSaw"></ul></div>
+    <div id="dCarryWrap"><div class="k">What you carried</div><ul id="dCarry"></ul></div>
+    <p class="is">This is who you are: a person who keeps the hour. A person who plants deliberately and tends what is planted. A person who walks the law.</p>
+    <p class="closing" id="dClosing"></p>
+  </div>
+</section>
+
+<script>
+(function () {
+  var CLOSINGS = {
+    Christian: ["“Establish thou the work of our hands upon us.”", "Psalm 90:17, King James Version"],
+    Islamic: ["“Tie your camel, and trust in Allah.”", "Narrated by al-Tirmidhi"],
+    Neutral: ["“What you repeat, you become. Keep the hour.”", "The POD Human Potential Lab"]
+  };
+  function $(id) { return document.getElementById(id); }
+  function nice(date) {
+    return new Date(date + "T00:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+  }
+  function proper(name) {
+    var n = String(name || "").replace(/,/g, " ").replace(/\s+/g, " ").trim();
+    if (n === n.toUpperCase() || n === n.toLowerCase()) {
+      n = n.toLowerCase().replace(/(^|[\s'-])([a-z\u00C0-\u024F])/g, function (m, a, b) { return a + b.toUpperCase(); });
+    }
+    return n;
+  }
+  function list(id, items) {
+    var ol = $(id);
+    items.forEach(function (t) { var li = document.createElement("li"); li.textContent = t; ol.appendChild(li); });
+  }
+  function message(title, text) {
+    $("msg").innerHTML = "<h1></h1><p></p><p style=\"margin-top:16px\"><a href=\"/pod\">Go to the POD</a></p>";
+    $("msg").querySelector("h1").textContent = title;
+    $("msg").querySelector("p").textContent = text;
+  }
+
+  var params = new URLSearchParams(location.search);
+  var no = params.get("no");
+  if (no) {
+    fetch("/api/pod/certificate?no=" + encodeURIComponent(no)).then(function (r) { return r.json(); }).then(function (res) {
+      if (res.success && res.valid) {
+        message("This certificate is genuine.", proper(res.name) + " completed the Personal Optimization Drill, keeping the hour for twenty-one unbroken days, from " + nice(res.start) + " to " + nice(res.end) + ". Certificate number " + no.toUpperCase() + ".");
+      } else {
+        message("Certificate not found.", "We could not find a completed certificate with the number " + no + ". Please check the number and try again.");
+      }
+    }).catch(function () { message("Please try again.", "We could not check this certificate right now."); });
+    return;
+  }
+
+  var token = null;
+  try { token = localStorage.getItem("podToken"); } catch (e) {}
+  if (!token) return message("Open your POD first.", "Your certificate is available on the device you use for the POD.");
+
+  fetch("/api/pod/certificate?token=" + encodeURIComponent(token)).then(function (r) { return r.json(); }).then(function (res) {
+    if (!res.success) return message("Not yet.", res.error || "The certificate opens when you complete Day 21.");
+    var c = res.certificate;
+    var name = proper(c.name);
+    $("cName").textContent = name;
+    $("cBody").textContent = "kept the hour in unbroken silence, with pen and paper, for twenty-one consecutive days, from " +
+      nice(c.start) + " to " + nice(c.end) + ", walking the laws of the mind under the method of Mind-Derived Optimization.";
+    $("cNo").textContent = c.certificateNo;
+    $("cVerify").textContent = "Verify at " + location.host + "/pod-certificate";
+    $("dHead").textContent = name + ", this is who you are.";
+    list("dGoals", c.top5);
+    if (c.saw.length) list("dSaw", c.saw.slice(0, 3)); else $("dSawWrap").classList.add("hidden");
+    if (c.carried.length) list("dCarry", c.carried.slice(0, 3)); else $("dCarryWrap").classList.add("hidden");
+    var cl = CLOSINGS[c.faithMode] || CLOSINGS.Neutral;
+    $("dClosing").innerHTML = "";
+    $("dClosing").appendChild(document.createTextNode(cl[0]));
+    var s = document.createElement("small"); s.textContent = cl[1]; $("dClosing").appendChild(s);
+    $("msg").classList.add("hidden");
+    $("bar").classList.remove("hidden");
+    $("cert").classList.remove("hidden");
+    $("decl").classList.remove("hidden");
+  }).catch(function () { message("Please try again.", "We could not load your certificate right now."); });
+})();
+</script>
+</body>
+</html>
