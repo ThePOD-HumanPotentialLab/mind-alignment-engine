@@ -14,7 +14,19 @@
     try { return localStorage.getItem(key); } catch (e) { return null; }
   }
 
+  var notYou = document.createElement("p");
+  notYou.className = "hidden";
+  notYou.style.cssText = "text-align:center;margin-top:18px";
+  notYou.innerHTML = "<button class=\"link\" id=\"notYou\">Not you? Start again</button>";
+  $("closed").parentNode.insertBefore(notYou, document.querySelector(".notice"));
+  $("notYou").addEventListener("click", function () {
+    store(TOKEN_KEY, null);
+    store(REF_KEY, null);
+    window.location.href = "/pod";
+  });
+
   function show(id) {
+    notYou.classList.toggle("hidden", ["unpaid", "assignment", "mindprint", "vowView", "ready"].indexOf(id) < 0);
     SECTIONS.forEach(function (s) { $(s).classList.toggle("hidden", s !== id); });
     window.scrollTo(0, 0);
   }
@@ -47,7 +59,8 @@
     if (!state.assignmentDeclared) return show("assignment");
     if (!state.mindprint) return show("mindprint");
     if (!state.vowTaken) return show("vowView");
-    var first = (state.name || "").split(" ")[0];
+    var first = ((state.name || "").trim().split(/[\s,]+/)[0] || "").replace(/[^A-Za-z\u00C0-\u024F'-]/g, "");
+    if (first) first = first.charAt(0).toUpperCase() + first.slice(1).toLowerCase();
     $("readyTitle").textContent = first ? "You are ready, " + first + "." : "You are ready.";
     $("readyHour").textContent = state.mindprint.chosenHour === "morning" ? "First thing in the morning, before the day begins." : "Last thing at night, as the final act of your day.";
     $("readyGoals").innerHTML = "";
@@ -76,7 +89,15 @@
 
   function verify(reference) {
     show("loading");
-    return api("/api/pod/verify?reference=" + encodeURIComponent(reference)).then(function (res) {
+    var token = read(TOKEN_KEY);
+    return api("/api/pod/verify?reference=" + encodeURIComponent(reference) + (token ? "&token=" + encodeURIComponent(token) : "")).then(function (res) {
+      history.replaceState(null, "", "/pod");
+      if (res.restore) {
+        store(REF_KEY, null);
+        startJoin();
+        $("recover").classList.remove("hidden");
+        return say("recMsg", res.error, true);
+      }
       if (!res.success) { show("unpaid"); return say("unpaidMsg", res.error, true); }
       store(TOKEN_KEY, res.token);
       if (res.state.paid) store(REF_KEY, null);
