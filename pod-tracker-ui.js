@@ -86,6 +86,8 @@
     if (!t.completed) h += "<span><strong>" + t.daysLeft + "</strong> days left in your window</span>";
     h += "</div>";
 
+    if (!t.completed && !t.ended) h += reminder(t);
+
     var morning = t.chosenHour === "morning";
     var parts = [
       ["Self-Judgment and Daily Goals", "10 min", morning ?
@@ -108,6 +110,59 @@
     wire(t);
   }
 
+  /* Daily reminder: a calendar event for each day that remains */
+  var CAL_TIME = "pod_reminder_time", CAL_ADDED = "pod_reminder_added";
+  function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+  function times(hour) {
+    var out = [], from = hour === "night" ? 36 : 8, to = hour === "night" ? 47 : 44; // half-hours
+    for (var i = from; i <= to; i++) {
+      var hh = Math.floor(i / 2), mm = i % 2 ? "30" : "00";
+      var label = ((hh + 11) % 12 + 1) + ":" + mm + (hh < 12 ? " am" : " pm");
+      out.push([(hh < 10 ? "0" : "") + hh + ":" + mm, label]);
+    }
+    return out;
+  }
+  function calLinks(t, time) {
+    var count = 21 - t.kept;
+    var ics = "/api/pod/calendar.ics?start=" + t.nextDate + "&count=" + count + "&hour=" + t.chosenHour + "&time=" + time;
+    var p = time.split(":"), startMs = Date.parse(t.nextDate + "T00:00:00Z") + (Number(p[0]) * 60 + Number(p[1])) * 60000 - 3600000;
+    var stamp = function (ms) { return new Date(ms).toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z"; };
+    var details = "Your hour of unbroken silence: pen and paper only.\nAfterwards, check in here: " + location.origin + "/pod\nCheck in by " + t.closes + ".";
+    var google = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      "&text=" + encodeURIComponent("The POD: keep your " + t.chosenHour + " hour") +
+      "&dates=" + stamp(startMs) + "/" + stamp(startMs + 3600000) +
+      "&ctz=Africa/Lagos&recur=" + encodeURIComponent("RRULE:FREQ=DAILY;COUNT=" + count) +
+      "&details=" + encodeURIComponent(details);
+    return { ics: ics, google: google };
+  }
+  function reminder(t) {
+    var opts = times(t.chosenHour);
+    var saved = store(CAL_TIME);
+    var time = opts.some(function (o) { return o[0] === saved; }) ? saved : (t.chosenHour === "night" ? "21:00" : "06:00");
+    var links = calLinks(t, time);
+    var h = "<details class=\"more yours\" id=\"remind\"" + (store(CAL_ADDED) ? "" : " open") + "><summary>Remind me every day</summary>";
+    h += "<p class=\"small\" style=\"margin:4px 0 10px\">Add your hour to your phone's calendar. You will get a reminder when your hour begins, and a last call two hours before your check-in closes. It covers the " +
+      (21 - t.kept) + " days that remain, from " + esc(nice(t.nextDate)) + ".</p>";
+    h += "<label class=\"label\" for=\"remTime\" style=\"display:block;margin-top:4px\">I will keep my hour at</label><select id=\"remTime\">";
+    opts.forEach(function (o) { h += "<option value=\"" + o[0] + "\"" + (o[0] === time ? " selected" : "") + ">" + o[1] + "</option>"; });
+    h += "</select>";
+    h += "<div class=\"row\" style=\"margin-top:4px\"><a class=\"btn\" id=\"remIcs\" href=\"" + esc(links.ics) + "\">iPhone or Apple Calendar</a>" +
+      "<a class=\"btn ghost\" id=\"remGoogle\" target=\"_blank\" rel=\"noopener\" href=\"" + esc(links.google) + "\">Google Calendar (Android)</a></div>";
+    h += "<p class=\"small\" style=\"margin-top:10px\">If you return to Day 1, come back here and add the new days. Then delete the old reminder in your calendar.</p>";
+    h += "</details>";
+    return h;
+  }
+  function wireReminder(t) {
+    if (!el("remind")) return;
+    var update = function () {
+      store(CAL_TIME, el("remTime").value);
+      var links = calLinks(t, el("remTime").value);
+      el("remIcs").href = links.ics; el("remGoogle").href = links.google;
+    };
+    el("remTime").onchange = update;
+    el("remIcs").onclick = el("remGoogle").onclick = function () { store(CAL_TIME, el("remTime").value); store(CAL_ADDED, "1"); };
+  }
+
   function say(text) {
     var m = el("ciMsg");
     if (m) { m.textContent = text || ""; m.classList.toggle("error", !!text); }
@@ -126,6 +181,7 @@
   }
 
   function wire(t) {
+    wireReminder(t);
     if (!el("checkin")) return;
     el("ciYes").onclick = function () { el("checkin").classList.add("hidden"); el("mirror").classList.remove("hidden"); el("mmSaw").focus(); };
     el("ciNo").onclick = function () { el("checkin").classList.add("hidden"); el("brokenConfirm").classList.remove("hidden"); };

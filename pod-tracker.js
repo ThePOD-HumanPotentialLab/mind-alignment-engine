@@ -300,8 +300,80 @@ async function handleCertificate(request, env, url) {
   }
 }
 
+/* GET /api/pod/calendar.ics?start=YYYY-MM-DD&count=N&hour=morning|night&time=HH:MM
+   A daily reminder for the days that remain. Holds no personal data, so it needs no token. */
+function icsStamp(ms) {
+  return new Date(ms).toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+}
+
+function icsText(s) {
+  return String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+}
+
+function handleCalendar(request, env, url) {
+  if (request.method !== "GET") return new Response("Method Not Allowed", { status: 405 });
+  const q = url.searchParams;
+  const start = q.get("start") || "";
+  const hour = q.get("hour") === "night" ? "night" : "morning";
+  const time = q.get("time") || "";
+  const count = Math.round(Number(q.get("count")));
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{2}:\d{2}$/.test(time) || !(count >= 1 && count <= DAYS)) {
+    return new Response("Invalid reminder request.", { status: 400 });
+  }
+  const [hh, mm] = time.split(":").map(Number);
+  const minutes = hh * 60 + mm;
+  const lo = hour === "night" ? 18 * 60 : 4 * 60, hi = hour === "night" ? 23 * 60 + 30 : 22 * 60;
+  if (mm % 30 !== 0 || minutes < lo || minutes > hi) return new Response("Invalid time.", { status: 400 });
+
+  // Lagos is UTC+1 all year, so a fixed UTC time repeats correctly every day.
+  const startMs = Date.parse(start + "T00:00:00Z") + minutes * 60000 - LAGOS_MS;
+  // A last call two hours before the check-in closes (midnight for morning, noon next day for night).
+  const closeMin = hour === "night" ? 36 * 60 : 24 * 60;
+  const lastCall = closeMin - 120 - minutes;
+  const origin = url.origin;
+  const label = hour === "night" ? "night" : "morning";
+  const desc = "Your hour of unbroken silence: pen and paper only.\nAfterwards, check in here: " + origin + "/pod\n" +
+    "Check in by " + (hour === "night" ? "12 noon the next day" : "midnight") + ".";
+
+  const lines = [
+    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//The POD Human Potential Lab//POD Reminder//EN",
+    "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:pod-" + start + "-" + hour + "-" + time.replace(":", "") + "-" + count + "@thepod",
+    "DTSTAMP:" + icsStamp(Date.now()),
+    "DTSTART:" + icsStamp(startMs),
+    "DTEND:" + icsStamp(startMs + 3600000),
+    "RRULE:FREQ=DAILY;COUNT=" + count,
+    "SUMMARY:" + icsText("The POD: keep your " + label + " hour"),
+    "DESCRIPTION:" + icsText(desc),
+    "URL:" + origin + "/pod",
+    "BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsText("Your POD hour begins now."), "TRIGGER:PT0M", "END:VALARM"
+  ];
+  if (lastCall >= 120) {
+    lines.push("BEGIN:VALARM", "ACTION:DISPLAY", "DESCRIPTION:" + icsText("Last call: check in to the POD before your window closes."),
+      "TRIGGER:PT" + lastCall + "M", "END:VALARM");
+  }
+  lines.push("END:VEVENT", "END:VCALENDAR");
+
+  // ICS lines must be at most 75 octets; fold longer ones.
+  const folded = lines.map(l => {
+    let out = "";
+    while (l.length > 73) { out += l.slice(0, 73) + "\r\n "; l = l.slice(73); }
+    return out + l;
+  }).join("\r\n") + "\r\n";
+
+  return new Response(folded, {
+    headers: {
+      "Content-Type": "text/calendar; charset=utf-8",
+      "Content-Disposition": "inline; filename=\"pod-reminder.ics\"",
+      "Cache-Control": "no-store"
+    }
+  });
+}
+
 export async function handleTrackerRoutes(request, env, url) {
   switch (url.pathname) {
+    case "/api/pod/calendar.ics": return handleCalendar(request, env, url);
     case "/api/pod/tracker": return handleTracker(request, env, url);
     case "/api/pod/checkin": return handleCheckin(request, env);
     case "/api/pod/certificate": return handleCertificate(request, env, url);
