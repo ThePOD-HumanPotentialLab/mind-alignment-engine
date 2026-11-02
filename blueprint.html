@@ -243,7 +243,7 @@ label.f small{font-weight:400;color:var(--muted)}
 
         <button class="btn" id="payBtn" type="submit">Reserve my seat</button>
         <div class="msg" id="msg" role="status"></div>
-        <div class="trust"><span>🔒 Secure payment by Paystack</span><span>Card, bank transfer or USSD</span><span>Receipt sent to your email</span></div>
+        <div class="trust" id="trust"><span>🔒 Secure payment by Paystack</span><span>Card, bank transfer or USSD</span><span>Receipt sent to your email</span></div>
       </form>
     </div>
 
@@ -260,9 +260,9 @@ label.f small{font-weight:400;color:var(--muted)}
       <details><summary>Where exactly is the venue?</summary><p id="venueFull">The venue is in Mabushi, Abuja. The full address and directions are sent to you as soon as you register.</p></details>
       <details><summary>How does the virtual option work?</summary><p>You join the full day live online. Your joining link and digital workbook are sent to your WhatsApp and email before the day.</p></details>
       <details><summary>What should I bring?</summary><p>Yourself, a pen and an honest year to review. Onsite participants receive a printed workbook. Virtual participants should have a notebook ready.</p></details>
-      <details><summary>Can I pay by bank transfer?</summary><p>Yes. Paystack's checkout lets you pay by card, bank transfer or USSD.</p></details>
+      <details><summary>How do I pay?</summary><p id="faqPay">Paystack's secure checkout lets you pay by card, bank transfer or USSD.</p></details>
       <details><summary>What if I can no longer attend?</summary><p>You can transfer your seat to someone else at any time; just tell us their name. Refunds are available up to 7 days before the event (until Saturday 21 November). After that we cannot refund, but your seat can still be transferred.</p></details>
-      <details><summary>Will I get a receipt?</summary><p>Yes. Paystack emails your receipt immediately, and your confirmation page shows your registration reference.</p></details>
+      <details><summary>Will I get a receipt?</summary><p id="faqReceipt">Yes. Paystack emails your receipt immediately, and your confirmation page shows your registration reference.</p></details>
     </div>
   </section>
 
@@ -312,9 +312,11 @@ label.f small{font-weight:400;color:var(--muted)}
     <div id="reserved" class="hidden">
       <div class="eyebrow center">Seat held</div>
       <h1 class="center">Almost there.</h1>
-      <p class="lead center">We are holding your seat. Send us a WhatsApp message and we will share payment details to confirm it.</p>
+      <p class="lead center" id="r-lead">We are holding your seat. Send us a WhatsApp message and we will share payment details to confirm it.</p>
       <div class="ticket"><dl><dt>Name</dt><dd id="r-name"></dd><dt>Format</dt><dd id="r-format"></dd><dt>Amount</dt><dd id="r-amount"></dd><dt>Reference</dt><dd id="r-ref"></dd></dl></div>
+      <div class="ticket hidden" id="bankBox"><dl><dt>Bank</dt><dd id="b-bank"></dd><dt>Account name</dt><dd id="b-name"></dd><dt>Account no.</dt><dd id="b-num"></dd><dt>Narration</dt><dd id="b-ref"></dd></dl></div>
       <div class="btns"><a class="btn" id="waReserve" target="_blank" rel="noopener">Complete payment on WhatsApp</a></div>
+      <p class="small center" style="margin-top:14px">Your seat is confirmed once your transfer is received. Keep this page or screenshot it.</p>
     </div>
 
     <div id="pending" class="hidden">
@@ -369,6 +371,11 @@ label.f small{font-weight:400;color:var(--muted)}
     if (!c.success) return;
     cfg = c;
     if (c.testMode) $("testbar").classList.remove("hidden");
+    if (!c.payments) {
+      $("trust").innerHTML = "<span>Pay by bank transfer</span><span>Seat held as soon as you register</span><span>Confirmed when payment arrives</span>";
+      $("faqPay").textContent = "Register on this page to hold your seat. You will then see our bank details. Transfer the amount and send your proof of payment on WhatsApp, and we confirm your seat.";
+      $("faqReceipt").textContent = "Yes. Once your transfer is confirmed, we send your receipt and confirmation on WhatsApp.";
+    }
     var early = c.tier === "early";
     ["onsite","virtual"].forEach(function(f){
       $("p-" + f).textContent = naira(c.prices[f].now);
@@ -463,7 +470,16 @@ label.f small{font-weight:400;color:var(--muted)}
       } else if (t.reserved) {
         $("r-name").textContent = t.name; $("r-format").textContent = t.formatLabel;
         $("r-amount").textContent = naira(t.amount); $("r-ref").textContent = t.reference;
-        $("waReserve").href = wa("Hello, I have reserved a seat at The 2027 Blueprint (" + t.formatLabel + ", " + naira(t.amount) + "). My reference is " + t.reference + ". Please send payment details.");
+        if (t.bank) {
+          $("r-lead").textContent = "We are holding your seat. Transfer the amount below, then send us your proof of payment on WhatsApp.";
+          $("b-bank").textContent = t.bank.bank; $("b-name").textContent = t.bank.accountName;
+          $("b-num").textContent = t.bank.accountNumber; $("b-ref").textContent = t.reference;
+          $("bankBox").classList.remove("hidden");
+          $("waReserve").textContent = "I've paid: send my proof on WhatsApp";
+          $("waReserve").href = wa("Hello, I have paid " + naira(t.amount) + " for The 2027 Blueprint (" + t.formatLabel + "). My reference is " + t.reference + ". My proof of payment is attached.");
+        } else {
+          $("waReserve").href = wa("Hello, I have reserved a seat at The 2027 Blueprint (" + t.formatLabel + ", " + naira(t.amount) + "). My reference is " + t.reference + ". Please send payment details.");
+        }
         $("reserved").classList.remove("hidden");
       } else {
         $("pending").classList.remove("hidden");

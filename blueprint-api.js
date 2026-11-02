@@ -11,6 +11,8 @@ const EVENT = {
   onsiteSeats: 50,
   // Participants' WhatsApp group invite. Shown only to paid registrants on their confirmation page.
   groupLink: "",
+  // Bank details for transfer payments (shown only after someone reserves a seat).
+  bank: { bank: "", accountName: "", accountNumber: "" },
   showSeatsLeftBelow: 15,
   formats: {
     onsite:  { label: "Onsite, Mabushi, Abuja", early: 11200000, standard: 14000000 },
@@ -84,7 +86,8 @@ function ticket(r) {
     amount: r.amount_kobo / 100,
     paid: r.status === "success",
     groupLink: r.status === "success" && EVENT.groupLink ? EVENT.groupLink : null,
-    reserved: r.status === "reserved"
+    reserved: r.status === "reserved",
+    bank: r.status === "reserved" && EVENT.bank.accountNumber ? EVENT.bank : null
   };
 }
 
@@ -209,6 +212,23 @@ async function handleVerify(env, url) {
   return json({ success: true, ticket: ticket(r) });
 }
 
+/* POST /api/blueprint/admin/mark-paid  {reference}  (Authorization: Bearer <BLUEPRINT_ADMIN_KEY>)
+   Confirms a bank-transfer reservation once the money has arrived. */
+async function handleMarkPaid(request, env) {
+  if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405 });
+  const key = env.BLUEPRINT_ADMIN_KEY;
+  const given = (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+  if (!key || given !== key) return json({ success: false, error: "Not authorised." }, 401);
+  await ensureTable(env);
+  const d = await readJson(request) || {};
+  const reference = clean(d.reference, 40).toUpperCase();
+  const r = await env.DB.prepare(
+    "UPDATE blueprint_registrations SET status = 'success', paid_at = COALESCE(paid_at, ?), channel = 'bank transfer (confirmed by admin)' WHERE reference = ? AND status IN ('reserved', 'initialized', 'failed')"
+  ).bind(new Date().toISOString(), reference).run();
+  if (!r.meta.changes) return json({ success: false, error: "No unpaid registration with that reference." }, 404);
+  return json({ success: true });
+}
+
 /* GET /api/blueprint/admin  (Authorization: Bearer <BLUEPRINT_ADMIN_KEY>)  ?format=csv */
 async function handleAdmin(request, env, url) {
   const key = env.BLUEPRINT_ADMIN_KEY;
@@ -255,6 +275,7 @@ export async function handleBlueprint(request, env, url) {
       case "/api/blueprint/register": return await handleRegister(request, env, url);
       case "/api/blueprint/verify": return await handleVerify(env, url);
       case "/api/blueprint/admin": return await handleAdmin(request, env, url);
+      case "/api/blueprint/admin/mark-paid": return await handleMarkPaid(request, env);
     }
     return json({ success: false, error: "Not found." }, 404);
   } catch (error) {

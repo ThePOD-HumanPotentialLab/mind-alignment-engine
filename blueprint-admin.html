@@ -33,7 +33,7 @@ th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-
     <div class="stats" id="stats"></div>
     <div class="row" style="margin:0 0 14px"><button class="btn" id="csv">Download CSV</button><button class="btn ghost" id="refresh">Refresh</button></div>
     <div class="tbl"><table><thead><tr><th>Status</th><th>Name</th><th>Format</th><th>Amount</th><th>WhatsApp</th><th>Email</th><th>Organisation</th><th>Role</th><th>Heard via</th><th>Registered</th><th>Reference</th></tr></thead><tbody id="rows"></tbody></table></div>
-    <p class="small" style="margin-top:10px">"Reserved" = seat held without card payment (confirm their transfer, then treat as paid). "Started" = opened Paystack but did not finish: worth a friendly follow-up call.</p>
+    <p class="small" style="margin-top:10px">"Reserved" = seat held, waiting for their bank transfer. When the money arrives, click "Mark paid". "Started" = opened Paystack but did not finish: worth a friendly follow-up call.</p>
   </section>
 </main>
 <script>
@@ -55,12 +55,19 @@ th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-
         var l = label[x.status] || [x.status, "no"];
         return "<tr><td class='" + l[1] + "'>" + l[0] + "</td><td>" + esc(x.name) + "</td><td>" + esc(x.format) + "</td><td>" + naira(x.amount) +
           "</td><td><a href='https://wa.me/" + esc(String(x.phone).replace(/\D/g, "").replace(/^0/, "234")) + "' target='_blank' rel='noopener'>" + esc(x.phone) + "</a></td><td>" + esc(x.email) +
-          "</td><td>" + esc(x.organisation) + "</td><td>" + esc(x.role) + "</td><td>" + esc(x.heard) + "</td><td>" + esc((x.created_at || "").slice(0, 16).replace("T", " ")) + "</td><td>" + esc(x.reference) + "</td></tr>";
+          "</td><td>" + esc(x.organisation) + "</td><td>" + esc(x.role) + "</td><td>" + esc(x.heard) + "</td><td>" + esc((x.created_at || "").slice(0, 16).replace("T", " ")) + "</td><td>" + esc(x.reference) + (x.status !== "success" ? " <button class='link' data-ref='" + esc(x.reference) + "'>Mark paid</button>" : "") + "</td></tr>";
       }).join("");
     });
   }
   $("login").addEventListener("submit", function(e){ e.preventDefault(); key = $("key").value.trim(); load(); });
   $("refresh").addEventListener("click", load);
+  $("rows").addEventListener("click", function(e){
+    var ref = e.target.getAttribute && e.target.getAttribute("data-ref"); if (!ref) return;
+    var row = e.target.closest("tr"), who = row ? row.children[1].textContent : ref;
+    if (!window.confirm("Confirm that payment from " + who + " (" + ref + ") has arrived in your account?")) return;
+    fetch("/api/blueprint/admin/mark-paid", { method: "POST", headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" }, body: JSON.stringify({ reference: ref }) })
+      .then(function(r){ return r.json(); }).then(function(r){ if (!r.success) alert(r.error || "Could not update."); load(); });
+  });
   $("csv").addEventListener("click", function(){
     fetch("/api/blueprint/admin?format=csv", { headers: { Authorization: "Bearer " + key } }).then(function(r){ return r.blob(); }).then(function(b){
       var a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "blueprint-2027-registrations.csv"; a.click();
