@@ -1,5 +1,7 @@
 /* ---------------- The POD: entry, payment and preparation ---------------- */
 import { handleTrackerRoutes } from "./pod-tracker.js";
+import { paystackKey, paystackBase, validWebhookSignature } from "./paystack.js";
+import { markBlueprintPaid } from "./blueprint-api.js";
 
 const PLANS = {
   "pod-founding": { name: "The POD (founding cohort)", amountKobo: 3000000, currency: "NGN" }
@@ -27,11 +29,7 @@ function randomHex(bytes) {
 }
 
 function podOpen(env) {
-  return env.POD_OPEN === "true" && !!env.PAYSTACK_SECRET_KEY;
-}
-
-function paystackBase(env) {
-  return env.PAYSTACK_API_BASE || "https://api.paystack.co";
+  return env.POD_OPEN === "true" && !!paystackKey(env);
 }
 
 function normalise(text) {
@@ -82,7 +80,7 @@ function handleConfig(env) {
   return json({
     success: true,
     open: podOpen(env),
-    checks: { switchOn: env.POD_OPEN === "true", keyPresent: !!env.PAYSTACK_SECRET_KEY },
+    checks: { switchOn: env.POD_OPEN === "true", keyPresent: !!paystackKey(env) },
     plans: Object.entries(PLANS).map(([id, p]) => ({ id, name: p.name, amount: p.amountKobo / 100, currency: p.currency })),
     vow: VOW
   });
@@ -129,7 +127,7 @@ async function handleJoin(request, env, url) {
 
     const res = await fetch(paystackBase(env) + "/transaction/initialize", {
       method: "POST",
-      headers: { Authorization: "Bearer " + env.PAYSTACK_SECRET_KEY, "Content-Type": "application/json" },
+      headers: { Authorization: "Bearer " + paystackKey(env), "Content-Type": "application/json" },
       body: JSON.stringify({
         email,
         amount: plan.amountKobo,
@@ -163,7 +161,7 @@ async function handleVerify(request, env, url) {
 
     if (payment.status !== "success") {
       const res = await fetch(paystackBase(env) + "/transaction/verify/" + encodeURIComponent(reference), {
-        headers: { Authorization: "Bearer " + env.PAYSTACK_SECRET_KEY }
+        headers: { Authorization: "Bearer " + paystackKey(env) }
       });
       const body = await res.json().catch(() => null);
       if (res.ok && body?.status && body.data && await markPaid(env, payment, body.data)) {
@@ -190,23 +188,18 @@ async function handleVerify(request, env, url) {
 /* POST /api/pod/paystack-webhook  (called by Paystack) */
 async function handleWebhook(request, env) {
   if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405 });
-  if (!env.PAYSTACK_SECRET_KEY) return new Response("Not configured", { status: 503 });
+  if (!paystackKey(env)) return new Response("Not configured", { status: 503 });
 
   const raw = await request.text();
-  const key = await crypto.subtle.importKey(
-    "raw", new TextEncoder().encode(env.PAYSTACK_SECRET_KEY),
-    { name: "HMAC", hash: "SHA-512" }, false, ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(raw));
-  const expected = Array.from(new Uint8Array(sig), b => b.toString(16).padStart(2, "0")).join("");
-  const given = String(request.headers.get("x-paystack-signature") || "").toLowerCase();
-  let diff = expected.length ^ given.length;
-  for (let i = 0; i < expected.length; i++) diff |= expected.charCodeAt(i) ^ (given.charCodeAt(i) || 0);
-  if (diff !== 0) return new Response("Invalid signature", { status: 401 });
+  if (!await validWebhookSignature(env, raw, request.headers.get("x-paystack-signature"))) {
+    return new Response("Invalid signature", { status: 401 });
+  }
 
   let event;
   try { event = JSON.parse(raw); } catch { return new Response("Bad request", { status: 400 }); }
-  if (event?.event === "charge.success" && event.data?.reference) {
+  if (event?.event === "charge.success" && String(event.data?.reference || "").startsWith("BP-")) {
+    await markBlueprintPaid(env, String(event.data.reference), event.data);
+  } else if (event?.event === "charge.success" && event.data?.reference) {
     const payment = await env.DB.prepare("SELECT * FROM pod_payments WHERE reference = ?")
       .bind(String(event.data.reference)).first();
     if (payment) await markPaid(env, payment, event.data);

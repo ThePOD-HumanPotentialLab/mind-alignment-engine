@@ -18,7 +18,8 @@
   ],
   "previews": {
     "vars": {
-      "POD_OPEN": "true"
+      "POD_OPEN": "true",
+      "PAYSTACK_MODE": "test"
     },
     "d1_databases": [
       {
