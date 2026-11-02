@@ -12,7 +12,7 @@ const EVENT = {
   // Participants' WhatsApp group invite. Shown only to paid registrants on their confirmation page.
   groupLink: "",
   // Bank details for transfer payments (shown only after someone reserves a seat).
-  bank: { bank: "", accountName: "", accountNumber: "" },
+  bank: { bank: "Wema Bank", accountName: "Joshua Ochu", accountNumber: "0286120995" },
   showSeatsLeftBelow: 15,
   formats: {
     onsite:  { label: "Onsite, Mabushi, Abuja", early: 11200000, standard: 14000000 },
