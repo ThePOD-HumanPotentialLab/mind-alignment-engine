@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The 2027 Blueprint | The POD Human Potential Lab</title>
+<meta name="description" content="One day to design your year before it happens. Saturday 28 November 2026, Mabushi, Abuja and online. With Josh Ochu.">
+<meta property="og:title" content="The 2027 Blueprint: design your year before it happens">
+<meta property="og:description" content="A one-day intensive with Josh Ochu. Saturday 28 November 2026 · Mabushi, Abuja and online. Walk out with your written 2027 Blueprint.">
+<meta property="og:image" content="https://mind-alignment-engine.thepod.workers.dev/brand/blueprint-share.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b2a5c">
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<link rel="apple-touch-icon" href="/brand/icon-192.png">
+<link rel="preload" href="/fonts/cormorant-garamond-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/garden.css">
+<style>
+:root{--navy:#0b2a5c;--navy-2:#14254a}
+h1,h2,h3,.big-quote,.count b,.fmt .p,.part .n,.sticky .l b{font-variant-numeric:lining-nums}
+body{background:var(--paper)}
+.wrap{width:min(760px,100%)}
+/* Hero */
+.hero{background:radial-gradient(130% 90% at 50% 0%,#1d3a72 0%,#0b2a5c 55%,#081f46 100%);color:#f3eee2;padding:0 0 46px;position:relative;overflow:hidden}
+.hero .topbar .brand img{height:28px}
+.hero .topbar .context{color:#c9c2b0}
+.hero-in{width:min(760px,100%);margin:0 auto;padding:26px 18px 0;text-align:center;position:relative}
+.hero .eyebrow{color:#d7b57b}
+.hero h1{color:#f8f4ea;font-size:clamp(46px,12vw,78px);line-height:1;margin:6px 0 12px;font-weight:600}
+.hero h1 em{font-style:italic;font-weight:500;color:#e6d3ac}
+.hero .lead{color:#e6e0d2;font-size:clamp(20px,5vw,24px);margin:0 auto 22px;max-width:560px}
+.facts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:0 0 26px}
+.facts>span{border:1px solid rgba(215,181,123,.45);border-radius:999px;padding:7px 14px;font-size:14px;color:#f3eee2;background:rgba(255,255,255,.04)}
+.hero .btn{background:#e9dcbc;color:#14254a;font-size:16px;padding:16px 32px;min-height:56px}
+.hero .btn:hover{background:#f3e8cc}
+.hero .sub{font-size:14px;color:#c9c2b0;margin-top:14px}
+.hero .sub b{color:#e6d3ac}
+.count{display:inline-flex;gap:10px;margin-top:8px}
+.count div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:6px 10px;min-width:58px}
+.count b{display:block;font-family:var(--serif-display);font-size:26px;line-height:1.1;color:#f8f4ea}
+.count small{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#c9c2b0}
+.hero-photo{width:132px;height:132px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:2px solid #d7b57b;box-shadow:0 0 0 6px rgba(215,181,123,.15);margin:30px auto 8px;display:block}
+.hero .by{font-size:14px;color:#e6e0d2;margin:0}
+.hero .by b{font-family:var(--serif-display);font-size:20px;font-weight:600;color:#f8f4ea;display:block}
+/* Sections */
+section.s{padding:44px 0 6px}
+.s h2{text-align:center}
+.big-quote{font-family:var(--serif-display);font-size:clamp(26px,6.5vw,36px);line-height:1.25;color:var(--ink);text-align:center;margin:0 auto 18px;max-width:620px}
+.pains{list-style:none;margin:18px 0 0}
+.pains li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-family:var(--serif);font-size:18px;line-height:1.5}
+.pains li:last-child{border-bottom:0}
+.pains li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:10px}
+.parts{display:grid;gap:14px;margin-top:20px}
+.part{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px}
+.part .n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#f3eee2;font-family:var(--serif-display);font-size:24px;display:flex;align-items:center;justify-content:center}
+.part b{display:block;font-family:var(--serif-display);font-size:23px;font-weight:600;line-height:1.2;color:var(--ink);margin-bottom:4px}
+.part span{color:var(--muted);font-size:15px;line-height:1.6}
+.agenda{list-style:none}
+.agenda li{display:flex;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.agenda li:last-child{border-bottom:0}
+.agenda .t{flex:none;width:72px;font-size:13px;font-weight:600;color:var(--gold-text);padding-top:3px}
+.agenda b{display:block;color:var(--ink);font-weight:600}
+.agenda span{font-size:14px;color:var(--muted)}
+.agenda li.brk b{font-weight:400;color:var(--muted)}
+.who{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.who span{background:var(--panel);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--sage-text)}
+.facil{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.facil img{width:150px;height:194px;object-fit:cover;object-position:50% 20%;border-radius:75px 75px 16px 16px;box-shadow:0 0 0 1.5px var(--gold),0 0 0 6px var(--card),0 0 0 7px var(--gold-soft);flex:none}
+.facil div{flex:1;min-width:230px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block}
+/* Pricing + form */
+.formats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 18px}
+@media(max-width:520px){.formats{grid-template-columns:1fr}}
+.fmt{position:relative;display:block;border:1.5px solid var(--line);border-radius:20px;padding:18px;cursor:pointer;background:var(--card);transition:border-color .2s,box-shadow .2s}
+.fmt input{position:absolute;opacity:0;width:1px;height:1px}
+.fmt:has(input:checked){border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,42,92,.12)}
+.fmt:has(input:focus-visible){outline:2px solid var(--gold)}
+.fmt:has(input:disabled){opacity:.5;cursor:not-allowed}
+.fmt .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--gold-text)}
+.fmt .p{font-family:var(--serif-display);font-size:36px;font-weight:600;color:var(--ink);line-height:1.1;margin:4px 0 0}
+.fmt s{font-size:15px;color:var(--muted);margin-left:6px}
+.fmt ul{list-style:none;margin:10px 0 0;font-size:14px;color:var(--muted)}
+.fmt li{padding:2px 0 2px 20px;position:relative}
+.fmt li::before{content:"✓";position:absolute;left:0;color:var(--sage-text);font-weight:600}
+.fmt .tag{position:absolute;top:-11px;right:14px;background:var(--gold);color:#fff;font-size:11px;font-weight:600;border-radius:999px;padding:3px 10px}
+.seats{font-size:13px;color:#a5452f;font-weight:600;margin-top:8px}
+label.f{font-size:13px;font-weight:600;color:var(--ink);display:block}
+label.f small{font-weight:400;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+#payBtn{width:100%;font-size:16px;min-height:56px}
+.trust{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;font-size:12px;color:var(--muted);margin-top:12px}
+.group{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.group p{margin:0;flex:1;min-width:220px}
+/* FAQ */
+.faq details{border-bottom:1px solid var(--line);padding:4px 0}
+.faq summary{cursor:pointer;list-style:none;font-weight:600;color:var(--ink);padding:12px 28px 12px 0;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:4px;top:10px;font-size:20px;color:var(--gold-text)}
+.faq details[open] summary::after{content:"\2212"}
+.faq p{color:var(--muted);font-size:15px;margin:0 0 14px}
+/* Ticket */
+.ticket{border:1.5px dashed var(--gold);border-radius:22px;padding:22px;background:var(--reply);margin:18px 0}
+.ticket dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}
+.ticket dt{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text);font-weight:600;padding-top:3px}
+.ticket dd{margin:0;color:var(--ink);font-weight:600}
+.btns{display:grid;gap:10px;margin-top:16px}
+/* Sticky mobile CTA */
+.sticky{position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#f3eee2;padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:12px;transform:translateY(110%);transition:transform .3s;z-index:20;box-shadow:0 -8px 30px rgba(0,0,0,.15)}
+.sticky.show{transform:none}
+.sticky .l{font-size:13px;line-height:1.35}
+.sticky .l b{font-family:var(--serif-display);font-size:20px;display:block;color:#f8f4ea}
+.sticky .btn{background:#e9dcbc;color:#14254a;min-height:46px;padding:10px 20px;width:auto}
+.wa{position:fixed;right:16px;bottom:84px;width:52px;height:52px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.18);z-index:19}
+.wa svg{width:28px;height:28px}
+.testbar{background:#a5452f;color:#fff;text-align:center;font-size:13px;font-weight:600;padding:6px}
+</style>
+</head>
+<body>
+<div id="testbar" class="testbar hidden">TEST MODE: no real money is taken. Use Paystack test card 4084 0840 8408 4081.</div>
+
+<!-- ============ SALES PAGE ============ -->
+<div id="sales">
+<header class="hero">
+  <div class="topbar"><a class="brand" href="/"><img src="/brand/logo-horizontal-cream.png" alt="The POD Human Potential Lab"></a><div class="context">One-day intensive</div></div>
+  <div class="hero-in fade">
+    <div class="eyebrow">The POD Human Potential Lab presents</div>
+    <h1>The 2027<br><em>Blueprint</em></h1>
+    <p class="lead">Design your year before it happens.<br>Don't carry 2026 into 2027.</p>
+    <div class="facts">
+      <span>Saturday 28 November 2026</span><span>9:00am – 5:00pm</span><span><span class="venue-short">Mabushi, Abuja</span> &amp; online</span>
+    </div>
+    <a class="btn" href="#register">Reserve my seat <span aria-hidden="true">→</span></a>
+    <div class="sub" id="heroPrice">Onsite seats limited to 50</div>
+    <div id="heroCount" class="hidden">
+      <div class="sub" style="margin-top:18px">Early-bird price ends in</div>
+      <div class="count" aria-live="off"><div><b id="cd-d">0</b><small>days</small></div><div><b id="cd-h">0</b><small>hrs</small></div><div><b id="cd-m">0</b><small>min</small></div></div>
+    </div>
+    <img class="hero-photo" src="/brand/josh-ochu.jpg" alt="Josh Ochu" width="480" height="618">
+    <p class="by"><b>With Josh Ochu</b>Founder, The POD Human Potential Lab</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="s">
+    <div class="eyebrow center">Be honest</div>
+    <p class="big-quote">Most people don't start a new year.<br>They repeat the old one.</p>
+    <div class="card">
+      <p class="serif" style="margin-bottom:6px">Think back to January 2026. If you are like most people, you started with real intentions. Then the year happened.</p>
+      <ul class="pains">
+        <li>The same goals came back, untouched, for another year.</li>
+        <li>You were busy every week, and still unsure what truly moved forward.</li>
+        <li>Old habits and old fears quietly made your decisions for you.</li>
+        <li>By March, the year was running you, not the other way round.</li>
+      </ul>
+      <p class="serif" style="margin:18px 0 0">That is not a lack of effort. It is a design problem. Results follow the person you believe you are, and most plans never touch that person. <b>The 2027 Blueprint starts there.</b></p>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="eyebrow center">What you walk out with</div>
+    <h2>Your written 2027 Blueprint</h2>
+    <p class="lead center">Not notes. Not motivation that fades by Monday. A plan in your own hand, built in the room.</p>
+    <div class="parts">
+      <div class="part"><div class="n">1</div><div><b>Who I am becoming</b><span>The identity behind the results you want in 2027, written as the person you have decided to be.</span></div></div>
+      <div class="part"><div class="n">2</div><div><b>What I am leaving in 2026</b><span>The habits, beliefs and patterns that cost you this year, named clearly so they stop running your decisions.</span></div></div>
+      <div class="part"><div class="n">3</div><div><b>My three priorities and weekly rhythm</b><span>Three priorities for 2027 and a simple weekly routine that turns them into action from the first week of January.</span></div></div>
+    </div>
+  </section>
+
+  <section class="s">
+    <div class="eyebrow center">The day</div>
+    <h2>Saturday 28 November</h2>
+    <div class="card">
+      <ul class="agenda">
+        <li class="brk"><div class="t">8:30am</div><div><b>Arrival and registration</b></div></li>
+        <li><div class="t">9:00am</div><div><b>Your honest 2026 audit</b><span>What worked, what repeated, and what it cost you.</span></div></li>
+        <li><div class="t">10:00am</div><div><b>Identity first</b><span>The self-concept behind your results, through Mind-Derived Optimisation.</span></div></li>
+        <li class="brk"><div class="t">11:15am</div><div><b>Tea break</b></div></li>
+        <li><div class="t">11:30am</div><div><b>Breaking the loop</b><span>Beliefs, inner dialogue and the habits you will not carry into 2027.</span></div></li>
+        <li class="brk"><div class="t">1:00pm</div><div><b>Lunch</b></div></li>
+        <li><div class="t">2:00pm</div><div><b>Energy, attention and execution</b><span>A simple personal system for doing what matters.</span></div></li>
+        <li><div class="t">3:15pm</div><div><b>Workshop: write your 2027 Blueprint</b><span>Guided, step by step, in the room.</span></div></li>
+        <li><div class="t">4:30pm</div><div><b>Commitments and accountability partners</b><span>You leave with someone holding you to it.</span></div></li>
+      </ul>
+    </div>
+    <p class="center" style="margin-top:22px;font-weight:600;color:var(--ink)">This day is for you if you are</p>
+    <div class="who"><span>A professional or manager</span><span>A business owner or entrepreneur</span><span>Starting a new chapter</span><span>Done repeating the same year</span></div>
+  </section>
+
+  <section class="s">
+    <div class="eyebrow center">Your facilitator</div>
+    <div class="card">
+      <div class="facil">
+        <img src="/brand/josh-ochu.jpg" alt="Josh Ochu" loading="lazy" width="480" height="618">
+        <div>
+          <h3>Josh Ochu</h3>
+          <p class="small" style="margin:0 0 10px">Founder, The POD Human Potential Lab · Executive HR and Organisation Development consultant</p>
+          <p class="serif" style="margin:0">Josh works with leaders, teams and individuals on the one thing beneath every outcome: how they think. He is the creator of Mind-Derived Optimisation and the Personal Optimization Drill, and he has spent years in front of rooms helping people change at the level where change lasts.</p>
+        </div>
+      </div>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <section class="s" id="register">
+    <div class="eyebrow center">Reserve your seat</div>
+    <h2>Join us on 28 November</h2>
+    <p class="lead center" id="tierLine">Early-bird pricing ends Monday 16 November.</p>
+    <div class="card" id="formCard">
+      <form id="regForm" novalidate>
+        <div class="formats" role="radiogroup" aria-label="Choose how you will attend">
+          <label class="fmt" id="fmt-onsite"><input type="radio" name="format" value="onsite" checked><span class="tag" id="tag-onsite">Most popular</span>
+            <div class="k">Onsite · <span class="venue-short">Mabushi, Abuja</span></div>
+            <div class="p"><span id="p-onsite">₦112,000</span><s id="s-onsite">₦140,000</s></div>
+            <ul><li>Full day in the room with Josh</li><li>Printed Blueprint workbook</li><li>Tea and lunch</li><li>Certificate of participation</li></ul>
+            <div class="seats hidden" id="left-onsite"></div>
+          </label>
+          <label class="fmt" id="fmt-virtual"><input type="radio" name="format" value="virtual">
+            <div class="k">Virtual · live online</div>
+            <div class="p"><span id="p-virtual">₦56,000</span><s id="s-virtual">₦70,000</s></div>
+            <ul><li>Join live from anywhere</li><li>Digital Blueprint workbook</li><li>Live Q&amp;A in the sessions</li><li>E-certificate</li></ul>
+          </label>
+        </div>
+
+        <label class="f" for="name">Full name</label>
+        <input id="name" name="name" autocomplete="name" required maxlength="100">
+        <div class="grid2">
+          <div><label class="f" for="email">Email <small>(your receipt goes here)</small></label>
+          <input id="email" name="email" type="email" autocomplete="email" required maxlength="200"></div>
+          <div><label class="f" for="phone">WhatsApp number</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="0803 000 0000" required maxlength="30"></div>
+          <div><label class="f" for="organisation">Organisation <small>(optional)</small></label>
+          <input id="organisation" name="organisation" autocomplete="organization" maxlength="120"></div>
+          <div><label class="f" for="role">Role <small>(optional)</small></label>
+          <input id="role" name="role" autocomplete="organization-title" maxlength="120"></div>
+        </div>
+        <label class="f" for="heard">How did you hear about the Blueprint?</label>
+        <select id="heard" name="heard"><option value="">Choose one</option></select>
+
+        <button class="btn" id="payBtn" type="submit">Reserve my seat</button>
+        <div class="msg" id="msg" role="status"></div>
+        <div class="trust"><span>🔒 Secure payment by Paystack</span><span>Card, bank transfer or USSD</span><span>Receipt sent to your email</span></div>
+      </form>
+    </div>
+
+    <div class="panel group" style="margin-top:16px">
+      <p><b style="color:var(--ink)">Sending your team?</b> Book 5 seats and pay for 4. We will send your organisation an invoice.</p>
+      <a class="btn ghost" id="groupBtn" href="#" target="_blank" rel="noopener">Request a group invoice</a>
+    </div>
+  </section>
+
+  <section class="s faq">
+    <div class="eyebrow center">Questions</div>
+    <h2>Before you book</h2>
+    <div class="card">
+      <details><summary>Where exactly is the venue?</summary><p id="venueFull">The venue is in Mabushi, Abuja. The full address and directions are sent to you as soon as you register.</p></details>
+      <details><summary>How does the virtual option work?</summary><p>You join the full day live online. Your joining link and digital workbook are sent to your WhatsApp and email before the day.</p></details>
+      <details><summary>What should I bring?</summary><p>Yourself, a pen and an honest year to review. Onsite participants receive a printed workbook. Virtual participants should have a notebook ready.</p></details>
+      <details><summary>Can I pay by bank transfer?</summary><p>Yes. Paystack's checkout lets you pay by card, bank transfer or USSD.</p></details>
+      <details><summary>What if I can no longer attend?</summary><p>You can transfer your seat to someone else at any time; just tell us their name. Refunds are available up to 7 days before the event (until Saturday 21 November). After that we cannot refund, but your seat can still be transferred.</p></details>
+      <details><summary>Will I get a receipt?</summary><p>Yes. Paystack emails your receipt immediately, and your confirmation page shows your registration reference.</p></details>
+    </div>
+  </section>
+
+  <section class="s center">
+    <p class="big-quote">The year will happen either way.<br>The only question is who designs it.</p>
+    <a class="btn" href="#register" style="margin-top:6px">Reserve my seat <span aria-hidden="true">→</span></a>
+    <p class="small" style="margin-top:16px">Questions? WhatsApp <a class="wa-link" href="#">0916 866 7061</a> · <a href="mailto:talk2pod@gmail.com">talk2pod@gmail.com</a></p>
+  </section>
+</main>
+
+<div class="sticky" id="sticky"><div class="l"><b id="stickyPrice">From ₦56,000</b>28 Nov · Abuja &amp; online</div><a class="btn" href="#register">Reserve</a></div>
+</div>
+
+<!-- ============ CONFIRMATION ============ -->
+<main class="wrap hidden" id="done">
+  <header class="topbar" style="padding-left:0;padding-right:0"><a class="brand" href="/blueprint"><img src="/brand/logo-horizontal.png" alt="The POD Human Potential Lab"></a><div class="context">The 2027 Blueprint</div></header>
+  <section class="fade" style="padding-top:26px">
+    <div id="checking"><p class="lead center" style="margin-top:50px">Confirming your payment…</p></div>
+
+    <div id="confirmed" class="hidden">
+      <div class="eyebrow center">You're in</div>
+      <h1 class="center" id="doneTitle">See you on 28 November.</h1>
+      <p class="lead center">Your seat at The 2027 Blueprint is confirmed.</p>
+      <div class="ticket">
+        <dl>
+          <dt>Name</dt><dd id="t-name"></dd>
+          <dt>Format</dt><dd id="t-format"></dd>
+          <dt>Date</dt><dd>Saturday 28 November 2026, 9:00am – 5:00pm</dd>
+          <dt>Where</dt><dd id="t-where"></dd>
+          <dt>Reference</dt><dd id="t-ref"></dd>
+        </dl>
+      </div>
+      <p class="small center">Screenshot this page. Your Paystack receipt has also gone to your email.</p>
+      <div class="btns">
+        <a class="btn" id="gcal" target="_blank" rel="noopener">Add to Google Calendar</a>
+        <a class="btn ghost" id="ics" download="the-2027-blueprint.ics">Add to Apple or Outlook calendar</a>
+        <a class="btn ghost" id="waConfirm" target="_blank" rel="noopener">Message us on WhatsApp</a>
+      </div>
+      <div class="panel" style="margin-top:22px;text-align:center">
+        <p style="margin:0 0 10px;color:var(--ink)"><b>Who else needs to design their 2027?</b><br><span class="small">Changes stick better with someone beside you.</span></p>
+        <a class="btn secondary" id="shareBtn" target="_blank" rel="noopener">Share with a friend on WhatsApp</a>
+      </div>
+    </div>
+
+    <div id="reserved" class="hidden">
+      <div class="eyebrow center">Seat held</div>
+      <h1 class="center">Almost there.</h1>
+      <p class="lead center">We are holding your seat. Send us a WhatsApp message and we will share payment details to confirm it.</p>
+      <div class="ticket"><dl><dt>Name</dt><dd id="r-name"></dd><dt>Format</dt><dd id="r-format"></dd><dt>Amount</dt><dd id="r-amount"></dd><dt>Reference</dt><dd id="r-ref"></dd></dl></div>
+      <div class="btns"><a class="btn" id="waReserve" target="_blank" rel="noopener">Complete payment on WhatsApp</a></div>
+    </div>
+
+    <div id="pending" class="hidden">
+      <h2 class="center">We haven't received your payment yet.</h2>
+      <p class="lead center">If you have just paid, wait a moment and refresh. If you closed the payment window, you can try again.</p>
+      <div class="btns"><button class="btn" onclick="location.reload()">Refresh</button><a class="btn ghost" href="/blueprint#register">Try again</a><a class="btn ghost" id="waPending" target="_blank" rel="noopener">Get help on WhatsApp</a></div>
+    </div>
+  </section>
+</main>
+
+<a class="wa" id="waFloat" href="#" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.2-.5-.5-1-1.1-1.3-1.7-.1-.2 0-.4.1-.5l.4-.5.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.6.6-.9 1.4-.9 2.2.1 1 .5 1.9 1.1 2.7 1.1 1.6 2.5 2.9 4.2 3.7.5.2.9.4 1.4.5.5.2 1.1.2 1.6.1.6-.1 1.1-.5 1.4-1 .2-.3.2-.7.1-1.1l-.5-.3z"/></svg></a>
+
+<footer class="site-footer"><img src="/brand/logo-full.png" alt=""><div>The POD Human Potential Lab · Abuja</div></footer>
+
+<script>
+(function(){
+  /* ---- Edit these when details change ---- */
+  var VENUE_SHORT = "Mabushi, Abuja";
+  var VENUE_FULL = "";            // e.g. "Plot 123, ... Street, Mabushi, Abuja". Blank = "sent on registration".
+  var WHATSAPP = "2349168667061";
+  var GALLERY = [];               // e.g. ["/brand/training-1.jpg", "/brand/training-2.jpg"]
+  /* ---------------------------------------- */
+
+  var $ = function(id){ return document.getElementById(id); };
+  var naira = function(n){ return "₦" + Number(n).toLocaleString("en-NG"); };
+  var wa = function(text){ return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(text); };
+  var cfg = null;
+
+  document.querySelectorAll(".venue-short").forEach(function(e){ e.textContent = VENUE_SHORT; });
+  if (VENUE_FULL) $("venueFull").textContent = "The venue is " + VENUE_FULL + ".";
+  GALLERY.forEach(function(src){ var i = new Image(); i.src = src; i.alt = "Josh Ochu facilitating a session"; i.loading = "lazy"; $("gallery").appendChild(i); });
+
+  $("waFloat").href = wa("Hello, I have a question about The 2027 Blueprint.");
+  document.querySelectorAll(".wa-link").forEach(function(a){ a.href = $("waFloat").href; a.target = "_blank"; });
+  $("groupBtn").href = wa("Hello, I would like a group invoice for The 2027 Blueprint (5 seats for the price of 4).\nOrganisation:\nNumber of seats:\nOnsite or virtual:\nContact name:");
+
+  /* ---------- Confirmation view ---------- */
+  var params = new URLSearchParams(location.search);
+  var ref = params.get("reference") || params.get("trxref") || params.get("ref");
+  if (ref) { showDone(ref); return; }
+
+  /* ---------- Sales view ---------- */
+  var sticky = $("sticky"), hero = document.querySelector(".hero"), reg = $("register");
+  function onScroll(){
+    var h = hero.getBoundingClientRect().bottom, r = reg.getBoundingClientRect();
+    sticky.classList.toggle("show", h < 0 && !(r.top < innerHeight && r.bottom > 0));
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+
+  fetch("/api/blueprint/config").then(function(r){ return r.json(); }).then(function(c){
+    if (!c.success) return;
+    cfg = c;
+    if (c.testMode) $("testbar").classList.remove("hidden");
+    var early = c.tier === "early";
+    ["onsite","virtual"].forEach(function(f){
+      $("p-" + f).textContent = naira(c.prices[f].now);
+      $("s-" + f).textContent = early ? naira(c.prices[f].standard) : "";
+    });
+    $("stickyPrice").textContent = "From " + naira(c.prices.virtual.now);
+    $("heroPrice").innerHTML = early
+      ? "Early bird from <b>" + naira(c.prices.virtual.now) + "</b> · onsite seats limited to 50"
+      : "From <b>" + naira(c.prices.virtual.now) + "</b> · onsite seats limited to 50";
+    $("tierLine").textContent = early ? "Early-bird pricing ends Monday 16 November." : "Registration closes Thursday 26 November.";
+    c.heard.forEach(function(h){ var o = document.createElement("option"); o.textContent = h; o.value = h; $("heard").appendChild(o); });
+    if (c.onsiteSoldOut) {
+      var i = document.querySelector("#fmt-onsite input"); i.disabled = true; i.checked = false;
+      document.querySelector("#fmt-virtual input").checked = true;
+      $("tag-onsite").textContent = "Sold out";
+    } else if (c.onsiteLeft != null) {
+      $("left-onsite").textContent = "Only " + c.onsiteLeft + " onsite seat" + (c.onsiteLeft === 1 ? "" : "s") + " left";
+      $("left-onsite").classList.remove("hidden");
+    }
+    if (!c.open) {
+      $("formCard").innerHTML = "<p class='center serif'>Registration for The 2027 Blueprint has closed. Message us on WhatsApp to ask about late places.</p>";
+    }
+    if (early) startCountdown(Date.parse(c.earlyBirdEndsAt));
+    updateButton();
+  }).catch(function(){});
+
+  function startCountdown(end){
+    $("heroCount").classList.remove("hidden");
+    function tick(){
+      var s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+      $("cd-d").textContent = Math.floor(s / 86400);
+      $("cd-h").textContent = Math.floor(s % 86400 / 3600);
+      $("cd-m").textContent = Math.floor(s % 3600 / 60);
+      if (s === 0) { $("heroCount").classList.add("hidden"); clearInterval(t); }
+    }
+    tick(); var t = setInterval(tick, 30000);
+  }
+
+  function chosen(){ var i = document.querySelector("input[name=format]:checked"); return i ? i.value : null; }
+  function updateButton(){
+    var f = chosen();
+    $("payBtn").textContent = cfg && f
+      ? (cfg.payments ? "Pay " + naira(cfg.prices[f].now) + " and reserve my seat" : "Reserve my seat")
+      : "Reserve my seat";
+  }
+  document.querySelectorAll("input[name=format]").forEach(function(i){ i.addEventListener("change", updateButton); });
+
+  $("regForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var msg = $("msg"), btn = $("payBtn");
+    var data = {
+      format: chosen(),
+      name: $("name").value.trim(), email: $("email").value.trim(), phone: $("phone").value.trim(),
+      organisation: $("organisation").value.trim(), role: $("role").value.trim(), heard: $("heard").value
+    };
+    msg.className = "msg error";
+    if (!data.format) { msg.textContent = "Please choose onsite or virtual."; return; }
+    if (data.name.length < 2) { msg.textContent = "Please enter your full name."; $("name").focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { msg.textContent = "Please enter a valid email address."; $("email").focus(); return; }
+    if (data.phone.replace(/\D/g, "").length < 10) { msg.textContent = "Please enter your WhatsApp number."; $("phone").focus(); return; }
+    msg.className = "msg"; msg.textContent = "Opening secure payment…"; btn.disabled = true;
+    fetch("/api/blueprint/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+      .then(function(r){ return r.json(); })
+      .then(function(r){
+        if (r.success && r.authorizationUrl) { location.href = r.authorizationUrl; return; }
+        if (r.success && r.reserved) { location.href = "/blueprint?reference=" + encodeURIComponent(r.reference); return; }
+        msg.className = "msg error"; msg.textContent = r.error || "Something went wrong. Please try again."; btn.disabled = false;
+      })
+      .catch(function(){ msg.className = "msg error"; msg.textContent = "Network problem. Please check your connection and try again."; btn.disabled = false; });
+  });
+
+  /* ---------- Confirmation helpers ---------- */
+  function showDone(reference){
+    $("sales").classList.add("hidden"); $("waFloat").classList.add("hidden"); $("done").classList.remove("hidden");
+    $("waPending").href = wa("Hello, I tried to pay for The 2027 Blueprint. My reference is " + reference + ".");
+    fetch("/api/blueprint/verify?reference=" + encodeURIComponent(reference)).then(function(r){ return r.json(); }).then(function(r){
+      $("checking").classList.add("hidden");
+      if (!r.success) { $("pending").classList.remove("hidden"); return; }
+      var t = r.ticket;
+      var where = t.format === "onsite" ? (VENUE_FULL || VENUE_SHORT + " (full address sent to your WhatsApp)") : "Online. Your joining link is sent before the day.";
+      if (t.paid) {
+        history.replaceState(null, "", "/blueprint?reference=" + t.reference);
+        $("doneTitle").textContent = "See you on 28 November, " + t.name.split(" ")[0] + ".";
+        $("t-name").textContent = t.name; $("t-format").textContent = t.formatLabel;
+        $("t-where").textContent = where; $("t-ref").textContent = t.reference;
+        calendar(t);
+        $("waConfirm").href = wa("Hello, I have registered for The 2027 Blueprint (" + t.formatLabel + "). My reference is " + t.reference + ".");
+        $("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent("I've just booked my seat at The 2027 Blueprint with Josh Ochu: one day to design 2027 before it happens. Saturday 28 November, Abuja and online. Join me: " + location.origin + "/blueprint");
+        $("confirmed").classList.remove("hidden");
+      } else if (t.reserved) {
+        $("r-name").textContent = t.name; $("r-format").textContent = t.formatLabel;
+        $("r-amount").textContent = naira(t.amount); $("r-ref").textContent = t.reference;
+        $("waReserve").href = wa("Hello, I have reserved a seat at The 2027 Blueprint (" + t.formatLabel + ", " + naira(t.amount) + "). My reference is " + t.reference + ". Please send payment details.");
+        $("reserved").classList.remove("hidden");
+      } else {
+        $("pending").classList.remove("hidden");
+      }
+    }).catch(function(){ $("checking").classList.add("hidden"); $("pending").classList.remove("hidden"); });
+  }
+
+  function calendar(t){
+    var title = "The 2027 Blueprint with Josh Ochu";
+    var loc = t.format === "onsite" ? (VENUE_FULL || VENUE_SHORT) : "Online (link sent before the day)";
+    var details = "Your registration reference: " + t.reference + "\n" + location.origin + "/blueprint?reference=" + t.reference;
+    $("gcal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(title) +
+      "&dates=20261128T080000Z/20261128T160000Z&location=" + encodeURIComponent(loc) + "&details=" + encodeURIComponent(details);
+    var ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//The POD//Blueprint//EN","BEGIN:VEVENT",
+      "UID:" + t.reference + "@thepod","DTSTAMP:20261102T000000Z","DTSTART:20261128T080000Z","DTEND:20261128T160000Z",
+      "SUMMARY:" + title,"LOCATION:" + loc.replace(/,/g, "\\,"),"DESCRIPTION:Reference " + t.reference,
+      "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:The 2027 Blueprint is tomorrow","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"].join("\r\n");
+    $("ics").href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+  }
+})();
+</script>
+</body>
+</html>
