@@ -1,6 +1,6 @@
 /* ---------------- The POD: the 21-day tracker and the certificate ---------------- */
 /* All days follow Africa/Lagos time (UTC+1, no daylight saving). */
-import { speak, optimizerOn } from "./optimizer.js";
+import { speak, optimizerOn, safetyContacts } from "./optimizer.js";
 
 const LAGOS_MS = 60 * 60 * 1000;
 const DAYS = 21;
@@ -211,7 +211,7 @@ async function handleCheckin(request, env) {
 
     const now = new Date(ms).toISOString();
     const day = v.kept + 1;
-    let reply;
+    let reply, safety = null;
 
     if (data?.kept === true) {
       const clean = s => String(s || "").trim().slice(0, 1000);
@@ -249,6 +249,7 @@ async function handleCheckin(request, env) {
       const history = await mirrorHistory(env, p, day, kind === "review" ? 21 : 6);
       const said = await speak(env, kind, { ...p, firstName: v.name }, { day, saw, learned, carry, history }, reply);
       reply = said.text;
+      if (said.source === "safety") safety = safetyContacts();
       await logOptimizer(env, p, kind, v.nextDate, JSON.stringify({ day }), reply, said.source);
     } else if (data?.kept === false) {
       const day1 = addDays(v.nextDate, 1);
@@ -266,7 +267,7 @@ async function handleCheckin(request, env) {
       return json({ success: false, error: "Please answer the silence question." }, 400);
     }
 
-    return json({ success: true, reply, tracker: await view(env, p, ms) });
+    return json({ success: true, reply, safety, tracker: await view(env, p, ms) });
   } catch (error) {
     return json({ success: false, error: "We could not save your check-in. Please try again." }, 500);
   }
@@ -399,7 +400,7 @@ async function handleOptimizerAsk(request, env) {
     const fallback = "I could not answer that just now. Please try again in a moment. In the meantime, keep the hour.";
     const said = await speak(env, "ask", p, { day: v.completed ? 21 : v.nextDay, completed: v.completed, question, turns: history }, fallback);
     if (said.source !== "fallback") await logOptimizer(env, p, "ask", today, question, said.text, said.source);
-    return json({ success: true, on, answer: said.text, source: said.source, remaining: Math.max(0, ASK_LIMIT - rows.length - (said.source !== "fallback" ? 1 : 0)) });
+    return json({ success: true, on, answer: said.text, source: said.source, safety: said.source === "safety" ? safetyContacts() : null, remaining: Math.max(0, ASK_LIMIT - rows.length - (said.source !== "fallback" ? 1 : 0)) });
   } catch (e) {
     return json({ success: false, error: "The Optimizer could not be reached. Please try again." }, 500);
   }

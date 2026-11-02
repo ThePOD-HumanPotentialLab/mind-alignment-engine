@@ -11,7 +11,14 @@
     ".ask .turn{margin:0 0 14px}",
     ".ask .q{font-size:14px;color:var(--muted);margin:0 0 6px}",
     ".ask .a{font-family:var(--serif);font-size:18px;line-height:1.55;color:var(--ink);white-space:pre-line}",
-    ".thinking{font-family:var(--serif);font-style:italic;color:var(--muted)}"
+    ".thinking{font-family:var(--serif);font-style:italic;color:var(--muted)}",
+    "#safetyBanner{position:sticky;top:8px;z-index:50;margin:8px auto 18px;width:min(720px,calc(100% - 36px));background:#7d1f12;color:#fff;border:2px solid #ffb4a3;border-radius:20px;padding:18px 20px;box-shadow:0 10px 30px rgba(125,31,18,.35);animation:sfPulse 1.6s ease-in-out infinite}",
+    "@keyframes sfPulse{0%,100%{background:#7d1f12;border-color:#ffb4a3}50%{background:#a8301c;border-color:#fff}}",
+    "#safetyBanner h3{color:#fff;font-family:var(--sans);font-size:17px;font-weight:600;margin:0 0 6px}",
+    "#safetyBanner p{font-size:14px;margin:0 0 10px;color:#fff}",
+    "#safetyBanner a.sf{display:flex;justify-content:space-between;gap:12px;align-items:center;background:rgba(255,255,255,.14);color:#fff;text-decoration:none;border-radius:12px;padding:11px 14px;margin:6px 0;font-size:14px;min-height:44px}",
+    "#safetyBanner a.sf strong{font-size:16px;white-space:nowrap}",
+    "#safetyBanner button{background:none;border:0;color:#fff;text-decoration:underline;font:13px var(--sans);margin-top:6px;cursor:pointer;min-height:44px}"
   ].join("\n");
   var style = document.createElement("style");
   style.textContent = css;
@@ -216,6 +223,7 @@
         state.turns.push({ q: q, a: res.answer });
         state.remaining = res.remaining;
         drawAsk(state);
+        if (res.safety) showSafety(res.safety);
       });
     };
     el("affirmBtn").onclick = function () {
@@ -236,6 +244,33 @@
     });
   }
 
+  /* Safety banner: shown at once when a message speaks of harm (brief, section 11) */
+  var SAFETY_KEY = "pod_safety_contacts";
+  function showSafety(contacts) {
+    if (!contacts || !contacts.length) return;
+    try { sessionStorage.setItem(SAFETY_KEY, JSON.stringify(contacts)); } catch (e) {}
+    var b = el("safetyBanner");
+    if (!b) {
+      b = document.createElement("div");
+      b.id = "safetyBanner";
+      b.setAttribute("role", "alert");
+      b.tabIndex = -1;
+      el("ready").parentNode.insertBefore(b, el("ready"));
+    }
+    var h = "<h3>Please get help now</h3><p>If you are in danger, or thinking of harming yourself or someone else, call one of these numbers now, or reach out to The POD.</p>";
+    contacts.forEach(function (c) {
+      h += "<a class=\"sf\" href=\"" + esc(c.href) + "\"><span>" + esc(c.name) + "</span><strong>" + esc(c.number) + "</strong></a>";
+    });
+    h += "<button type=\"button\" id=\"sfClose\">I am safe for now. Hide this.</button>";
+    b.innerHTML = h;
+    el("sfClose").onclick = function () {
+      try { sessionStorage.removeItem(SAFETY_KEY); } catch (e) {}
+      b.parentNode.removeChild(b);
+    };
+    window.scrollTo(0, 0);
+    b.focus();
+  }
+
   function say(text) {
     var m = el("ciMsg");
     if (m) { m.textContent = text || ""; m.classList.toggle("error", !!text); }
@@ -251,6 +286,7 @@
       lastReply = res.reply;
       render(res.tracker);
       window.scrollTo(0, 0);
+      if (res.safety) showSafety(res.safety);
     });
   }
 
@@ -274,6 +310,7 @@
 
   window.PODTracker = {
     start: function (t) {
+      setTimeout(function () { try { var sc = JSON.parse(sessionStorage.getItem(SAFETY_KEY) || "null"); if (sc && el("ready")) showSafety(sc); } catch (e) {} }, 0);
       token = t;
       lastReply = null;
       api("/api/pod/tracker?token=" + encodeURIComponent(token)).then(function (res) {
