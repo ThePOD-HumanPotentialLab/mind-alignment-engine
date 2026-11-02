@@ -1,5 +1,6 @@
 /* ---------------- The POD: the 21-day tracker and the certificate ---------------- */
 /* All days follow Africa/Lagos time (UTC+1, no daylight saving). */
+import { speak, optimizerOn } from "./optimizer.js";
 
 const LAGOS_MS = 60 * 60 * 1000;
 const DAYS = 21;
@@ -243,6 +244,12 @@ async function handleCheckin(request, env) {
           reply = MESSAGES.kept(v.name, carry, day);
         }
       }
+      // The Optimizer replies to the Mirror Moment (reviews on Days 7, 14 and 21); the message above is the fallback.
+      const kind = [7, 14, 21].includes(day) ? "review" : "mirror";
+      const history = await mirrorHistory(env, p, day, kind === "review" ? 21 : 6);
+      const said = await speak(env, kind, { ...p, firstName: v.name }, { day, saw, learned, carry, history }, reply);
+      reply = said.text;
+      await logOptimizer(env, p, kind, v.nextDate, JSON.stringify({ day }), reply, said.source);
     } else if (data?.kept === false) {
       const day1 = addDays(v.nextDate, 1);
       const run = (p.run_number || 1) + 1;
@@ -297,6 +304,123 @@ async function handleCertificate(request, env, url) {
     });
   } catch (error) {
     return json({ success: false, error: "We could not load the certificate. Please refresh." }, 500);
+  }
+}
+
+/* ---------------- The Optimizer: storage and endpoints ----------------
+   Table pod_optimizer (staging first; production only with Josh's approval).
+   If the table is missing, the Optimizer still answers check-ins but the daily
+   prompt and affirmations use the approved fallback, so nothing is called on every page load. */
+const ASK_LIMIT = 6; // questions per participant per Lagos day
+
+async function logOptimizer(env, p, kind, date, input, output, source) {
+  try {
+    await env.DB.prepare(
+      "INSERT INTO pod_optimizer (participant_id, kind, practice_date, run_number, input, output, source, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    ).bind(p.id, kind, date, p.run_number || 1, String(input || "").slice(0, 2000), output, source, new Date().toISOString()).run();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function cached(env, p, kind, date) {
+  try {
+    const row = await env.DB.prepare(
+      "SELECT output, source FROM pod_optimizer WHERE participant_id = ? AND kind = ? AND practice_date = ? AND run_number = ? AND source != 'fallback' ORDER BY id DESC LIMIT 1"
+    ).bind(p.id, kind, date, p.run_number || 1).first();
+    return { ok: true, row };
+  } catch (e) {
+    return { ok: false };
+  }
+}
+
+async function mirrorHistory(env, p, beforeDay, limit) {
+  const { results } = await env.DB.prepare(
+    "SELECT day_number, saw, learned, carry FROM pod_checkins WHERE participant_id = ? AND run_number = ? AND kept = 1 AND day_number < ? ORDER BY day_number DESC LIMIT ?"
+  ).bind(p.id, p.run_number || 1, beforeDay, limit).all();
+  const c = s => String(s || "").slice(0, 300);
+  return results.reverse().map(r => `Day ${r.day_number}: saw "${c(r.saw)}"; learned "${c(r.learned)}"; carried "${c(r.carry)}"`).join("\n");
+}
+
+async function optimizerSetup(request, env) {
+  if (request.method !== "POST") return { error: new Response("Method Not Allowed", { status: 405 }) };
+  const data = await readJson(request);
+  let p = await getParticipant(env, data?.token);
+  if (!p) return { error: json({ success: false, error: "Please open the POD again." }, 404) };
+  if (!p.vow_at) return { error: json({ success: false, error: "Please complete your preparation first." }, 409) };
+  const ms = nowMs(request, env);
+  p = await refresh(env, p, ms);
+  const v = await view(env, p, ms);
+  return { data, p: { ...p, firstName: v.name }, v, today: lagos(ms).date };
+}
+
+/* POST /api/pod/optimizer/prompt {token}: the five-layer prompt before the hour, once per day */
+async function handleOptimizerPrompt(request, env) {
+  try {
+    const s = await optimizerSetup(request, env);
+    if (s.error) return s.error;
+    const { p, v } = s;
+    if (v.completed || v.ended) return json({ success: true, prompt: null });
+    const c = await cached(env, p, "prompt", v.nextDate);
+    if (c.row) return json({ success: true, prompt: c.row.output, source: c.row.source });
+    if (!c.ok || !optimizerOn(env)) return json({ success: true, prompt: v.prompt, source: "fallback" });
+    const said = await speak(env, "prompt", p, { day: v.nextDay, goalIndex: v.kept % 5 }, v.prompt);
+    await logOptimizer(env, p, "prompt", v.nextDate, "", said.text, said.source);
+    return json({ success: true, prompt: said.text, source: said.source });
+  } catch (e) {
+    return json({ success: false, error: "The Optimizer could not be reached." }, 500);
+  }
+}
+
+/* POST /api/pod/optimizer/ask {token, question?}: questions about the practice (no question = today's conversation) */
+async function handleOptimizerAsk(request, env) {
+  try {
+    const s = await optimizerSetup(request, env);
+    if (s.error) return s.error;
+    const { p, v, today, data } = s;
+    let rows = [];
+    try {
+      rows = (await env.DB.prepare(
+        "SELECT input, output FROM pod_optimizer WHERE participant_id = ? AND kind = 'ask' AND practice_date = ? ORDER BY id"
+      ).bind(p.id, today).all()).results;
+    } catch (e) {
+      return json({ success: true, on: false, turns: [], remaining: 0 });
+    }
+    const on = optimizerOn(env);
+    const turns = rows.map(r => ({ q: r.input, a: r.output }));
+    const question = String(data?.question || "").trim().slice(0, 600);
+    if (!question) return json({ success: true, on, turns, remaining: Math.max(0, ASK_LIMIT - rows.length) });
+    if (!on) return json({ success: false, error: "The Optimizer's voice opens soon." }, 409);
+    if (rows.length >= ASK_LIMIT) {
+      return json({ success: false, error: "That is enough questions for today. Take what you have into the hour. You can ask again tomorrow." }, 429);
+    }
+    const history = turns.slice(-3).flatMap(t => [{ role: "user", content: t.q }, { role: "assistant", content: t.a }]);
+    const fallback = "I could not answer that just now. Please try again in a moment. In the meantime, keep the hour.";
+    const said = await speak(env, "ask", p, { day: v.completed ? 21 : v.nextDay, completed: v.completed, question, turns: history }, fallback);
+    if (said.source !== "fallback") await logOptimizer(env, p, "ask", today, question, said.text, said.source);
+    return json({ success: true, on, answer: said.text, source: said.source, remaining: Math.max(0, ASK_LIMIT - rows.length - (said.source !== "fallback" ? 1 : 0)) });
+  } catch (e) {
+    return json({ success: false, error: "The Optimizer could not be reached. Please try again." }, 500);
+  }
+}
+
+/* POST /api/pod/optimizer/affirmations {token}: affirmations and a short visualisation, once per day */
+async function handleOptimizerAffirm(request, env) {
+  try {
+    const s = await optimizerSetup(request, env);
+    if (s.error) return s.error;
+    const { p, today } = s;
+    if (!optimizerOn(env)) return json({ success: false, error: "The Optimizer's voice opens soon." }, 409);
+    const c = await cached(env, p, "affirm", today);
+    if (c.row) return json({ success: true, text: c.row.output });
+    if (!c.ok) return json({ success: false, error: "Affirmations are not available yet." }, 409);
+    const said = await speak(env, "affirm", p, {}, "");
+    if (said.source === "fallback") return json({ success: false, error: "The Optimizer could not draft your affirmations just now. Please try again." }, 503);
+    await logOptimizer(env, p, "affirm", today, "", said.text, said.source);
+    return json({ success: true, text: said.text });
+  } catch (e) {
+    return json({ success: false, error: "The Optimizer could not be reached." }, 500);
   }
 }
 
@@ -374,6 +498,9 @@ function handleCalendar(request, env, url) {
 export async function handleTrackerRoutes(request, env, url) {
   switch (url.pathname) {
     case "/api/pod/calendar.ics": return handleCalendar(request, env, url);
+    case "/api/pod/optimizer/prompt": return handleOptimizerPrompt(request, env);
+    case "/api/pod/optimizer/ask": return handleOptimizerAsk(request, env);
+    case "/api/pod/optimizer/affirmations": return handleOptimizerAffirm(request, env);
     case "/api/pod/tracker": return handleTracker(request, env, url);
     case "/api/pod/checkin": return handleCheckin(request, env);
     case "/api/pod/certificate": return handleCertificate(request, env, url);

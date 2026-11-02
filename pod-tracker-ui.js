@@ -7,7 +7,11 @@
     ".boundary{font-size:14px;color:var(--muted);font-style:italic;margin:-4px 0 14px}",
     "#ready details.yours{margin-top:18px;border-top:1px solid var(--line);padding-top:10px}",
     ".tq{font-family:var(--serif-display);font-size:26px;line-height:1.25;color:var(--ink);margin:4px 0 16px}",
-    "#ready .card + .card{margin-top:16px}"
+    "#ready .card + .card{margin-top:16px}",
+    ".ask .turn{margin:0 0 14px}",
+    ".ask .q{font-size:14px;color:var(--muted);margin:0 0 6px}",
+    ".ask .a{font-family:var(--serif);font-size:18px;line-height:1.55;color:var(--ink);white-space:pre-line}",
+    ".thinking{font-family:var(--serif);font-style:italic;color:var(--muted)}"
   ].join("\n");
   var style = document.createElement("style");
   style.textContent = css;
@@ -54,7 +58,7 @@
       if (!lastReply) h += "<div class=\"reply\"><div class=\"label\">The Optimizer</div>" + esc(t.completion) + "</div>";
       h += "<a class=\"btn\" href=\"/pod-certificate\">Open my certificate and declaration</a>";
     } else if (!t.ended) {
-      h += "<div class=\"panel\"><div class=\"label\">Before your hour · Day " + t.nextDay + "</div><p class=\"prompt\">" + esc(t.prompt) + "</p></div>";
+      h += "<div class=\"panel\"><div class=\"label\">Before your hour · Day " + t.nextDay + "</div><p class=\"prompt\" id=\"dayPrompt\">" + esc(t.prompt) + "</p></div>";
       if (t.checkinOpen) {
         h += "<div id=\"checkin\">";
         h += "<div class=\"label\">Your check-in · Day " + t.nextDay + "</div>";
@@ -105,6 +109,7 @@
     h += "<details class=\"more yours\"><summary>Your top 5</summary><ol class=\"plain\">";
     t.top5.forEach(function (g) { h += "<li>" + esc(g) + "</li>"; });
     h += "</ol></details>";
+    h += "<div id=\"askBox\"></div>";
 
     box.innerHTML = h;
     wire(t);
@@ -163,6 +168,74 @@
     el("remIcs").onclick = el("remGoogle").onclick = function () { store(CAL_TIME, el("remTime").value); store(CAL_ADDED, "1"); };
   }
 
+  /* The Optimizer: today's prompt, questions and affirmations */
+  function post(path, body) {
+    body.token = token;
+    return api(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  }
+  function loadPrompt() {
+    var box = el("dayPrompt");
+    if (!box) return;
+    post("/api/pod/optimizer/prompt", {}).then(function (res) {
+      if (res.success && res.prompt && el("dayPrompt")) el("dayPrompt").textContent = res.prompt;
+    });
+  }
+  function askHtml(state) {
+    var h = "<div class=\"card ask\"><div class=\"label\" style=\"margin-top:0\">Ask the Optimizer</div>";
+    h += "<p class=\"small\" style=\"margin-bottom:12px\">Questions about the practice: how to do a part of the hour, what to read, how to protect your silence. Never share what you wrote during the hour or to God.</p>";
+    state.turns.forEach(function (tn) {
+      h += "<div class=\"turn\"><p class=\"q\">You: " + esc(tn.q) + "</p><div class=\"a\">" + esc(tn.a) + "</div></div>";
+    });
+    if (state.remaining > 0) {
+      h += "<textarea id=\"askQ\" maxlength=\"600\" style=\"min-height:70px\" placeholder=\"Ask your question\"></textarea>";
+      h += "<div class=\"row\" style=\"margin-top:0\"><button class=\"btn\" id=\"askSend\">Ask</button><button class=\"btn ghost\" id=\"affirmBtn\">Draft my affirmations</button></div>";
+      h += "<p class=\"small\" style=\"margin-top:8px\">" + state.remaining + " " + (state.remaining === 1 ? "question" : "questions") + " left today.</p>";
+    } else {
+      h += "<p class=\"small\">That is enough questions for today. You can ask again tomorrow.</p><div class=\"row\" style=\"margin-top:0\"><button class=\"btn ghost\" id=\"affirmBtn\">Draft my affirmations</button></div>";
+    }
+    h += "<div id=\"affirmOut\"></div><p class=\"msg\" id=\"askMsg\"></p></div>";
+    return h;
+  }
+  function askSay(text, thinking) {
+    var m = el("askMsg");
+    if (!m) return;
+    m.classList.toggle("error", !!text && !thinking);
+    m.innerHTML = thinking ? "<span class=\"thinking\">" + esc(text) + "</span>" : esc(text || "");
+  }
+  function drawAsk(state) {
+    var box = el("askBox");
+    if (!box) return;
+    box.innerHTML = askHtml(state);
+    if (el("askSend")) el("askSend").onclick = function () {
+      var q = el("askQ").value.trim();
+      if (q.length < 3) return askSay("Please write your question.");
+      el("askSend").disabled = true;
+      askSay("The Optimizer is thinking…", true);
+      post("/api/pod/optimizer/ask", { question: q }).then(function (res) {
+        if (!res.success) { el("askSend").disabled = false; return askSay(res.error); }
+        state.turns.push({ q: q, a: res.answer });
+        state.remaining = res.remaining;
+        drawAsk(state);
+      });
+    };
+    el("affirmBtn").onclick = function () {
+      el("affirmBtn").disabled = true;
+      askSay("The Optimizer is drafting your affirmations…", true);
+      post("/api/pod/optimizer/affirmations", {}).then(function (res) {
+        el("affirmBtn").disabled = false;
+        if (!res.success) return askSay(res.error);
+        askSay("");
+        el("affirmOut").innerHTML = "<div class=\"reply\" style=\"margin-top:16px\"><div class=\"label\">Your affirmations for today</div><div style=\"white-space:pre-line\">" + esc(res.text) + "</div></div>";
+      });
+    };
+  }
+  function loadAsk() {
+    if (!el("askBox")) return;
+    post("/api/pod/optimizer/ask", {}).then(function (res) {
+      if (res.success && res.on) drawAsk({ turns: res.turns || [], remaining: res.remaining });
+    });
+  }
+
   function say(text) {
     var m = el("ciMsg");
     if (m) { m.textContent = text || ""; m.classList.toggle("error", !!text); }
@@ -170,6 +243,7 @@
 
   function send(body, btn) {
     btn.disabled = true;
+    if (body.kept) { var m = el("ciMsg"); if (m) { m.classList.remove("error"); m.innerHTML = "<span class=\"thinking\">The Optimizer is reading your Mirror Moment…</span>"; } }
     body.token = token;
     api("/api/pod/checkin", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then(function (res) {
       btn.disabled = false;
@@ -182,6 +256,8 @@
 
   function wire(t) {
     wireReminder(t);
+    loadPrompt();
+    loadAsk();
     if (!el("checkin")) return;
     el("ciYes").onclick = function () { el("checkin").classList.add("hidden"); el("mirror").classList.remove("hidden"); el("mmSaw").focus(); };
     el("ciNo").onclick = function () { el("checkin").classList.add("hidden"); el("brokenConfirm").classList.remove("hidden"); };
