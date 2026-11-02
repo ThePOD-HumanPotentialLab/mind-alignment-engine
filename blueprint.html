@@ -67,8 +67,9 @@ section.s{padding:44px 0 6px}
 .facil{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
 .facil img{width:150px;height:194px;object-fit:cover;object-position:50% 20%;border-radius:75px 75px 16px 16px;box-shadow:0 0 0 1.5px var(--gold),0 0 0 6px var(--card),0 0 0 7px var(--gold-soft);flex:none}
 .facil div{flex:1;min-width:230px}
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:18px}
-.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:20px}
+@media(min-width:600px){.gallery{grid-template-columns:repeat(3,1fr);gap:10px}}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:block}
 /* Pricing + form */
 .formats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 18px}
 @media(max-width:520px){.formats{grid-template-columns:1fr}}
@@ -298,6 +299,8 @@ label.f small{font-weight:400;color:var(--muted)}
       <div class="btns">
         <a class="btn" id="gcal" target="_blank" rel="noopener">Add to Google Calendar</a>
         <a class="btn ghost" id="ics" download="the-2027-blueprint.ics">Add to Apple or Outlook calendar</a>
+        <a class="btn hidden" id="groupJoin" target="_blank" rel="noopener">Join the participants' WhatsApp group</a>
+        <a class="btn ghost" id="maps" target="_blank" rel="noopener">Get directions</a>
         <a class="btn ghost" id="waConfirm" target="_blank" rel="noopener">Message us on WhatsApp</a>
       </div>
       <div class="panel" style="margin-top:22px;text-align:center">
@@ -330,9 +333,10 @@ label.f small{font-weight:400;color:var(--muted)}
 (function(){
   /* ---- Edit these when details change ---- */
   var VENUE_SHORT = "Mabushi, Abuja";
-  var VENUE_FULL = "";            // e.g. "Plot 123, ... Street, Mabushi, Abuja". Blank = "sent on registration".
+  var VENUE_FULL = "Nexia Nigeria, 1060 Niqs Crescent, Mabushi, Abuja";
+  var MAPS = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("1060 Niqs Crescent, Mabushi, Abuja");
   var WHATSAPP = "2349168667061";
-  var GALLERY = [];               // e.g. ["/brand/training-1.jpg", "/brand/training-2.jpg"]
+  var GALLERY = ["/brand/training-1.jpg", "/brand/training-2.jpg", "/brand/training-3.jpg", "/brand/training-6.jpg", "/brand/training-5.jpg", "/brand/training-4.jpg"];
   /* ---------------------------------------- */
 
   var $ = function(id){ return document.getElementById(id); };
@@ -341,7 +345,7 @@ label.f small{font-weight:400;color:var(--muted)}
   var cfg = null;
 
   document.querySelectorAll(".venue-short").forEach(function(e){ e.textContent = VENUE_SHORT; });
-  if (VENUE_FULL) $("venueFull").textContent = "The venue is " + VENUE_FULL + ".";
+  if (VENUE_FULL) $("venueFull").innerHTML = "The venue is " + VENUE_FULL + ". <a href='" + MAPS + "' target='_blank' rel='noopener'>Open in Google Maps</a>.";
   GALLERY.forEach(function(src){ var i = new Image(); i.src = src; i.alt = "Josh Ochu facilitating a session"; i.loading = "lazy"; $("gallery").appendChild(i); });
 
   $("waFloat").href = wa("Hello, I have a question about The 2027 Blueprint.");
@@ -451,6 +455,8 @@ label.f small{font-weight:400;color:var(--muted)}
         $("t-name").textContent = t.name; $("t-format").textContent = t.formatLabel;
         $("t-where").textContent = where; $("t-ref").textContent = t.reference;
         calendar(t);
+        if (t.groupLink) { $("groupJoin").href = t.groupLink; $("groupJoin").classList.remove("hidden"); $("gcal").classList.add("ghost"); }
+        if (t.format === "onsite") $("maps").href = MAPS; else $("maps").classList.add("hidden");
         $("waConfirm").href = wa("Hello, I have registered for The 2027 Blueprint (" + t.formatLabel + "). My reference is " + t.reference + ".");
         $("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent("I've just booked my seat at The 2027 Blueprint with Josh Ochu: one day to design 2027 before it happens. Saturday 28 November, Abuja and online. Join me: " + location.origin + "/blueprint");
         $("confirmed").classList.remove("hidden");

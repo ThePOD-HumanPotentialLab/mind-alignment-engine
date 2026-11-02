@@ -9,6 +9,8 @@ const EVENT = {
   // End of Thursday 26 November 2026, Lagos time
   closesAt: "2026-11-26T23:00:00Z",
   onsiteSeats: 50,
+  // Participants' WhatsApp group invite. Shown only to paid registrants on their confirmation page.
+  groupLink: "",
   showSeatsLeftBelow: 15,
   formats: {
     onsite:  { label: "Onsite, Mabushi, Abuja", early: 11200000, standard: 14000000 },
@@ -81,6 +83,7 @@ function ticket(r) {
     formatLabel: EVENT.formats[r.format]?.label || r.format,
     amount: r.amount_kobo / 100,
     paid: r.status === "success",
+    groupLink: r.status === "success" && EVENT.groupLink ? EVENT.groupLink : null,
     reserved: r.status === "reserved"
   };
 }
