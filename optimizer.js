@@ -18,17 +18,18 @@ export const SAFETY_CONTACTS = [
   { name: "Mentally Aware Nigeria Initiative", number: "0809 111 6264", href: "tel:08091116264" }
 ];
 // The human escalation line: The POD (POD Consulting), chosen by Josh.
-export const POD_CONTACT = { name: "The POD (Talk2pod)", number: "0916 866 7061", href: "tel:+2349168667061" };
+export const POD_CONTACT = { name: "Call The POD", number: "0916 866 7061", href: "tel:+2349168667061" };
+export const POD_EMAIL = { name: "Email The POD", number: "talk2pod@gmail.com", href: "mailto:talk2pod@gmail.com?subject=" + encodeURIComponent("I need to talk") };
 
 export function safetyContacts() {
-  return POD_CONTACT.number ? [...SAFETY_CONTACTS, POD_CONTACT] : SAFETY_CONTACTS;
+  return [...SAFETY_CONTACTS, POD_CONTACT, POD_EMAIL];
 }
 
 export const SAFETY_MESSAGE =
   "I am stepping out of the drill for a moment, because what you have shared matters more than any day count. " +
   "If you are in danger right now, please call 112, Nigeria's emergency number, or go to the nearest hospital. " +
   "You can also talk to someone today: SURPIN on 0800 078 7746 (free, 24 hours) or the Mentally Aware Nigeria Initiative on 0809 111 6264" +
-  (POD_CONTACT.number ? ", or reach out to The POD (Talk2pod) on " + POD_CONTACT.number : "") + ". " +
+  ", or reach out to The POD on " + POD_CONTACT.number + " or at " + POD_EMAIL.number + ". " +
   "Please tell someone you trust how you are feeling, today. You do not have to carry this alone.";
 
 const CRISIS = /(kill(ing)? myself|suicid|end(ing)? my (own )?life|take my (own )?life|want(ed)? to die|wish i (was|were) dead|don'?t want to (live|be alive|wake up)|no reason to live|self[- ]?harm|harm(ing)? myself|hurt(ing)? myself|cut(ting)? myself|(kill|hurt|harm) (someone|somebody|him|her|them|my (wife|husband|child|children|kids)))/i;

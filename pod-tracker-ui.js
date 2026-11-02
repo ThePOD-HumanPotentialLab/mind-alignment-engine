@@ -17,7 +17,7 @@
     "#safetyBanner h3{color:#fff;font-family:var(--sans);font-size:17px;font-weight:600;margin:0 0 6px}",
     "#safetyBanner p{font-size:14px;margin:0 0 10px;color:#fff}",
     "#safetyBanner a.sf{display:flex;justify-content:space-between;gap:12px;align-items:center;background:rgba(255,255,255,.14);color:#fff;text-decoration:none;border-radius:12px;padding:11px 14px;margin:6px 0;font-size:14px;min-height:44px}",
-    "#safetyBanner a.sf strong{font-size:16px;white-space:nowrap}",
+    "#safetyBanner a.sf strong{font-size:16px;white-space:nowrap;overflow-wrap:anywhere}",
     "#safetyBanner button{background:none;border:0;color:#fff;text-decoration:underline;font:13px var(--sans);margin-top:6px;cursor:pointer;min-height:44px}"
   ].join("\n");
   var style = document.createElement("style");
