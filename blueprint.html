@@ -335,7 +335,7 @@ label.f small{font-weight:400;color:var(--muted)}
 (function(){
   /* ---- Edit these when details change ---- */
   var VENUE_SHORT = "Mabushi, Abuja";
-  var VENUE_FULL = "Nexia Nigeria, 1060 Niqs Crescent, Mabushi, Abuja";
+  var VENUE_FULL = "Centre for Human Potential Development @ Nexia Nigeria, 1060 Niqs Crescent, Mabushi, Abuja";
   var MAPS = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("1060 Niqs Crescent, Mabushi, Abuja");
   var WHATSAPP = "2349168667061";
   var GALLERY = ["/brand/training-1.jpg", "/brand/training-2.jpg", "/brand/training-3.jpg", "/brand/training-6.jpg", "/brand/training-5.jpg", "/brand/training-4.jpg"];
@@ -347,7 +347,7 @@ label.f small{font-weight:400;color:var(--muted)}
   var cfg = null;
 
   document.querySelectorAll(".venue-short").forEach(function(e){ e.textContent = VENUE_SHORT; });
-  if (VENUE_FULL) $("venueFull").innerHTML = "The venue is " + VENUE_FULL + ". <a href='" + MAPS + "' target='_blank' rel='noopener'>Open in Google Maps</a>.";
+  if (VENUE_FULL) $("venueFull").innerHTML = "The venue is the " + VENUE_FULL + ". <a href='" + MAPS + "' target='_blank' rel='noopener'>Open in Google Maps</a>.";
   GALLERY.forEach(function(src){ var i = new Image(); i.src = src; i.alt = "Josh Ochu facilitating a session"; i.loading = "lazy"; $("gallery").appendChild(i); });
 
   $("waFloat").href = wa("Hello, I have a question about The 2027 Blueprint.");
