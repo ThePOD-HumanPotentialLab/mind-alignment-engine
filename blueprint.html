@@ -139,7 +139,7 @@ label.f small{font-weight:400;color:var(--muted)}
       <div class="count" aria-live="off"><div><b id="cd-d">0</b><small>days</small></div><div><b id="cd-h">0</b><small>hrs</small></div><div><b id="cd-m">0</b><small>min</small></div></div>
     </div>
     <img class="hero-photo" src="/brand/josh-ochu.jpg" alt="Josh Ochu" width="480" height="618">
-    <p class="by"><b>With Josh Ochu</b>Founder, The POD Human Potential Lab</p>
+    <p class="by"><b>With Josh Ochu</b>Founder &amp; CEO, The POD Human Potential Lab</p>
   </div>
 </header>
 
@@ -198,7 +198,7 @@ label.f small{font-weight:400;color:var(--muted)}
         <img src="/brand/josh-ochu.jpg" alt="Josh Ochu" loading="lazy" width="480" height="618">
         <div>
           <h3>Josh Ochu</h3>
-          <p class="small" style="margin:0 0 10px">Founder, The POD Human Potential Lab · Executive HR and Organisation Development consultant</p>
+          <p class="small" style="margin:0 0 10px">Founder &amp; CEO, The POD Human Potential Lab · Executive HR and Organisation Development consultant</p>
           <p class="serif" style="margin:0">Josh works with leaders, teams and individuals on the one thing beneath every outcome: how they think. He is the creator of Mind-Derived Optimisation and the Personal Optimization Drill, and he has spent years in front of rooms helping people change at the level where change lasts.</p>
         </div>
       </div>
@@ -335,7 +335,7 @@ label.f small{font-weight:400;color:var(--muted)}
 (function(){
   /* ---- Edit these when details change ---- */
   var VENUE_SHORT = "Mabushi, Abuja";
-  var VENUE_FULL = "Nexia Nigeria, 1060 Niqs Crescent, Mabushi, Abuja";
+  var VENUE_FULL = "Centre for Human Potential Development @ Nexia Nigeria, 1060 Niqs Crescent, Mabushi, Abuja";
   var MAPS = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("1060 Niqs Crescent, Mabushi, Abuja");
   var WHATSAPP = "2349168667061";
   var GALLERY = ["/brand/training-1.jpg", "/brand/training-2.jpg", "/brand/training-3.jpg", "/brand/training-6.jpg", "/brand/training-5.jpg", "/brand/training-4.jpg"];
@@ -347,7 +347,7 @@ label.f small{font-weight:400;color:var(--muted)}
   var cfg = null;
 
   document.querySelectorAll(".venue-short").forEach(function(e){ e.textContent = VENUE_SHORT; });
-  if (VENUE_FULL) $("venueFull").innerHTML = "The venue is " + VENUE_FULL + ". <a href='" + MAPS + "' target='_blank' rel='noopener'>Open in Google Maps</a>.";
+  if (VENUE_FULL) $("venueFull").innerHTML = "The venue is the " + VENUE_FULL + ". <a href='" + MAPS + "' target='_blank' rel='noopener'>Open in Google Maps</a>.";
   GALLERY.forEach(function(src){ var i = new Image(); i.src = src; i.alt = "Josh Ochu facilitating a session"; i.loading = "lazy"; $("gallery").appendChild(i); });
 
   $("waFloat").href = wa("Hello, I have a question about The 2027 Blueprint.");
