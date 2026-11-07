@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex">
+<title>POD participants | The POD</title>
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<link rel="stylesheet" href="/garden.css">
+<style>
+.wrap{width:min(1100px,100%)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stats b{font-variant-numeric:lining-nums;display:block;font-family:var(--serif-display);font-size:30px;color:var(--ink)}
+.stats span{font-size:12px;color:var(--muted)}
+.tbl{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text)}
+.ok{color:#2f6b3a;font-weight:600}.res{color:#7a5c2a;font-weight:600}.no{color:var(--muted)}
+td .btn{min-height:36px;padding:6px 14px;font-size:13px}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/pod"><img src="/brand/logo-horizontal.png" alt="The POD"></a><div class="context">POD participants</div></header>
+<main class="wrap">
+  <form id="login" class="card" style="max-width:420px;margin:30px auto">
+    <label class="label" for="key" style="display:block;margin-top:0">Admin key</label>
+    <input id="key" type="password" autocomplete="current-password">
+    <button class="btn" type="submit">Open</button>
+    <div class="msg error" id="msg"></div>
+  </form>
+  <section id="view" class="hidden">
+    <div class="stats" id="stats"></div>
+    <div class="row" style="margin:0 0 14px"><button class="btn ghost" id="refresh">Refresh</button></div>
+    <div class="tbl"><table><thead><tr><th>Payment</th><th>Action</th><th>Name</th><th>Email</th><th>Amount</th><th>Reference</th><th>Prepared</th><th>Joined</th></tr></thead><tbody id="rows"></tbody></table></div>
+    <p class="small" style="margin-top:10px">"Says sent" = the participant tapped "I have made the transfer". Check your GTBank account for the amount and the reference in the narration, then tap "Confirm payment". Their preparation opens straight away. "Not sent yet" = they chose bank transfer but have not said they paid. "Prepared" = vow taken, ready to begin.</p>
+  </section>
+</main>
+<script>
+(function(){
+  var key = ""; try { key = sessionStorage.getItem("podk") || ""; } catch(e){}
+  var $ = function(id){ return document.getElementById(id); };
+  var naira = function(n){ return n == null ? "" : "₦" + Number(n).toLocaleString("en-NG"); };
+  var esc = function(s){ var d = document.createElement("div"); d.textContent = s == null ? "" : s; return d.innerHTML; };
+  function status(x){
+    if (x.paid_at) return ["Paid", "ok"];
+    if (x.pay_status === "transfer_claimed") return ["Says sent", "res"];
+    if (x.pay_status === "transfer_pending") return ["Not sent yet", "no"];
+    if (x.pay_status === "initialized") return ["Started Paystack", "no"];
+    return ["No payment", "no"];
+  }
+  function load(){
+    fetch("/api/pod/admin", { headers: { Authorization: "Bearer " + key } }).then(function(r){ return r.json(); }).then(function(r){
+      if (!r.success) { $("msg").textContent = r.error || "Could not open."; $("login").classList.remove("hidden"); $("view").classList.add("hidden"); return; }
+      try { sessionStorage.setItem("podk", key); } catch(e){}
+      $("login").classList.add("hidden"); $("view").classList.remove("hidden");
+      var s = r.summary;
+      $("stats").innerHTML = [["Paid", s.paid], ["Awaiting your confirmation", s.awaiting], ["Chose transfer, not sent", s.notYetSent], ["Prepared and ready", s.ready], ["Revenue", naira(s.revenue)]]
+        .map(function(x){ return "<div><b>" + esc(x[1]) + "</b><span>" + esc(x[0]) + "</span></div>"; }).join("");
+      $("rows").innerHTML = r.rows.map(function(x){
+        var l = status(x);
+        var canConfirm = !x.paid_at && (x.pay_status === "transfer_claimed" || x.pay_status === "transfer_pending");
+        return "<tr><td class='" + l[1] + "'>" + l[0] + "</td><td>" + (canConfirm ? "<button class='btn' data-ref='" + esc(x.reference) + "'>Confirm payment</button>" : "") +
+          "</td><td>" + esc(x.name) + "</td><td>" + esc(x.email) + "</td><td>" + naira(x.amount) + "</td><td>" + esc(x.reference) +
+          "</td><td>" + (x.vow_at ? "Yes" : "") + "</td><td>" + esc((x.created_at || "").slice(0, 16).replace("T", " ")) + "</td></tr>";
+      }).join("") || "<tr><td colspan='8' class='no'>No participants yet.</td></tr>";
+    });
+  }
+  $("login").addEventListener("submit", function(e){ e.preventDefault(); key = $("key").value.trim(); load(); });
+  $("refresh").addEventListener("click", load);
+  $("rows").addEventListener("click", function(e){
+    var ref = e.target.getAttribute && e.target.getAttribute("data-ref"); if (!ref) return;
+    var row = e.target.closest("tr"), who = row ? row.children[2].textContent : ref;
+    if (!window.confirm("Confirm that ₦ payment from " + who + " with reference " + ref + " has arrived in your GTBank account?")) return;
+    e.target.disabled = true;
+    fetch("/api/pod/admin/confirm", { method: "POST", headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" }, body: JSON.stringify({ reference: ref }) })
+      .then(function(r){ return r.json(); }).then(function(r){ if (!r.success) alert(r.error || "Could not update."); load(); });
+  });
+  if (key) load();
+})();
+</script>
+</body>
+</html>
