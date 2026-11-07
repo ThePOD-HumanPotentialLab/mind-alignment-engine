@@ -26,7 +26,7 @@
 .question{font-family:var(--serif-display);font-weight:500;font-size:clamp(27px,6.5vw,36px);line-height:1.2;color:var(--ink);margin-bottom:22px}
 .options{display:grid;gap:10px}
 .option{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--text);cursor:pointer;font:16px/1.5 var(--sans);text-align:left;min-height:56px;transition:border-color .25s,background .25s,transform .25s}
-.option:hover{border-color:var(--gold)}
+@media (hover:hover) and (pointer:fine){.option:hover{border-color:var(--gold)}}
 .option.selected{border-color:var(--gold);background:var(--reply);box-shadow:inset 3px 0 0 var(--gold)}
 .nav{display:flex;justify-content:space-between;gap:12px;margin-top:24px}
 .score-line{font-size:14px;color:var(--muted);margin:-4px 0 6px}
@@ -1057,6 +1057,8 @@ function renderQuestion(){
     if (answers[currentQuestion] === index) button.classList.add("selected");
     button.onclick = () => selectOption(index); options.appendChild(button);
   });
+  // Let no outline carry over from the previous tap (iPhone keeps the last touch highlighted)
+  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
   document.getElementById("nextButton").disabled = answers[currentQuestion] === undefined || answers[currentQuestion] === null;
   document.getElementById("nextButton").textContent = currentQuestion === questions.length - 1 ? "See my results →" : "Continue →";
 }
