@@ -18,35 +18,42 @@ window.RESET_CONTENT = {
     "One day at a time. Each new day opens the following calendar day, so do not rush ahead.",
     "If you miss a day, continue where you stopped. The reset is not lost; it is only paused."
   ],
-  "rhythmNote": "Morning and evening is the way we recommend. If your day only allows one sitting, do it all in the evening, so that your reflection speaks of a day you have lived.",
+  "rhythmNote": "Morning and evening is the rhythm. If your day allows only one sitting, do it all in the evening. Reflect on a day you have lived.",
   "intention": {
     "label": "My intention for today",
-    "placeholder": "When and where will I practise this today? For example: in my 10 o'clock meeting, and on the drive home.",
+    "placeholder": "What thought will I plant today, and where will I practise it? For example: in my 10 o'clock meeting.",
     "note": "Saved on this phone only. It will be waiting for you this evening."
   },
   "evening": {
     "waitTitle": "Come back this evening",
-    "wait": "Live the practice first. Your reflection belongs to the day you are about to live, so return this evening to write it and complete Day {n}.",
+    "wait": "Live the practice first. Return this evening to reflect and complete Day {n}. You can only tend what has grown.",
+    "tonight": "Tonight you will be asked:",
+    "carry": "Carry the question with you today.",
+    "dayOne": "Best written this evening, after you have lived the practice. If now is your only moment, write now.",
     "laterBtn": "I will come back tonight",
-    "nowLink": "My day only allows one sitting. Let me reflect now.",
-    "intended": "This morning you intended:",
+    "nowLink": "Only one sitting today? Reflect now.",
+    "intended": "This morning you planted:",
     "welcome": "Welcome back. Hold today's law in mind as you write:"
   },
   "reflectHow": [
-    "Find five quiet minutes, away from your screen's other noise.",
+    "Find five quiet minutes. Put everything else away.",
     "Read today's law again, then read the question slowly.",
     "Write what actually happened, not what should have happened. Honesty is the soil; judgement is the weed.",
-    "One or two true sentences are enough. Name a moment, what you thought, and what you chose."
+    "One or two true sentences are enough. Name a moment, what you thought, and what you chose.",
+    "What you write becomes evidence. Evidence builds belief."
   ],
   "reminder": {
     "title": "Remind me morning and evening",
     "intro": "Add the Reset to your phone's calendar: a reminder for your morning reading and one for your evening reflection, for each day that remains.",
     "morning": "Morning reading at",
     "evening": "Evening reflection at",
-    "apple": "iPhone or Apple Calendar",
+    "apple": "Add to my iPhone calendar",
+    "other": "Other calendar app (.ics file)",
+    "inApp": "To add reminders, open this page in your phone's browser first: tap ⋮ or the share icon, then choose Open in Chrome or Open in Safari.",
+    "nudge": "Your place is saved. Add the reminder above, so this evening does not slip past you.",
     "googleMorning": "Google: morning",
     "googleEvening": "Google: evening",
-    "googleNote": "On Android, tap both Google buttons and save each one. On iPhone, open this page in Safari, not inside WhatsApp."
+    "googleNote": "Tap each button and save each one in Google Calendar."
   },
   "days": [
     {
