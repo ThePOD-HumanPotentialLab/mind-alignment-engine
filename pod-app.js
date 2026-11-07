@@ -1,6 +1,6 @@
 /* The POD: entry and preparation (front end) */
 (function () {
-  var SECTIONS = ["loading", "closed", "join", "unpaid", "assignment", "mindprint", "vowView", "ready"];
+  var SECTIONS = ["loading", "closed", "join", "transfer", "unpaid", "assignment", "mindprint", "vowView", "ready"];
   var TOKEN_KEY = "podToken";
   var REF_KEY = "podReference";
   var config = null;
@@ -29,7 +29,7 @@
   });
 
   function show(id) {
-    notYou.classList.toggle("hidden", ["unpaid", "assignment", "mindprint", "vowView", "ready"].indexOf(id) < 0);
+    notYou.classList.toggle("hidden", ["transfer", "unpaid", "assignment", "mindprint", "vowView", "ready"].indexOf(id) < 0);
     SECTIONS.forEach(function (s) { $(s).classList.toggle("hidden", s !== id); });
     window.scrollTo(0, 0);
   }
@@ -57,7 +57,22 @@
     else { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
   }
 
+  function showTransfer(t) {
+    $("trAmount").textContent = "\u20A6" + Number(t.amount).toLocaleString("en-NG");
+    $("trBank").textContent = t.bank.bank;
+    $("trName").textContent = t.bank.accountName;
+    $("trNumber").textContent = t.bank.accountNumber;
+    $("trRef").textContent = t.reference;
+    $("trTitle").textContent = t.claimed ? "We are confirming your transfer" : "Complete your place by bank transfer";
+    $("trSendWrap").classList.toggle("hidden", !!t.claimed);
+    $("trWaitWrap").classList.toggle("hidden", !t.claimed);
+    $("trWhatsApp").href = "https://wa.me/" + t.whatsapp + "?text=" + encodeURIComponent("Hello, here is my proof of payment for the POD. Reference: " + t.reference);
+    say("trMsg", "");
+    show("transfer");
+  }
+
   function route(state) {
+    if (!state.paid && state.transfer) return showTransfer(state.transfer);
     if (!state.paid) return show("unpaid");
     if (!state.assignmentDeclared) return show("assignment");
     if (!state.mindprint) return show("mindprint");
@@ -78,6 +93,9 @@
     if (!config || !config.open) return show("closed");
     var plan = config.plans[0];
     $("price").innerHTML = "₦" + plan.amount.toLocaleString("en-NG") + " <small>" + plan.name.replace(/^The POD \(|\)$/g, "") + " price</small>";
+    var transferOnly = config.payMode === "transfer";
+    $("joinBtn").textContent = transferOnly ? "Continue to bank transfer" : "Continue to payment";
+    $("transferAltWrap").classList.toggle("hidden", transferOnly);
     show("join");
   }
 
@@ -110,12 +128,52 @@
     });
   }
 
+  function joinByTransfer(name, email, btn) {
+    busy(btn, true);
+    post("/api/pod/join", { name: name, email: email, plan: config.plans[0].id, method: "transfer" }).then(function (res) {
+      busy(btn, false);
+      if (!res.success) return say("joinMsg", res.error, true);
+      store(TOKEN_KEY, res.token);
+      store(REF_KEY, null);
+      route(res.state);
+    });
+  }
+
   /* ---- Join ---- */
   $("joinBtn").addEventListener("click", function () {
     var name = $("name").value.trim(), email = $("email").value.trim();
     if (!name || !email) return say("joinMsg", "Please enter your name and email address.", true);
     say("joinMsg", "");
+    if (config.payMode === "transfer") return joinByTransfer(name, email, $("joinBtn"));
     pay(name, email, $("joinBtn"), "joinMsg");
+  });
+
+  $("transferAlt").addEventListener("click", function () {
+    var name = $("name").value.trim(), email = $("email").value.trim();
+    if (!name || !email) return say("joinMsg", "Please enter your name and email address first.", true);
+    joinByTransfer(name, email, $("transferAlt"));
+  });
+
+  /* ---- Bank transfer ---- */
+  $("trSentBtn").addEventListener("click", function () {
+    var btn = $("trSentBtn");
+    busy(btn, true);
+    post("/api/pod/transfer-sent", { token: read(TOKEN_KEY) }).then(function (res) {
+      busy(btn, false);
+      if (!res.success) return say("trMsg", res.error, true);
+      route(res.state);
+    });
+  });
+
+  $("trCheckBtn").addEventListener("click", function () {
+    var btn = $("trCheckBtn");
+    busy(btn, true);
+    api("/api/pod/state?token=" + encodeURIComponent(read(TOKEN_KEY) || "")).then(function (res) {
+      busy(btn, false);
+      if (!res.success) return say("trMsg", res.error, true);
+      if (!res.state.paid) return say("trMsg", "Not confirmed yet. We will open your preparation as soon as it is.");
+      route(res.state);
+    });
   });
 
   $("showRecover").addEventListener("click", function () {

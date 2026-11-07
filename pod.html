@@ -96,16 +96,42 @@ ol.plain{margin:6px 0 10px 22px}
     <input id="name" type="text" placeholder="Your name" autocomplete="name">
     <input id="email" type="email" placeholder="Your email address" autocomplete="email">
     <button id="joinBtn" class="btn">Continue to payment</button>
-    <p class="msg" id="joinMsg"></p>
+    <p style="margin:6px 0 0" id="transferAltWrap" class="hidden"><button class="link" id="transferAlt">Prefer to pay by bank transfer?</button></p>
+    <p class="msg" id="joinMsg" aria-live="polite"></p>
     <button class="link" id="showRecover">Already paid? Restore my access</button>
     <div id="recover" class="hidden">
       <div class="label">Restore my access</div>
-      <p class="hint">Use the email you joined with and the reference on your Paystack receipt (it begins with POD-).</p>
+      <p class="hint">Use the email you joined with and your payment reference (it begins with POD-).</p>
       <input id="recEmail" type="email" placeholder="Your email address" autocomplete="email">
       <input id="recRef" type="text" placeholder="Payment reference, e.g. POD-1A2B3C4D5E6F7A8B">
       <button id="recoverBtn" class="btn ghost">Restore my access</button>
       <p class="msg" id="recMsg"></p>
     </div>
+  </div>
+</section>
+
+<section id="transfer" class="fade hidden">
+  <div class="eyebrow center">The Personal Optimization Drill</div>
+  <h2 class="center" id="trTitle">Complete your place by bank transfer</h2>
+  <div class="card">
+    <p id="trLead">Transfer the amount below from your bank app. Use your reference as the narration, so we can match your payment to you.</p>
+    <div class="panel">
+      <div class="label" style="margin-top:0">Amount</div><p class="price" id="trAmount" style="margin-bottom:10px"></p>
+      <div class="label">Bank</div><p id="trBank" style="margin-bottom:8px"></p>
+      <div class="label">Account name</div><p id="trName" style="margin-bottom:8px"></p>
+      <div class="label">Account number</div><p id="trNumber" style="margin-bottom:8px;font-size:22px;font-weight:600;letter-spacing:.04em"></p>
+      <div class="label">Narration (your reference)</div><p id="trRef" style="margin-bottom:0;font-size:20px;font-weight:600;letter-spacing:.04em"></p>
+    </div>
+    <div id="trSendWrap">
+      <button id="trSentBtn" class="btn">I have made the transfer</button>
+      <p class="small" style="margin-top:10px">Keep this page, or screenshot it. Your place is held while we confirm your payment.</p>
+    </div>
+    <div id="trWaitWrap" class="hidden">
+      <p>Thank you. We confirm transfers by hand, usually within a few hours. As soon as yours is confirmed, this page opens your preparation.</p>
+      <p>To speed it up, send your proof of payment on WhatsApp.</p>
+      <div class="row" style="margin-top:6px"><a class="btn" id="trWhatsApp" target="_blank" rel="noopener">Send proof on WhatsApp</a><button id="trCheckBtn" class="btn ghost">Check my status</button></div>
+    </div>
+    <p class="msg" id="trMsg" aria-live="polite"></p>
   </div>
 </section>
 
