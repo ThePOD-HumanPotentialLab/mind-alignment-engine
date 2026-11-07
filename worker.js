@@ -38,56 +38,75 @@ async function handleSaveProfile(request, env) {
   if (request.method !== "POST") {
     return new Response("Method Not Allowed", { status: 405 });
   }
+  if (Number(request.headers.get("content-length") || 0) > 60000) {
+    return json({ success: false, error: "That request is too large." }, 413);
+  }
 
   try {
-    const data = await request.json();
-    const name = String(data.name || "").trim();
-    const email = String(data.email || "").trim();
+    const data = await readJson(request);
+    if (!data) return json({ success: false, error: "Incomplete profile data." }, 400);
+    const clip = (v, n) => String(v ?? "").trim().slice(0, n);
+    const name = clip(data.name, 100);
+    const email = clip(data.email, 200).toLowerCase();
+    const whatsapp = clip(data.whatsapp, 20);
     const overallScore = Number(data.overallScore);
-    const dimensionScores = data.dimensionScores;
     const answers = data.answers;
+    const dimensionScores = data.dimensionScores;
 
-    const recommendedProduct = String(data.recommendedProduct || "").trim();
-    const recommendationStage = String(data.recommendationStage || "").trim();
-    const recommendationReason = String(data.recommendationReason || "").trim();
-    const recommendationCTA = String(data.recommendationCTA || "").trim();
-
-    if (!name || !email || !Number.isFinite(overallScore) || !dimensionScores || !answers) {
+    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return json({ success: false, error: "Please enter your name and a valid email address." }, 400);
+    }
+    if (whatsapp && !/^\+?[0-9 ()-]{7,20}$/.test(whatsapp)) {
+      return json({ success: false, error: "Please check your WhatsApp number, or leave it empty." }, 400);
+    }
+    if (data.consent !== true) {
+      return json({ success: false, error: "Please agree to the privacy notice to save your result." }, 400);
+    }
+    if (!Array.isArray(answers) || answers.length !== 32 || !answers.every(a => Number.isInteger(a) && a >= 0 && a <= 3)) {
       return json({ success: false, error: "Incomplete profile data." }, 400);
     }
-
-    const result = await env.DB.prepare(`
-      INSERT INTO assessment_results (
-        name, email, overall_score, dimension_scores, answers, assessment_version,
-        raw_dimension_scores, profile_mean, profile_sd, dimension_deviations, gaps,
-        primary_pattern, secondary_pattern, response_quality,
-        recommended_product, recommendation_stage, recommendation_reason, recommendation_cta
-      )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(
+    if (!Number.isFinite(overallScore) || overallScore < 0 || overallScore > 100 || !dimensionScores || typeof dimensionScores !== "object") {
+      return json({ success: false, error: "Incomplete profile data." }, 400);
+    }
+    const small = v => { const t = JSON.stringify(v ?? null); return t.length > 4000 ? null : t; };
+    const now = new Date().toISOString();
+    const values = [
       name,
       email,
       Math.round(overallScore),
-      JSON.stringify(dimensionScores),
+      small(dimensionScores),
       JSON.stringify(answers),
-      String(data.assessmentVersion || "1.0"),
-      JSON.stringify(data.rawDimensionScores || null),
+      clip(data.assessmentVersion || "1.0", 10),
+      small(data.rawDimensionScores),
       data.profileMean == null ? null : Number(data.profileMean),
       data.profileSD == null ? null : Number(data.profileSD),
-      JSON.stringify(data.dimensionDeviations || null),
-      JSON.stringify(data.gaps || null),
-      data.primaryPattern ? String(data.primaryPattern) : null,
-      data.secondaryPattern ? String(data.secondaryPattern) : null,
-      JSON.stringify(data.responseQuality || null),
-      recommendedProduct,
-      recommendationStage,
-      recommendationReason,
-      recommendationCTA
-    ).run();
-
+      small(data.dimensionDeviations),
+      small(data.gaps),
+      data.primaryPattern ? clip(data.primaryPattern, 40) : null,
+      data.secondaryPattern ? clip(data.secondaryPattern, 40) : null,
+      small({ ...(typeof data.responseQuality === "object" ? data.responseQuality : {}), consentAt: now, whatsapp: whatsapp || null }),
+      clip(data.recommendedProduct, 100),
+      clip(data.recommendationStage, 100),
+      clip(data.recommendationReason, 600),
+      clip(data.recommendationCTA, 600)
+    ];
+    const cols = `name, email, overall_score, dimension_scores, answers, assessment_version,
+        raw_dimension_scores, profile_mean, profile_sd, dimension_deviations, gaps,
+        primary_pattern, secondary_pattern, response_quality,
+        recommended_product, recommendation_stage, recommendation_reason, recommendation_cta`;
+    let result;
+    try {
+      // With the consent_at and whatsapp columns (added on approval)
+      result = await env.DB.prepare(`INSERT INTO assessment_results (${cols}, consent_at, whatsapp) VALUES (${values.map(() => "?").join(", ")}, ?, ?)`)
+        .bind(...values, now, whatsapp || null).run();
+    } catch (e) {
+      // Before those columns exist, consent and WhatsApp are kept inside response_quality
+      result = await env.DB.prepare(`INSERT INTO assessment_results (${cols}) VALUES (${values.map(() => "?").join(", ")})`)
+        .bind(...values).run();
+    }
     return json({ success: true, id: result.meta.last_row_id });
   } catch (error) {
-    return json({ success: false, error: "Unable to save profile." }, 500);
+    return json({ success: false, error: "Unable to save your result right now. Please try again." }, 500);
   }
 }
 

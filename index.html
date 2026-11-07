@@ -47,6 +47,12 @@
 .dimension[open]{background:linear-gradient(var(--panel),transparent)}
 #flower .petal:focus{outline:none}
 #flower .petal:focus path:first-child,#flower .petal:hover path:first-child{stroke-width:2.4}
+.gets{list-style:none;margin:4px 0 18px}
+.gets li{position:relative;padding-left:22px;margin-bottom:8px}
+.gets li::before{content:"";position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:50%;background:var(--gold-soft);border:1px solid var(--gold)}
+.milestone{font-family:var(--serif);font-style:italic;color:var(--sage-text);font-size:17px;margin:-8px 0 16px;min-height:0}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);margin:2px 0 14px;line-height:1.5}
+.consent input{width:20px;height:20px;margin:2px 0 0;flex:none}
 @media(max-width:600px){.nav{flex-direction:column-reverse}.nav .btn{width:100%}}
 </style>
 </head>
@@ -58,12 +64,19 @@
   <div data-art="seed" style="min-height:150px"></div>
   <div class="eyebrow center">The Mind Alignment Index</div>
   <h1 class="center">See what is growing in the garden of your mind.</h1>
-  <p class="lead center">Thirty-two honest questions across eight dimensions of how you think, choose and act.</p>
+  <p class="lead center">Find the one pattern holding your progress back. Free, in about 12 minutes.</p>
   <div class="card">
-    <div class="pills"><span>Thought</span><span>Identity</span><span>Emotion</span><span>Intention</span><span>Ownership</span><span>Execution</span><span>Relationships</span><span>Growth</span></div>
+    <div class="label" style="margin-top:0">What you will receive</div>
+    <ul class="gets">
+      <li>Your strongest and weakest areas, across eight dimensions of how you think, choose and act.</li>
+      <li>The pattern shaping your results right now.</li>
+      <li>A free 7-day plan to begin changing it.</li>
+    </ul>
     <p>There are no perfect answers. Choose the response that most closely describes how you <em>usually</em> operate, not how you think you should.</p>
-    <button class="btn" onclick="startAssessment()">Begin the assessment <span aria-hidden="true">→</span></button>
-    <p class="small" style="margin-top:14px">32 questions · about 8 to 10 minutes · free</p>
+    <div id="resumeBox" class="panel hidden" style="margin:0 0 14px"><p style="margin-bottom:10px" id="resumeText"></p><div class="row" style="margin-top:0"><button class="btn" onclick="resumeAssessment()">Continue where I left off</button><button class="link" onclick="startAssessment()">Start again</button></div></div>
+    <button class="btn" id="beginBtn" onclick="startAssessment()">Begin the assessment <span aria-hidden="true">→</span></button>
+    <p class="small" style="margin-top:14px">32 questions · about 12 minutes · free · your answers are saved as you go</p>
+    <p class="small hidden" id="resetWeekNote" style="margin-top:4px">Then join the shared 7-Day Mind Reset week, starting Monday 16 November.</p>
   </div>
   <p class="notice">Your result is a developmental indicator based on the current POD scoring model. It is not a clinical diagnosis or a measure of your worth or potential.</p>
 </section>
@@ -71,44 +84,57 @@
 <section id="assessment" class="screen hidden">
   <div class="card">
     <div class="progress-wrap"><div id="stemArt" aria-hidden="true"></div><div class="grow"><div class="progress-info"><span id="progressText">Question 1 of 32</span><span id="percent">0%</span></div><div class="progress"><div id="progressBar" class="progress-bar"></div></div></div></div>
-    <div id="questionNumber" class="question-number"></div><div id="questionText" class="question"></div><div id="options" class="options"></div>
+    <p class="milestone" id="milestone" aria-live="polite"></p><div id="questionNumber" class="question-number"></div><div id="questionText" class="question"></div><div id="options" class="options"></div>
     <div class="nav"><button class="btn ghost" onclick="previousQuestion()">← Back</button><button id="nextButton" class="btn" onclick="nextQuestion()" disabled>Continue →</button></div>
   </div>
 </section>
 
 <section id="results" class="screen hidden">
+  <div id="rushed" class="panel hidden" role="status" style="margin-bottom:18px"><strong>Your answers look rushed.</strong> For a result you can rely on, take the assessment again, slowly. <button class="link" onclick="retake()">Retake the assessment</button></div>
   <div class="eyebrow center">Your Mind Alignment Profile</div>
   <h2 class="center">Your garden today</h2>
-  <p class="lead center" style="font-size:19px">Each petal is one of your eight dimensions. The longer the petal, the stronger it grows. Petals in gold are where growth is most needed.</p>
+  <p class="lead center" style="font-size:19px">Each petal is one of your eight dimensions. The longer the petal, the stronger it grows. Petals in gold are below your own average: that is where your attention will do the most good.</p>
   <div id="flower"></div>
   <p class="score-line center">Your Mind Alignment Index: <strong id="overallScore">0</strong> out of 100</p>
   <div id="summary" class="center"></div>
 
   <div class="card" style="margin-top:14px">
-    <div class="pattern"><div class="label" style="color:var(--gold-text);margin-top:0">Primary pattern</div><h3 id="primaryPatternTitle"></h3><p id="primaryPatternText"></p><p><strong>POD practice:</strong> <span id="primaryPatternPractice"></span></p></div>
-    <div id="secondaryPattern" class="pattern hidden"><div class="ornament"></div><div class="label" style="color:var(--gold-text);margin-top:0">Secondary pattern</div><h3 id="secondaryPatternTitle"></h3><p id="secondaryPatternText"></p><p><strong>POD practice:</strong> <span id="secondaryPatternPractice"></span></p></div>
+    <div class="pattern"><div class="label" style="color:var(--gold-text);margin-top:0">Your primary pattern</div><h3 id="primaryPatternTitle"></h3><p id="primaryPatternText"></p><p id="primaryPatternPractice"></p>
+      <div class="reply hidden" id="youSaid" style="margin:4px 0 16px"><div class="label">You told us</div><div id="youSaidText"></div></div>
+      <p><strong>Your first move, before tonight:</strong> <span id="firstMove"></span></p>
+    </div>
+    <div id="secondaryPattern" class="pattern hidden"><div class="ornament"></div><div class="label" style="color:var(--gold-text);margin-top:0">Secondary pattern</div><h3 id="secondaryPatternTitle"></h3><p id="secondaryPatternText"></p><p id="secondaryPatternPractice"></p></div>
     <div id="prescriptionBox">
       <div class="ornament"></div>
-      <div class="label" style="margin-top:0">Your recommended next step</div>
-      <h3 id="prescriptionProduct"></h3>
+      <div class="label" style="margin-top:0">Your next step</div>
+      <h3>Start your free 7-Day Mind Reset</h3>
       <p id="prescriptionFocus"></p>
-      <a id="resetCta" class="btn hidden" href="/reset" style="margin:4px 0 16px">Start your 7-Day Mind Reset <span aria-hidden="true">→</span></a>
-      <details class="more"><summary>The practice, and how you will know it is working</summary>
+      <p class="small">About ten minutes in the morning and five at night, for seven days. It begins the moment you start.</p>
+      <div class="capture">
+        <input id="name" type="text" placeholder="Your name" autocomplete="name" maxlength="100">
+        <input id="email" type="email" placeholder="Your email address" autocomplete="email" maxlength="200">
+        <input id="whatsapp" type="tel" placeholder="WhatsApp number (optional)" autocomplete="tel" maxlength="20">
+        <label class="consent"><input type="checkbox" id="consent"><span>I agree that The POD Human Potential Lab may keep my result and details to support my development and contact me about it, as set out in the <a href="/privacy" target="_blank" rel="noopener">privacy notice</a>.</span></label>
+        <button class="btn" id="startResetBtn" onclick="startReset()">Start my free Reset <span aria-hidden="true">→</span></button>
+        <p style="margin:6px 0 0"><button class="link" id="saveOnlyBtn" onclick="saveOnly()">Only save my result</button></p>
+        <p id="leadMessage" class="msg" aria-live="polite"></p>
+      </div>
+      <details class="more" open><summary>The practice, and how you will know it is working</summary>
         <p><strong>Try this</strong><br><span id="prescriptionPractice"></span></p>
         <p><strong>You will know it is working when</strong><br><span id="prescriptionSuccess"></span></p>
-        <p><strong>Where this leads</strong><br><span id="prescriptionNextStep"></span></p>
         <p class="small"><strong>7-day measure:</strong> <span id="prescriptionMetric"></span></p>
       </details>
+      <p class="small" id="afterReset"></p>
       <p class="small" id="prescriptionFooter"></p>
     </div>
   </div>
 
+  <div class="center" style="margin:20px 0 6px"><a class="btn ghost" id="shareBtn" target="_blank" rel="noopener">Share my result on WhatsApp</a></div>
+
   <div class="label" style="margin-top:30px">Your eight dimensions</div>
   <p class="small" style="margin-bottom:8px">Tap a petal above, or a dimension below, to read what it means for you.</p>
   <div id="dimensions" class="dimensions"></div>
-  <p class="notice">The patterns above describe relationships within your response profile. They are developmental interpretations, not diagnoses.</p>
-
-  <div class="card capture" style="margin-top:24px"><h3 style="margin-top:0">Save your profile</h3><p class="small">Enter your details to keep this result.</p><input id="name" type="text" placeholder="Your name" autocomplete="name"><input id="email" type="email" placeholder="Your email address" autocomplete="email"><button class="btn" onclick="saveLead()">Save my profile <span aria-hidden="true">→</span></button><p id="leadMessage" class="small" style="margin-top:15px"></p></div>
+  <p class="notice">This is an early version of the Mind Alignment Index. The patterns above describe relationships within your own answers. They are developmental interpretations, not diagnoses, and not a measure of your worth or potential.</p>
 </section>
 </main>
 <footer class="site-footer"><img src="/brand/logo-full.png" alt="The POD Human Potential Lab, POD Consulting Ltd">© The POD Human Potential Lab · Mind Alignment Index</footer>
@@ -937,317 +963,342 @@ const patterns = {
   "integrated": [
     "Integrated Alignment",
     "Your responses are relatively consistent across the eight dimensions, without one major developmental gap dominating your profile.",
-    "Your next opportunity is refinement rather than repair: identify the area that would create the greatest leverage and strengthen it deliberately."
+    "Your next opportunity is refinement rather than repair. Your lowest dimension, {low}, is the place to begin."
+  ],
+  "unevenGarden": [
+    "Uneven Garden",
+    "Your garden is uneven. {top} is growing strongly, while {low} has been left to grow on its own. Your progress will be held back by {low}, not lifted by {top}.",
+    "Give {low} your deliberate attention. That is where your next result is waiting."
+  ],
+  "earlyGround": [
+    "Ground Being Prepared",
+    "Across your eight dimensions, much of what is growing has not yet been chosen on purpose. This is not a verdict on your worth or your potential. It is a starting point: the ground is ready to be planted.",
+    "Begin small and begin now: one thought, one practice and one reflection a day."
   ]
 };
 const dimensionKey = Object.fromEntries(dimensions.map(d => [d, d]));
+const SHORT = {"Thought":"Thought","Identity":"Identity","Emotional Regulation":"Emotion","Intentionality":"Intention","Ownership":"Ownership","Execution":"Execution","Relational Alignment":"Relationships","Potential / Growth Orientation":"Growth"};
+const PROGRESS_KEY = "mindAlignmentProgress";
+const RESET_TOKEN_KEY = "podMindResetToken";
+const SECONDS_PER_QUESTION = 22;
+const MILESTONES = {
+  8: "A quarter of the way. Your Thought and Identity petals are in.",
+  16: "Halfway. Emotion and Intention are in. Keep going.",
+  24: "Three quarters done. Ownership and Execution are in. Eight to go."
+};
+// Which dimension each pattern shows itself in, for "You told us"
+const PATTERN_DIMENSION = { visionExecution: "Execution", identityExecution: "Execution", emotionalOverride: "Emotional Regulation", agencyAction: "Execution", relationalAdaptation: "Relational Alignment", fragmentedDirection: "Intentionality" };
+const FIRST_MOVE = {
+  visionExecution: "Choose one task you have been postponing and do the first ten minutes of it today.",
+  identityExecution: "Name one thing the person you are becoming would do today, and do it before tonight.",
+  emotionalOverride: "The next time a strong feeling rises today, pause for one full breath before you answer.",
+  agencyAction: "Pick one decision you have been waiting on, and set a time today to make it.",
+  relationalAdaptation: "In one conversation today, say what you actually think, kindly and plainly.",
+  fragmentedDirection: "Write down the one thing that matters most this week. Let everything else wait.",
+  expansionReadiness: "Choose one stretch you have been circling, and take its first step today.",
+  integrated: "Notice one thought about your {low} today, and write it down exactly as it sounds.",
+  unevenGarden: "Notice one thought about your {low} today, and write it down exactly as it sounds.",
+  earlyGround: "Notice one thought that keeps returning today, and write it down exactly as it sounds."
+};
+// When strengths tie, the earlier pattern wins
+const PRIORITY = ["emotionalOverride","visionExecution","identityExecution","agencyAction","relationalAdaptation","fragmentedDirection","expansionReadiness"];
 let currentQuestion = 0;
 let answers = [];
+let startedAt = 0;
 let latestResult = null;
+let advanceTimer = null;
+
+function store(key, value) { try { value === null ? localStorage.removeItem(key) : localStorage.setItem(key, value); } catch (e) {} }
+function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+function saveProgress() { store(PROGRESS_KEY, JSON.stringify({ v: ASSESSMENT_VERSION, q: currentQuestion, answers, startedAt })); }
+function readProgress() {
+  try {
+    const p = JSON.parse(load(PROGRESS_KEY) || "null");
+    if (!p || p.v !== ASSESSMENT_VERSION || !Array.isArray(p.answers)) return null;
+    const answered = p.answers.filter(a => Number.isInteger(a)).length;
+    return answered > 0 && answered < questions.length ? p : null;
+  } catch (e) { return null; }
+}
+function show(id) {
+  ["intro","assessment","results"].forEach(s => document.getElementById(s).classList.toggle("hidden", s !== id));
+  window.scrollTo({ top: 0 });
+}
 
 function startAssessment(){
- document.getElementById("intro").classList.add("hidden");
- document.getElementById("assessment").classList.remove("hidden");
- currentQuestion=0; answers=[]; renderQuestion();
+  currentQuestion = 0; answers = []; startedAt = Date.now();
+  saveProgress(); show("assessment"); renderQuestion();
 }
+function resumeAssessment(){
+  const p = readProgress();
+  if (!p) return startAssessment();
+  answers = p.answers; startedAt = p.startedAt || Date.now();
+  currentQuestion = Math.min(p.q || 0, questions.length - 1);
+  const firstGap = answers.findIndex((a, i) => i < questions.length && !Number.isInteger(a));
+  if (firstGap >= 0 && firstGap < currentQuestion) currentQuestion = firstGap;
+  show("assessment"); renderQuestion();
+}
+function retake(){ store(PROGRESS_KEY, null); show("intro"); startAssessment(); }
+
 function renderQuestion(){
- const q=questions[currentQuestion];
- document.getElementById("questionNumber").textContent=`Question ${currentQuestion+1}`;
- document.getElementById("questionText").textContent=q.text;
- document.getElementById("progressText").textContent=`Question ${currentQuestion+1} of ${questions.length}`;
- const pct=Math.round(((currentQuestion+1)/questions.length)*100);
- document.getElementById("percent").textContent=`${pct}%`;
- document.getElementById("progressBar").style.width=`${pct}%`;
- if(window.GardenArt) document.getElementById("stemArt").innerHTML=window.GardenArt.stem(pct);
- const options=document.getElementById("options"); options.innerHTML="";
- q.options.forEach((option,index)=>{
-   const button=document.createElement("button"); button.className="option"; button.textContent=option.text;
-   if(answers[currentQuestion]===index) button.classList.add("selected");
-   button.onclick=()=>selectOption(index); options.appendChild(button);
- });
- document.getElementById("nextButton").disabled=answers[currentQuestion]===undefined;
- document.getElementById("nextButton").textContent=currentQuestion===questions.length-1?"See my results →":"Continue →";
+  const q = questions[currentQuestion];
+  document.getElementById("questionNumber").textContent = `Question ${currentQuestion+1}`;
+  document.getElementById("questionText").textContent = q.text;
+  const left = Math.max(1, Math.ceil((questions.length - currentQuestion) * SECONDS_PER_QUESTION / 60));
+  document.getElementById("progressText").textContent = `Question ${currentQuestion+1} of ${questions.length} · about ${left} min left`;
+  const pct = Math.round((currentQuestion / questions.length) * 100);
+  document.getElementById("percent").textContent = `${pct}%`;
+  document.getElementById("progressBar").style.width = `${pct}%`;
+  document.getElementById("milestone").textContent = MILESTONES[currentQuestion] || "";
+  if (window.GardenArt) document.getElementById("stemArt").innerHTML = window.GardenArt.stem(pct);
+  const options = document.getElementById("options"); options.innerHTML = "";
+  q.options.forEach((option, index) => {
+    const button = document.createElement("button"); button.className = "option"; button.textContent = option.text;
+    if (answers[currentQuestion] === index) button.classList.add("selected");
+    button.onclick = () => selectOption(index); options.appendChild(button);
+  });
+  document.getElementById("nextButton").disabled = answers[currentQuestion] === undefined || answers[currentQuestion] === null;
+  document.getElementById("nextButton").textContent = currentQuestion === questions.length - 1 ? "See my results →" : "Continue →";
 }
 function selectOption(index){
- answers[currentQuestion]=index;
- document.querySelectorAll(".option").forEach((b,i)=>b.classList.toggle("selected",i===index));
- document.getElementById("nextButton").disabled=false;
+  answers[currentQuestion] = index;
+  saveProgress();
+  document.querySelectorAll(".option").forEach((b, i) => b.classList.toggle("selected", i === index));
+  document.getElementById("nextButton").disabled = false;
+  // Move on by itself, except on the last question
+  clearTimeout(advanceTimer);
+  if (currentQuestion < questions.length - 1) {
+    const at = currentQuestion;
+    advanceTimer = setTimeout(() => { if (currentQuestion === at) nextQuestion(); }, 380);
+  }
 }
 function nextQuestion(){
- if(answers[currentQuestion]===undefined) return;
- if(currentQuestion<questions.length-1){currentQuestion++;renderQuestion();}else calculateResults();
+  clearTimeout(advanceTimer);
+  if (!Number.isInteger(answers[currentQuestion])) return;
+  if (currentQuestion < questions.length - 1) { currentQuestion++; saveProgress(); renderQuestion(); window.scrollTo({ top: 0 }); }
+  else calculateResults();
 }
-function previousQuestion(){if(currentQuestion>0){currentQuestion--;renderQuestion();}}
+function previousQuestion(){ clearTimeout(advanceTimer); if (currentQuestion > 0) { currentQuestion--; saveProgress(); renderQuestion(); } }
+
 function calculateResults(){
- if(answers.length!==questions.length || answers.some(a=>a===undefined)) return;
- const raw={}; dimensions.forEach(d=>raw[d]=0);
- const responseValues=[];
- questions.forEach((q,i)=>{const value=q.options[answers[i]].score; raw[q.dimension]+=value; responseValues.push(value);});
- const scores={}; dimensions.forEach(d=>scores[d]=Math.round((raw[d]/12)*100));
- const values=Object.values(scores); const mean=values.reduce((a,b)=>a+b,0)/values.length;
- const variance=values.reduce((s,v)=>s+Math.pow(v-mean,2),0)/values.length;
- const sd=Math.sqrt(variance);
- const deviations={}; dimensions.forEach(d=>deviations[d]=Math.round((scores[d]-mean)*10)/10);
- const gaps={
-   intentionalityExecution:scores["Intentionality"]-scores["Execution"],
-   identityExecution:scores["Identity"]-scores["Execution"],
-   thoughtEmotion:scores["Thought"]-scores["Emotional Regulation"],
-   ownershipExecution:scores["Ownership"]-scores["Execution"],
-   relationalIdentity:scores["Relational Alignment"]-scores["Identity"]
- };
- const quality={
-   complete:true,
-   sameResponseCount: new Set(answers).size===1 ? answers.length : Math.max(...answers.map(a=>answers.filter(x=>x===a).length)),
-   extremeResponseRate: responseValues.filter(v=>v===0||v===3).length/responseValues.length,
-   flags:[]
- };
- if(quality.sameResponseCount>=28) quality.flags.push("possible_straight_line");
- if(quality.extremeResponseRate>=0.9) quality.flags.push("possible_extreme_response_style");
- const overall=Math.round(mean);
- const patternResult=derivePatterns(scores,mean,sd,gaps);
- latestResult={version:ASSESSMENT_VERSION,overall,scores,raw,mean,sd,deviations,gaps,quality,primaryPattern:patternResult.primary,secondaryPattern:patternResult.secondary,answers};
- showResults(latestResult);
+  if (answers.length !== questions.length || answers.some(a => !Number.isInteger(a))) return;
+  const raw = {}; dimensions.forEach(d => raw[d] = 0);
+  const responseValues = [];
+  questions.forEach((q, i) => { const value = q.options[answers[i]].score; raw[q.dimension] += value; responseValues.push(value); });
+  const scores = {}; dimensions.forEach(d => scores[d] = Math.round((raw[d] / 12) * 100));
+  const values = Object.values(scores); const mean = values.reduce((a, b) => a + b, 0) / values.length;
+  const variance = values.reduce((s, v) => s + Math.pow(v - mean, 2), 0) / values.length;
+  const sd = Math.sqrt(variance);
+  const deviations = {}; dimensions.forEach(d => deviations[d] = Math.round((scores[d] - mean) * 10) / 10);
+  const gaps = {
+    intentionalityExecution: scores["Intentionality"] - scores["Execution"],
+    identityExecution: scores["Identity"] - scores["Execution"],
+    thoughtEmotion: scores["Thought"] - scores["Emotional Regulation"],
+    ownershipExecution: scores["Ownership"] - scores["Execution"],
+    // Over-adaptation: a clear sense of self that is not held in relationships
+    identityRelational: scores["Identity"] - scores["Relational Alignment"]
+  };
+  const seconds = startedAt ? Math.round((Date.now() - startedAt) / 1000) : null;
+  const quality = {
+    complete: true,
+    seconds,
+    sameResponseCount: Math.max(...answers.map(a => answers.filter(x => x === a).length)),
+    sameScoreCount: Math.max(...[0,1,2,3].map(v => responseValues.filter(x => x === v).length)),
+    extremeResponseRate: responseValues.filter(v => v === 0 || v === 3).length / responseValues.length,
+    flags: []
+  };
+  if (quality.sameResponseCount >= 28 || quality.sameScoreCount >= 30) quality.flags.push("possible_straight_line");
+  if (seconds !== null && seconds < 150) quality.flags.push("too_fast");
+  if (quality.extremeResponseRate >= 0.9) quality.flags.push("possible_extreme_response_style");
+  const overall = Math.round(mean);
+  const patternResult = derivePatterns(scores, mean, sd, gaps);
+  latestResult = { version: ASSESSMENT_VERSION, overall, scores, raw, mean, sd, deviations, gaps, quality, primaryPattern: patternResult.primary, secondaryPattern: patternResult.secondary, answers };
+  store(PROGRESS_KEY, null);
+  showResults(latestResult);
 }
-function derivePatterns(scores,mean,sd,gaps){
- const candidates=[];
- if(gaps.intentionalityExecution>=20) candidates.push({key:"visionExecution",strength:gaps.intentionalityExecution});
- if(gaps.identityExecution>=20) candidates.push({key:"identityExecution",strength:gaps.identityExecution});
- if(gaps.thoughtEmotion>=20 && scores["Emotional Regulation"]<65) candidates.push({key:"emotionalOverride",strength:gaps.thoughtEmotion});
- if(gaps.ownershipExecution>=20) candidates.push({key:"agencyAction",strength:gaps.ownershipExecution});
- if(gaps.relationalIdentity>=20 && scores["Identity"]<70) candidates.push({key:"relationalAdaptation",strength:gaps.relationalIdentity});
- if(scores["Intentionality"]<60 && sd>=15) candidates.push({key:"fragmentedDirection",strength:Math.round(sd)});
- if(scores["Potential / Growth Orientation"]>=80 && scores["Identity"]>=75 && scores["Intentionality"]>=75 && !candidates.length) candidates.push({key:"expansionReadiness",strength:1});
- candidates.sort((a,b)=>b.strength-a.strength);
- const primary=candidates[0]?.key || (sd<12?"integrated":"integrated");
- let secondary=null;
- if(candidates.length>1 && candidates[1].strength>=15 && candidates[1].key!==primary) secondary=candidates[1].key;
- return {primary,secondary};
+function derivePatterns(scores, mean, sd, gaps){
+  const candidates = [];
+  if (gaps.intentionalityExecution >= 20) candidates.push({ key: "visionExecution", strength: gaps.intentionalityExecution });
+  if (gaps.identityExecution >= 20) candidates.push({ key: "identityExecution", strength: gaps.identityExecution });
+  if (gaps.thoughtEmotion >= 20 && scores["Emotional Regulation"] < 65) candidates.push({ key: "emotionalOverride", strength: gaps.thoughtEmotion });
+  if (gaps.ownershipExecution >= 20) candidates.push({ key: "agencyAction", strength: gaps.ownershipExecution });
+  if (gaps.identityRelational >= 20 && scores["Relational Alignment"] < 70) candidates.push({ key: "relationalAdaptation", strength: gaps.identityRelational });
+  if (scores["Intentionality"] < 60 && sd >= 15) candidates.push({ key: "fragmentedDirection", strength: Math.round(sd) });
+  if (scores["Potential / Growth Orientation"] >= 80 && scores["Identity"] >= 75 && scores["Intentionality"] >= 75 && !candidates.length) candidates.push({ key: "expansionReadiness", strength: 1 });
+  candidates.sort((a, b) => b.strength - a.strength || PRIORITY.indexOf(a.key) - PRIORITY.indexOf(b.key));
+  let primary = candidates[0]?.key;
+  if (!primary) primary = sd >= 12 ? "unevenGarden" : (mean < 45 ? "earlyGround" : "integrated");
+  let secondary = null;
+  if (candidates.length > 1 && candidates[1].key !== primary) secondary = candidates[1].key;
+  return { primary, secondary };
 }
 function getProductRecommendation(result) {
-  if (
-    typeof window !== "undefined" &&
-    window.PODPrescriptionEngine &&
-    typeof window.PODPrescriptionEngine.getDevelopmentPrescription === "function"
-  ) {
-    return window.PODPrescriptionEngine.getDevelopmentPrescription(result);
+  if (window.PODPrescriptionEngine && typeof window.PODPrescriptionEngine.getDevelopmentPrescription === "function") {
+    try { return window.PODPrescriptionEngine.getDevelopmentPrescription(result); } catch (e) {}
   }
-
-  return {
-    product: "Personal Optimization Drill (POD)",
-    stage: "Refinement",
-    objective: "Strengthen the next leverage point through deliberate practice.",
-    practice: "Choose one behaviour that would most directly strengthen your development opportunity and practise it consistently.",
-    evidence: "Consistent practice produces observable behavioural evidence.",
-    metric: "Targeted practices completed / 7.",
-    reason: "Your result identifies a development opportunity to work on through deliberate practice.",
-    secondaryModifier: null,
-    pathway: "Personal Optimization Drill → MAP when deeper development is indicated.",
-    caution: "Developmental interpretation only; not a clinical diagnosis."
-  };
+  return null;
 }
+function fill(text, ctx){ return String(text || "").replace(/\{low\}/g, ctx.low).replace(/\{top\}/g, ctx.top); }
+
 function showResults(result){
-  document.getElementById("assessment").classList.add("hidden");
-  document.getElementById("results").classList.remove("hidden");
+  show("results");
+  const flags = result.quality.flags;
+  document.getElementById("rushed").classList.toggle("hidden", !(flags.includes("possible_straight_line") || flags.includes("too_fast")));
+  document.getElementById("overallScore").textContent = result.overall;
+  document.getElementById("summary").innerHTML = '<p class="small" style="max-width:520px;margin:0 auto">The index summarises your answers across the eight dimensions. The most useful part of your result is the pattern within your profile, not the number by itself.</p>';
 
-  document.getElementById("overallScore").textContent=result.overall;
+  const byDev = dimensions.map(d => ({ d, dev: result.deviations[d], score: result.scores[d] })).sort((a, b) => a.dev - b.dev || a.score - b.score);
+  const lowDim = byDev[0].d, topDim = byDev[byDev.length - 1].d;
+  const ctx = { low: SHORT[lowDim], top: SHORT[topDim] };
 
-  document.getElementById("summary").innerHTML=`
-    <p class="small" style="max-width:520px;margin:0 auto">
-      The index summarises your responses across the eight POD dimensions. The most useful part of the result is the pattern within your profile, not the number by itself.
-    </p>
-  `;
+  const primary = patterns[result.primaryPattern];
+  document.getElementById("primaryPatternTitle").textContent = primary[0];
+  document.getElementById("primaryPatternText").textContent = fill(primary[1], ctx);
+  document.getElementById("primaryPatternPractice").textContent = fill(primary[2], ctx);
+  document.getElementById("firstMove").textContent = fill(FIRST_MOVE[result.primaryPattern], ctx);
 
-  const recommendation = getProductRecommendation(result);
-
-  const existingRecommendation = document.getElementById("productRecommendation");
-  if(existingRecommendation) existingRecommendation.remove();
-
-  const recommendationBox = document.createElement("div");
-  recommendationBox.id = "productRecommendation";
-  recommendationBox.className = "notice";
-  recommendationBox.style.marginTop = "18px";
-
-  recommendationBox.innerHTML = `
-    <h3 style="margin-top:0;">Your Development Prescription</h3>
-
-    <p><strong>Recommended pathway:</strong> ${recommendation.product}</p>
-
-    <p>
-      <strong>Development objective:</strong><br>
-      ${recommendation.objective}
-    </p>
-
-    <p>
-      <strong>Your practice:</strong><br>
-      ${recommendation.practice}
-    </p>
-
-    <p>
-      <strong>Evidence to build:</strong><br>
-      ${recommendation.evidence}
-    </p>
-
-    <p>
-      <strong>How to measure it:</strong><br>
-      ${recommendation.metric}
-    </p>
-
-    ${recommendation.secondaryModifier ? `
-      <p>
-        <strong>Secondary pattern modifier:</strong><br>
-        ${recommendation.secondaryModifier}
-      </p>
-    ` : ""}
-
-    <p>
-      <strong>Development pathway:</strong><br>
-      ${recommendation.pathway}
-    </p>
-
-    <p class="small">${recommendation.caution}</p>
-  `;
-
- 
-
-  const primary=patterns[result.primaryPattern];
-
-  document.getElementById("primaryPatternTitle").textContent=primary[0];
-  document.getElementById("primaryPatternText").textContent=primary[1];
-  document.getElementById("primaryPatternPractice").textContent=primary[2];
-
-  const secondaryBox=document.getElementById("secondaryPattern");
-
-  if(result.secondaryPattern){
-    const p=patterns[result.secondaryPattern];
-
-    secondaryBox.classList.remove("hidden");
-
-    document.getElementById("secondaryPatternTitle").textContent=p[0];
-    document.getElementById("secondaryPatternText").textContent=p[1];
-    document.getElementById("secondaryPatternPractice").textContent=p[2];
-  }else{
-    secondaryBox.classList.add("hidden");
+  // "You told us": their own lowest-scoring answer in the dimension where this pattern shows itself
+  const dimForQuote = PATTERN_DIMENSION[result.primaryPattern] || (result.primaryPattern === "expansionReadiness" ? null : lowDim);
+  let quote = null;
+  if (dimForQuote) {
+    questions.forEach((q, i) => {
+      if (q.dimension !== dimForQuote) return;
+      const o = q.options[result.answers[i]];
+      if (o && o.score <= 1 && (!quote || o.score < quote.score)) quote = o;
+    });
   }
+  document.getElementById("youSaid").classList.toggle("hidden", !quote);
+  if (quote) document.getElementById("youSaidText").textContent = "“" + quote.text + "” That is where this pattern shows itself.";
 
-  const box=document.getElementById("dimensions");
-  box.innerHTML="";
+  const secondaryBox = document.getElementById("secondaryPattern");
+  if (result.secondaryPattern) {
+    const p = patterns[result.secondaryPattern];
+    secondaryBox.classList.remove("hidden");
+    document.getElementById("secondaryPatternTitle").textContent = p[0];
+    document.getElementById("secondaryPatternText").textContent = fill(p[1], ctx);
+    document.getElementById("secondaryPatternPractice").textContent = fill(p[2], ctx);
+  } else secondaryBox.classList.add("hidden");
 
-  dimensions.forEach(d=>{
-    const score=result.scores[d];
-    const deviation=result.deviations[d];
-
-    let relation="Relatively balanced";
-    let insight=dimensionGuidance[d][2];
-
-    if(deviation<=-8){
-      relation="Development opportunity";
-      insight=dimensionGuidance[d][1];
-    }else if(deviation>=8){
-      relation="Relative strength";
-      insight=dimensionGuidance[d][2];
-    }
-
-    const low=deviation<=-8;
-    box.innerHTML+=`
-      <details class="dimension${low?" low":""}" id="dim-${dimensions.indexOf(d)}">
-        <summary>
-          <span class="name">${d}</span>
-          <span class="val">${score}</span>
-          <span class="dimension-bar"><span class="dimension-fill" style="display:block;width:${score}%"></span></span>
-          <span class="dimension-meta">${relation} · ${deviation>0?"+":""}${deviation.toFixed(1)} against your own average</span>
-        </summary>
-        <div class="dimension-insight">${insight}</div>
-      </details>
-    `;
+  // Dimensions
+  const box = document.getElementById("dimensions");
+  box.replaceChildren();
+  dimensions.forEach((d, idx) => {
+    const score = result.scores[d], deviation = result.deviations[d];
+    let relation = "Relatively balanced", insight = dimensionGuidance[d][2];
+    if (deviation <= -8) { relation = "Below your own average"; insight = dimensionGuidance[d][1]; }
+    else if (deviation >= 8) { relation = "Relative strength"; insight = dimensionGuidance[d][2]; }
+    const det = document.createElement("details");
+    det.className = "dimension" + (deviation <= -8 ? " low" : "");
+    det.id = "dim-" + idx;
+    det.innerHTML = '<summary><span class="name"></span><span class="val"></span><span class="dimension-bar"><span class="dimension-fill" style="display:block"></span></span><span class="dimension-meta"></span></summary><div class="dimension-insight"></div>';
+    det.querySelector(".name").textContent = d;
+    det.querySelector(".val").textContent = score;
+    det.querySelector(".dimension-fill").style.width = score + "%";
+    det.querySelector(".dimension-meta").textContent = relation + " · " + (deviation > 0 ? "+" : "") + deviation.toFixed(1) + " against your own average";
+    det.querySelector(".dimension-insight").textContent = insight;
+    box.appendChild(det);
   });
 
-  if(window.GardenArt){
-    const shortNames={"Thought":"Thought","Identity":"Identity","Emotional Regulation":"Emotion","Intentionality":"Intention","Ownership":"Ownership","Execution":"Execution","Relational Alignment":"Relationships","Potential / Growth Orientation":"Growth"};
-    const flowerBox=document.getElementById("flower");
-    flowerBox.innerHTML=window.GardenArt.flower(dimensions.map(d=>[shortNames[d]||d,result.scores[d]]),result.overall);
-    flowerBox.querySelectorAll(".petal").forEach(p=>{
-      const open=()=>{const el=document.getElementById("dim-"+p.dataset.i); if(el){el.open=true; el.scrollIntoView({behavior:"smooth",block:"center"});}};
-      p.addEventListener("click",open); p.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open();}});
+  if (window.GardenArt) {
+    const flowerBox = document.getElementById("flower");
+    flowerBox.innerHTML = window.GardenArt.flower(dimensions.map(d => [SHORT[d] || d, result.scores[d]]), result.overall);
+    flowerBox.querySelectorAll(".petal").forEach(p => {
+      const open = () => { const el = document.getElementById("dim-" + p.dataset.i); if (el) { el.open = true; el.scrollIntoView({ behavior: "smooth", block: "center" }); } };
+      p.addEventListener("click", open); p.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
     });
   }
 
-  const sorted=dimensions
-    .map(d=>({d,dev:result.deviations[d]}))
-    .sort((a,b)=>a.dev-b.dev);
+  // Next step: everyone starts with the free Reset; the POD or MAHPP comes after
+  const data = window.PODPrescriptionData;
+  const rx = data?.PRESCRIPTIONS?.[result.primaryPattern] || data?.PRESCRIPTIONS?.integrated || {};
+  const generic = ["integrated","unevenGarden","earlyGround"].includes(result.primaryPattern);
+  document.getElementById("prescriptionFocus").textContent = generic ? "Your growth edge is " + ctx.low + ". The Reset is where you begin to tend it." : (rx.focus || "");
+  document.getElementById("prescriptionPractice").textContent = generic
+    ? "For the next seven days, give your " + ctx.low + " deliberate attention: five short practices that strengthen it, alongside the Reset."
+    : (rx.practice || "");
+  document.getElementById("prescriptionSuccess").textContent = generic
+    ? "Your " + ctx.low + " becomes steadier, and you can point to at least four practices that moved it forward."
+    : (rx.successSignal || "");
+  document.getElementById("prescriptionMetric").textContent = rx.metricTarget || rx.metric || "";
+  document.getElementById("prescriptionFooter").textContent = rx.footer || "This is a developmental reflection, not a clinical diagnosis.";
+  const after = rx.product && rx.product !== "7-Day Mind Reset" ? rx.productFullName || rx.product : "Personal Optimization Drill (POD)";
+  document.getElementById("afterReset").textContent = after.indexOf("MAHPP") >= 0
+    ? "After your Reset: the 12-week " + after + ", when you are ready to go deeper."
+    : "After your Reset: the 21-day " + after + ", opening soon.";
 
-  const focus=sorted[0].d;
+  // Share on WhatsApp
+  const shareText = "My mind garden: strongest in " + ctx.top + ", still growing in " + ctx.low + ". Take the free Mind Alignment Index and see yours: " + location.origin + "/?ref=share";
+  document.getElementById("shareBtn").href = "https://wa.me/?text=" + encodeURIComponent(shareText);
 
- const prescriptionData = window.PODPrescriptionData;
-
-const prescription =
-  prescriptionData?.PRESCRIPTIONS?.[result.primaryPattern] ||
-  prescriptionData?.PRESCRIPTIONS?.integrated;
-
-const prescriptionBox = document.getElementById("prescriptionBox");
-
-if (prescription) {
-  document.getElementById("prescriptionProduct").textContent =
-    prescription.productFullName || prescription.product || "";
-
-  document.getElementById("prescriptionFocus").textContent =
-    prescription.focus || "";
-
-  document.getElementById("prescriptionPractice").textContent =
-    prescription.practice || "";
-
-  document.getElementById("prescriptionSuccess").textContent =
-    prescription.successSignal || "";
-
-  document.getElementById("prescriptionNextStep").textContent =
-    prescription.nextStep || "";
-
-  document.getElementById("prescriptionMetric").textContent =
-    prescription.metricTarget || prescription.metric || "";
-
-  document.getElementById("prescriptionFooter").textContent =
-    prescription.footer ||
-    "This is a developmental reflection, not a clinical diagnosis.";
-
-  prescriptionBox.style.display = "block";
-    document.getElementById("resetCta").classList.toggle("hidden", prescription.product !== "7-Day Mind Reset");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-  window.scrollTo({top:0,behavior:"smooth"});
+
+/* ---------- Saving the profile and starting the Reset ---------- */
+function buildProfile(name, email, whatsapp){
+  const data = window.PODPrescriptionData;
+  const rx = data?.PRESCRIPTIONS?.[latestResult.primaryPattern] || data?.PRESCRIPTIONS?.integrated || {};
+  return {
+    name, email, whatsapp, consent: true,
+    assessmentVersion: ASSESSMENT_VERSION, overallScore: latestResult.overall, dimensionScores: latestResult.scores,
+    rawDimensionScores: latestResult.raw, profileMean: latestResult.mean, profileSD: latestResult.sd,
+    dimensionDeviations: latestResult.deviations, gaps: latestResult.gaps, primaryPattern: latestResult.primaryPattern,
+    secondaryPattern: latestResult.secondaryPattern, responseQuality: latestResult.quality, answers: latestResult.answers,
+    recommendedProduct: "7-Day Mind Reset", recommendationStage: rx.stage || "", recommendationReason: rx.reason || "", recommendationCTA: rx.nextStep || ""
+  };
 }
-async function saveLead(){
- const name=document.getElementById("name").value.trim(), email=document.getElementById("email").value.trim(), message=document.getElementById("leadMessage");
- if(!name||!email){message.textContent="Please enter your name and email.";return;}
- if(!latestResult){message.textContent="Your results are not ready yet.";return;}
-  const prescriptionData = window.PODPrescriptionData;
-
-const prescription =
-  prescriptionData?.PRESCRIPTIONS?.[latestResult.primaryPattern] ||
-  prescriptionData?.PRESCRIPTIONS?.integrated;
-
-const recommendedProduct =
-  prescription?.productFullName ||
-  prescription?.product ||
-  "";
-
-const recommendationStage =
-  prescription?.stage ||
-  "";
-
-const recommendationReason =
-  prescription?.reason ||
-  "";
-
-const recommendationCTA =
-  prescription?.nextStep ||
-  "";
-
-  const profile={name,email,assessmentVersion:ASSESSMENT_VERSION,overallScore:latestResult.overall,dimensionScores:latestResult.scores,rawDimensionScores:latestResult.raw,profileMean:latestResult.mean,profileSD:latestResult.sd,dimensionDeviations:latestResult.deviations,gaps:latestResult.gaps,primaryPattern:latestResult.primaryPattern,secondaryPattern:latestResult.secondaryPattern,responseQuality:latestResult.quality,answers:latestResult.answers,savedAt:new Date().toISOString()};
-profile.recommendedProduct = recommendedProduct;
-profile.recommendationStage = recommendationStage;
-profile.recommendationReason = recommendationReason;
-profile.recommendationCTA = recommendationCTA;
-
-  localStorage.setItem("mindAlignmentLead",JSON.stringify(profile)); const saveButton=document.querySelector(".capture .btn"); if(saveButton.dataset.saved==="1"){message.textContent="Your profile has already been saved.";return;} saveButton.disabled=true; message.textContent="Saving your profile...";
- try{const response=await fetch("/api/save-profile",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(profile)});const result=await response.json();if(!response.ok||!result.success)throw new Error("Profile save failed");saveButton.dataset.saved="1";message.textContent="Your Mind Alignment Profile has been saved successfully.";}catch(error){saveButton.disabled=false;message.textContent="Your profile has been saved on this device. We could not sync it to the profile system right now.";}
+function readForm(){
+  const msg = document.getElementById("leadMessage");
+  msg.className = "msg";
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const whatsapp = document.getElementById("whatsapp").value.trim();
+  if (!latestResult) { msg.textContent = "Your result is not ready yet."; return null; }
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = "Please enter your name and a valid email address."; msg.className = "msg error"; return null; }
+  if (whatsapp && !/^\+?[0-9 ()-]{7,20}$/.test(whatsapp)) { msg.textContent = "Please check your WhatsApp number, or leave it empty."; msg.className = "msg error"; return null; }
+  if (!document.getElementById("consent").checked) { msg.textContent = "Please tick the box to agree to the privacy notice."; msg.className = "msg error"; return null; }
+  return { name, email, whatsapp };
 }
+async function postJson(url, body){
+  const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  let out = {}; try { out = await res.json(); } catch (e) {}
+  if (!res.ok || !out.success) throw new Error(out.error || "Something went wrong. Please try again.");
+  return out;
+}
+let savedOnce = false;
+async function saveProfile(f){
+  if (savedOnce) return;
+  await postJson("/api/save-profile", buildProfile(f.name, f.email, f.whatsapp));
+  savedOnce = true;
+}
+function busy(on){ ["startResetBtn","saveOnlyBtn"].forEach(id => document.getElementById(id).disabled = on); }
+async function startReset(){
+  const f = readForm(); if (!f) return;
+  const msg = document.getElementById("leadMessage");
+  busy(true); msg.textContent = "Saving your result and opening your Reset…";
+  try {
+    await saveProfile(f);
+    const r = await postJson("/api/reset/start", { name: f.name, email: f.email });
+    store(RESET_TOKEN_KEY, r.token);
+    location.href = "/reset";
+  } catch (e) { busy(false); msg.textContent = e.message; msg.className = "msg error"; }
+}
+async function saveOnly(){
+  const f = readForm(); if (!f) return;
+  const msg = document.getElementById("leadMessage");
+  busy(true); msg.textContent = "Saving…";
+  try { await saveProfile(f); msg.textContent = "Your result is saved. Your Reset is here whenever you are ready."; document.getElementById("saveOnlyBtn").disabled = true; document.getElementById("startResetBtn").disabled = false; }
+  catch (e) { busy(false); msg.textContent = e.message; msg.className = "msg error"; }
+}
+
+/* ---------- On arrival ---------- */
+(function init(){
+  const p = readProgress();
+  if (p) {
+    const answered = p.answers.filter(a => Number.isInteger(a)).length;
+    document.getElementById("resumeText").textContent = "You have answered " + answered + " of " + questions.length + " questions. Your answers are saved on this phone.";
+    document.getElementById("resumeBox").classList.remove("hidden");
+    document.getElementById("beginBtn").classList.add("hidden");
+  }
+  if (Date.now() < Date.parse("2026-11-16T23:00:00Z")) document.getElementById("resetWeekNote").classList.remove("hidden");
+})();
 </script>
 </body></html>
