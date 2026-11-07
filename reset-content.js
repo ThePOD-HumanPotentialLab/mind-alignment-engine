@@ -10,13 +10,44 @@ window.RESET_CONTENT = {
     "The 7-Day Mind Reset is a structured week for walking the law deliberately, one thought at a time. You will see the patterns that are growing, interrupt the ones that are not serving you, and plant, on purpose, the thoughts that lead to the outcome you seek.",
     "It is not about forcing positive thoughts. It is about becoming the one who notices, the one who chooses and the one who tends the garden."
   ],
+  "rhythmTitle": "Your daily rhythm",
   "howItWorks": [
-    "One day at a time. Each day has a short reading, one practice and one evening reflection.",
-    "About 10 minutes to read and set up, then the practice runs through your ordinary day.",
-    "Each new day opens the following calendar day. Do not rush ahead. The work happens in the living, not the reading.",
-    "Write your reflections. What you notice in writing becomes evidence you can return to.",
+    "Morning, about 10 minutes: read the day's law, breathe for one minute, and set your intention for the practice.",
+    "Through the day: live the practice in your ordinary moments. The work happens in the living, not the reading.",
+    "Evening, 5 to 10 minutes: come back, re-read the law, and write your reflection on the day you have just lived. Then complete the day.",
+    "One day at a time. Each new day opens the following calendar day, so do not rush ahead.",
     "If you miss a day, continue where you stopped. The reset is not lost; it is only paused."
   ],
+  "rhythmNote": "Morning and evening is the way we recommend. If your day only allows one sitting, do it all in the evening, so that your reflection speaks of a day you have lived.",
+  "intention": {
+    "label": "My intention for today",
+    "placeholder": "When and where will I practise this today? For example: in my 10 o'clock meeting, and on the drive home.",
+    "note": "Saved on this phone only. It will be waiting for you this evening."
+  },
+  "evening": {
+    "waitTitle": "Come back this evening",
+    "wait": "Live the practice first. Your reflection belongs to the day you are about to live, so return this evening to write it and complete Day {n}.",
+    "laterBtn": "I will come back tonight",
+    "nowLink": "My day only allows one sitting. Let me reflect now.",
+    "intended": "This morning you intended:",
+    "welcome": "Welcome back. Hold today's law in mind as you write:"
+  },
+  "reflectHow": [
+    "Find five quiet minutes, away from your screen's other noise.",
+    "Read today's law again, then read the question slowly.",
+    "Write what actually happened, not what should have happened. Honesty is the soil; judgement is the weed.",
+    "One or two true sentences are enough. Name a moment, what you thought, and what you chose."
+  ],
+  "reminder": {
+    "title": "Remind me morning and evening",
+    "intro": "Add the Reset to your phone's calendar: a reminder for your morning reading and one for your evening reflection, for each day that remains.",
+    "morning": "Morning reading at",
+    "evening": "Evening reflection at",
+    "apple": "iPhone or Apple Calendar",
+    "googleMorning": "Google: morning",
+    "googleEvening": "Google: evening",
+    "googleNote": "On Android, tap both Google buttons and save each one. On iPhone, open this page in Safari, not inside WhatsApp."
+  },
   "days": [
     {
       "day": 1,

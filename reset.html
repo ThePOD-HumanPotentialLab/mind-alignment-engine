@@ -67,8 +67,9 @@ button.day:hover .t b{color:var(--gold-text)}
     <div class="teaching" id="welcome"></div>
     <details class="more"><summary>Read more</summary><div class="teaching" id="welcomeMore"></div></details>
     <div class="ornament"></div>
-    <h3>How it works</h3>
+    <h3 id="rhythmTitle">Your daily rhythm</h3>
     <ul class="how" id="how"></ul>
+    <p class="small" id="rhythmNote" style="margin-top:-6px"></p>
     <div class="ornament"></div>
     <h3>Begin</h3>
     <input id="name" type="text" placeholder="Your name" autocomplete="name">
@@ -84,9 +85,11 @@ button.day:hover .t b{color:var(--gold-text)}
   <h2 class="center" id="hello"></h2>
   <p class="lead center" id="progressText" style="font-size:19px"></p>
   <div id="plantArt"></div>
+  <div id="remindTop"></div>
   <div class="card" style="padding-top:10px;padding-bottom:10px">
     <div class="days" id="dayList"></div>
   </div>
+  <div id="remindBottom"></div>
   <p class="msg center" id="dashMsg"></p>
   <div class="center"><button class="btn hidden" id="nextStepBtn">See your next step <span aria-hidden="true">→</span></button></div>
 </section>
@@ -109,13 +112,29 @@ button.day:hover .t b{color:var(--gold-text)}
     <div class="label" style="margin-top:0">Today's practice</div><p id="dayPractice"></p>
     <div class="label">For example</div><p class="example" id="dayExample"></p>
     <div class="label">You have completed today when</div><p id="dayEvidence"></p>
+    <div id="intentWrap">
+      <div class="label" id="intentLabel"></div>
+      <textarea id="intentInput" style="min-height:72px"></textarea>
+      <p class="small" id="intentNote" style="margin-top:-8px"></p>
+    </div>
     <div id="weekReview" class="reflections hidden"><div class="label">Your reflections this week</div><div id="weekList"></div></div>
     <div class="ornament"></div>
-    <div class="label" style="margin-top:0">Evening reflection</div><p class="serif" id="dayReflection"></p>
-    <textarea id="reflectionInput" placeholder="Write your reflection here…"></textarea>
-    <div class="row">
-      <button id="completeBtn" class="btn"></button>
-      <button class="btn ghost" onclick="showDashboard()">Back to my week</button>
+    <div id="eveningWait" class="panel hidden">
+      <div class="label" id="waitTitle"></div>
+      <p id="waitText" style="margin-bottom:6px"></p>
+      <div class="row" style="margin-top:6px"><button class="btn" id="laterBtn"></button></div>
+      <button class="link" id="nowLink"></button>
+    </div>
+    <div id="reflectArea">
+      <p class="small hidden" id="eveWelcome" style="margin-bottom:12px"></p>
+      <div class="reply hidden" id="intendedBox"><div class="label" id="intendedLabel"></div><div id="intendedText"></div></div>
+      <div class="label" style="margin-top:0">Evening reflection</div><p class="serif" id="dayReflection"></p>
+      <details class="more"><summary>How to reflect</summary><ul class="how" id="reflectHow"></ul></details>
+      <textarea id="reflectionInput" placeholder="Write your reflection here…"></textarea>
+      <div class="row">
+        <button id="completeBtn" class="btn"></button>
+        <button class="btn ghost" onclick="showDashboard()">Back to my week</button>
+      </div>
     </div>
     <p class="msg" id="dayMsg"></p>
   </div>
@@ -203,6 +222,8 @@ function renderIntro() {
   el("welcomeMore").parentNode.classList.toggle("hidden", CONTENT.welcome.length <= 2);
   if (window.GardenArt) el("introArt").innerHTML = window.GardenArt.sprout(7, 0, 1);
   el("how").replaceChildren(...CONTENT.howItWorks.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+  el("rhythmTitle").textContent = CONTENT.rhythmTitle;
+  el("rhythmNote").textContent = CONTENT.rhythmNote;
   el("startBtn").textContent = CONTENT.cta;
   show("intro");
 }
@@ -219,6 +240,7 @@ function showDashboard() {
   if (window.GardenArt) el("plantArt").innerHTML = window.GardenArt.sprout(7, doneCount, openDayNo);
   el("dashMsg").textContent = "";
   el("nextStepBtn").classList.toggle("hidden", doneCount < 7);
+  renderReminder(doneCount, openDayNo);
   el("dayList").replaceChildren(...CONTENT.days.map(d => {
     const s = dayStatus(d.day);
     const item = document.createElement(s.key === "locked" ? "div" : "button");
@@ -250,7 +272,8 @@ function openDay(n) {
   el("dayEvidence").textContent = d.evidence;
   el("dayReflection").textContent = d.reflection;
   const saved = localReflections();
-  el("reflectionInput").value = saved[n] || "";
+  const drafts = localJson(DRAFT_KEY);
+  el("reflectionInput").value = saved[n] || drafts[n] || "";
   const review = el("weekReview");
   if (n === 7) {
     const items = [1, 2, 3, 4, 5, 6].filter(i => saved[i]).map(i => {
@@ -270,6 +293,7 @@ function openDay(n) {
   btn.textContent = done ? "Day " + n + " completed ✓" : "Complete Day " + n;
   btn.disabled = done;
   el("reflectionInput").disabled = done;
+  setupRhythm(n, done);
   el("dayMsg").textContent = "";
   el("dayMsg").className = "msg";
   btn.onclick = () => completeDay(n);
@@ -288,6 +312,7 @@ async function completeDay(n) {
     const body = await api("/api/reset/complete", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ token: state.token, day: n, reflection }) });
     applyState(body);
     const saved = localReflections(); saved[n] = reflection; store(REFLECT_KEY, JSON.stringify(saved));
+    const drafts = localJson(DRAFT_KEY); delete drafts[n]; store(DRAFT_KEY, JSON.stringify(drafts));
     if (n === 7) { showComplete(); }
     else { showDashboard(); el("dashMsg").textContent = "Day " + n + " completed. Day " + (n + 1) + " opens tomorrow."; }
   } catch (e) {
@@ -295,6 +320,114 @@ async function completeDay(n) {
     msg.textContent = e.message;
     msg.className = "msg error";
   }
+}
+
+/* ---------- Daily rhythm: morning reading, evening reflection ---------- */
+const INTENT_KEY = "podResetIntentions", DRAFT_KEY = "podResetDrafts", READ_KEY = "podResetMorningRead";
+const REM_KEY = "podResetReminder";
+const reflectNow = {};
+function localJson(key) { try { return JSON.parse(load(key) || "{}") || {}; } catch (e) { return {}; } }
+function isEvening() { const h = new Date().getHours(); return h >= 17 || h < 4; }
+
+function setupRhythm(n, done) {
+  const E = CONTENT.evening, I = CONTENT.intention;
+  const intents = localJson(INTENT_KEY);
+  const mine = intents[n] && intents[n].text ? intents[n].text : "";
+  // Intention: shown while the day is still open
+  el("intentWrap").classList.toggle("hidden", done);
+  el("intentLabel").textContent = I.label;
+  el("intentInput").placeholder = I.placeholder;
+  el("intentNote").textContent = I.note;
+  el("intentInput").value = mine;
+  el("intentInput").oninput = () => { const all = localJson(INTENT_KEY); all[n] = { text: el("intentInput").value, date: state.today }; store(INTENT_KEY, JSON.stringify(all)); };
+  el("reflectionInput").oninput = () => { if (done) return; const all = localJson(DRAFT_KEY); all[n] = el("reflectionInput").value; store(DRAFT_KEY, JSON.stringify(all)); };
+  el("reflectHow").replaceChildren(...CONTENT.reflectHow.map(t => { const li = document.createElement("li"); li.textContent = t; return li; }));
+
+  const evening = isEvening();
+  const read = localJson(READ_KEY);
+  if (!done && !evening) { read[n] = state.today; store(READ_KEY, JSON.stringify(read)); }
+  const wait = !done && !evening && !reflectNow[n];
+  el("eveningWait").classList.toggle("hidden", !wait);
+  el("reflectArea").classList.toggle("hidden", wait);
+  el("waitTitle").textContent = E.waitTitle;
+  el("waitText").textContent = E.wait.replace("{n}", n);
+  el("laterBtn").textContent = E.laterBtn;
+  el("laterBtn").onclick = () => { showDashboard(); el("dashMsg").textContent = "Your place is saved. Come back this evening to reflect on Day " + n + "."; };
+  el("nowLink").textContent = E.nowLink;
+  el("nowLink").onclick = () => { reflectNow[n] = true; setupRhythm(n, done); el("reflectArea").scrollIntoView({ behavior: "smooth", block: "start" }); };
+
+  const cameBack = !done && evening && read[n] === state.today;
+  el("eveWelcome").classList.toggle("hidden", !cameBack);
+  el("eveWelcome").textContent = E.welcome + " " + CONTENT.days[n - 1].law;
+  const showIntent = !!mine.trim() && !wait;
+  el("intendedBox").classList.toggle("hidden", !showIntent);
+  el("intendedLabel").textContent = E.intended;
+  el("intendedText").textContent = mine;
+  if (cameBack) setTimeout(() => el("reflectArea").scrollIntoView({ behavior: "smooth", block: "start" }), 450);
+}
+
+/* ---------- Calendar reminders ---------- */
+function addDays(date, n) { const d = new Date(date + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+function halfHours(fromH, toH) {
+  const out = [];
+  for (let i = fromH * 2; i <= toH * 2 + 1; i++) {
+    const hh = Math.floor(i / 2), mm = i % 2 ? "30" : "00";
+    out.push([(hh < 10 ? "0" : "") + hh + ":" + mm, ((hh + 11) % 12 + 1) + ":" + mm + (hh < 12 ? " am" : " pm")]);
+  }
+  return out;
+}
+function reminderLinks(start, count, morning, evening) {
+  const tzo = new Date().getTimezoneOffset();
+  const ics = "/api/reset/calendar.ics?start=" + start + "&count=" + count + "&morning=" + morning + "&evening=" + evening + "&tzo=" + tzo;
+  let tz = "Africa/Lagos"; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || tz; } catch (e) {}
+  const st = ms => new Date(ms).toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+  const g = (time, title, details) => {
+    const p = time.split(":"), t = Date.parse(start + "T00:00:00Z") + (Number(p[0]) * 60 + Number(p[1]) + tzo) * 60000;
+    return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(title) +
+      "&dates=" + st(t) + "/" + st(t + 900000) + "&ctz=" + encodeURIComponent(tz) +
+      "&recur=" + encodeURIComponent("RRULE:FREQ=DAILY;COUNT=" + count) + "&details=" + encodeURIComponent(details);
+  };
+  const link = location.origin + "/reset";
+  return {
+    ics: ics,
+    gMorning: g(morning, "7-Day Mind Reset: morning reading", "About 10 minutes: read today's law, breathe, and set your intention.\nOpen the Reset: " + link),
+    gEvening: g(evening, "7-Day Mind Reset: evening reflection", "Five to ten quiet minutes: re-read the law, write your reflection, and complete the day.\nOpen the Reset: " + link)
+  };
+}
+function renderReminder(doneCount, openDayNo) {
+  el("remindTop").innerHTML = ""; el("remindBottom").innerHTML = "";
+  if (doneCount >= 7) return;
+  const R = CONTENT.reminder;
+  const saved = localJson(REM_KEY);
+  const morning = saved.morning || "06:30", evening = saved.evening || "20:30";
+  const start = openDayNo ? state.today : addDays(state.today, 1);
+  const count = 7 - doneCount;
+  const opts = (list, v) => list.map(o => '<option value="' + o[0] + '"' + (o[0] === v ? " selected" : "") + ">" + o[1] + "</option>").join("");
+  const box = document.createElement("div");
+  box.className = "card";
+  box.style.margin = "0 0 16px";
+  box.innerHTML = '<details class="more" id="remind" style="margin:0"' + (saved.added ? "" : " open") + '><summary></summary>' +
+    '<p class="small" style="margin:4px 0 10px"></p>' +
+    '<label class="label" for="remMorning" style="display:block"></label><select id="remMorning">' + opts(halfHours(4, 11), morning) + '</select>' +
+    '<label class="label" for="remEvening" style="display:block;margin-top:4px"></label><select id="remEvening">' + opts(halfHours(17, 23), evening) + '</select>' +
+    '<div class="row" style="margin-top:4px"><a class="btn" id="remIcs"></a></div>' +
+    '<div class="row" style="margin-top:10px"><a class="btn ghost" id="remGM" target="_blank" rel="noopener"></a><a class="btn ghost" id="remGE" target="_blank" rel="noopener"></a></div>' +
+    '<p class="small" style="margin-top:10px" id="remNote"></p></details>';
+  (saved.added ? el("remindBottom") : el("remindTop")).appendChild(box);
+  box.querySelector("summary").textContent = R.title;
+  box.querySelector("p.small").textContent = R.intro;
+  box.querySelector("label[for=remMorning]").textContent = R.morning;
+  box.querySelector("label[for=remEvening]").textContent = R.evening;
+  el("remIcs").textContent = R.apple; el("remGM").textContent = R.googleMorning; el("remGE").textContent = R.googleEvening;
+  el("remNote").textContent = R.googleNote;
+  const update = () => {
+    const l = reminderLinks(start, count, el("remMorning").value, el("remEvening").value);
+    el("remIcs").href = l.ics; el("remGM").href = l.gMorning; el("remGE").href = l.gEvening;
+    const s = localJson(REM_KEY); s.morning = el("remMorning").value; s.evening = el("remEvening").value; store(REM_KEY, JSON.stringify(s));
+  };
+  update();
+  el("remMorning").onchange = el("remEvening").onchange = update;
+  ["remIcs", "remGM", "remGE"].forEach(id => el(id).addEventListener("click", () => { const s = localJson(REM_KEY); s.added = true; store(REM_KEY, JSON.stringify(s)); }));
 }
 
 function showComplete() {
