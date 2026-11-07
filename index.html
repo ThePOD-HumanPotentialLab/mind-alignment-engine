@@ -110,6 +110,7 @@
       <h3>Start your free 7-Day Mind Reset</h3>
       <p id="prescriptionFocus"></p>
       <p class="small">About ten minutes in the morning and five at night, for seven days. It begins the moment you start.</p>
+      <p class="small"><em>The Reset draws on The POD's conviction that God governs this world by laws, and that the laws of the mind are among them. People of every faith, and of none, are welcome.</em></p>
       <div class="capture">
         <input id="name" type="text" placeholder="Your name" autocomplete="name" maxlength="100">
         <input id="email" type="email" placeholder="Your email address" autocomplete="email" maxlength="200">
@@ -142,7 +143,7 @@
 <script src="/pod-prescription-engine-v1.js"></script>
 <script src="/pod-prescription-data-v2-mahpp.js"></script>
   <script>
-const ASSESSMENT_VERSION = "2.0";
+const ASSESSMENT_VERSION = "2.1";
 const dimensions = ["Thought","Identity","Emotional Regulation","Intentionality","Ownership","Execution","Relational Alignment","Potential / Growth Orientation"];
 const questions = [
   {
@@ -151,20 +152,20 @@ const questions = [
     "text": "When a worrying thought keeps returning, what usually happens?",
     "options": [
       {
-        "text": "I tend to accept the thought as accurate in the moment.",
+        "text": "I accept the thought as true in the moment.",
         "score": 0
       },
       {
-        "text": "I notice it and try to shift my attention.",
-        "score": 2
+        "text": "I notice it and try to think about something else.",
+        "score": 1
       },
       {
-        "text": "I examine what is fact, what is assumption, and what is interpretation.",
+        "text": "I examine what is fact, what is assumption, and what is only my interpretation.",
         "score": 3
       },
       {
-        "text": "I usually discuss it with someone before deciding what to make of it.",
-        "score": 1
+        "text": "I take it to someone I trust, then decide for myself what is true.",
+        "score": 2
       }
     ]
   },
@@ -243,19 +244,19 @@ const questions = [
     "text": "After a significant setback, which response is most typical for you?",
     "options": [
       {
-        "text": "I begin questioning whether I am capable of achieving the goal.",
+        "text": "I begin to doubt whether I can achieve the goal.",
         "score": 1
       },
       {
-        "text": "I focus on what happened without allowing it to completely define me.",
+        "text": "I look at what happened without letting it define me.",
         "score": 2
       },
       {
-        "text": "I examine what the experience reveals about who I need to become.",
+        "text": "I ask what the setback is teaching me about who I need to become.",
         "score": 3
       },
       {
-        "text": "I quickly move on to something else.",
+        "text": "I avoid thinking about it and carry on as if it did not happen.",
         "score": 0
       }
     ]
@@ -266,19 +267,19 @@ const questions = [
     "text": "Which description is closest to how you currently see yourself?",
     "options": [
       {
-        "text": "My circumstances strongly influence the person I can realistically become.",
+        "text": "My circumstances largely decide who I can become.",
         "score": 0
       },
       {
-        "text": "My circumstances influence me, but I can deliberately develop beyond them.",
+        "text": "My circumstances influence me, but I can grow beyond them.",
         "score": 2
       },
       {
-        "text": "I am still working out which parts of my identity genuinely belong to me.",
+        "text": "I am still working out which parts of who I am are truly mine.",
         "score": 1
       },
       {
-        "text": "I deliberately define the person I am becoming and use that identity to guide important choices.",
+        "text": "I have a clear picture of the person I am becoming, and it guides my important choices.",
         "score": 3
       }
     ]
@@ -312,19 +313,19 @@ const questions = [
     "text": "Which statement most closely describes your relationship with personal change?",
     "options": [
       {
-        "text": "I tend to remain fairly consistent even when my circumstances change.",
+        "text": "I tend to stay the same, even when my circumstances change.",
         "score": 1
       },
       {
-        "text": "I change when circumstances require it.",
+        "text": "I only change when circumstances force me to.",
         "score": 0
       },
       {
-        "text": "I deliberately revise parts of myself when I recognize that my current way of operating no longer serves my direction.",
+        "text": "When I see that a way of living no longer serves my direction, I change it on purpose.",
         "score": 3
       },
       {
-        "text": "I gradually adapt as I encounter new experiences.",
+        "text": "I adapt gradually as life brings new experiences.",
         "score": 2
       }
     ]
@@ -335,19 +336,19 @@ const questions = [
     "text": "During a heated disagreement, what usually happens?",
     "options": [
       {
-        "text": "I respond quickly and think about it afterward.",
+        "text": "I respond quickly and think about it afterwards.",
         "score": 0
       },
       {
-        "text": "I notice the emotional reaction and slow myself down before responding.",
+        "text": "I notice the feeling rising, pause, and choose my words.",
         "score": 3
       },
       {
-        "text": "I try to pause, although the emotion may still influence what I say.",
+        "text": "I try to pause, but the feeling still shapes what I say.",
         "score": 1
       },
       {
-        "text": "I generally give myself enough time to respond rather than react.",
+        "text": "I usually manage not to react, though it takes real effort.",
         "score": 2
       }
     ]
@@ -404,19 +405,19 @@ const questions = [
     "text": "You have an important decision to make while emotionally unsettled. What are you most likely to do?",
     "options": [
       {
-        "text": "I make the decision quickly so I can move past it.",
+        "text": "I decide quickly so I can move past it.",
         "score": 0
       },
       {
-        "text": "I consider the decision but wait if my emotional state may be affecting my judgment.",
+        "text": "I wait, and seek wise counsel if I need it, because my feelings may be clouding my judgement.",
         "score": 2
       },
       {
-        "text": "I settle myself first, then deliberately examine the decision.",
+        "text": "I settle myself first, then examine the decision deliberately.",
         "score": 3
       },
       {
-        "text": "I ask someone else to decide what I should do.",
+        "text": "I let someone else decide for me.",
         "score": 1
       }
     ]
@@ -450,19 +451,19 @@ const questions = [
     "text": "Several opportunities require your attention at the same time. How do you usually decide what to pursue?",
     "options": [
       {
-        "text": "I tend to respond to whichever feels most urgent.",
+        "text": "I respond to whichever feels most urgent.",
         "score": 1
       },
       {
-        "text": "I consider how each option fits my larger priorities.",
+        "text": "I weigh each one against my larger priorities.",
         "score": 3
       },
       {
-        "text": "I initially pursue several and narrow them down later.",
+        "text": "I take on all of them and hope it works out.",
         "score": 0
       },
       {
-        "text": "I consider urgency alongside how each option fits my current direction.",
+        "text": "I weigh urgency alongside how each fits my direction.",
         "score": 2
       }
     ]
@@ -661,11 +662,11 @@ const questions = [
         "score": 0
       },
       {
-        "text": "I remind myself why it matters and begin anyway.",
+        "text": "I remind myself why it matters and begin, even with the smallest part.",
         "score": 3
       },
       {
-        "text": "I start with a smaller part of the task.",
+        "text": "I start with an easy part and let the momentum build.",
         "score": 2
       },
       {
@@ -726,19 +727,19 @@ const questions = [
     "text": "Someone you care about repeatedly asks you to do something that conflicts with an important priority. What usually happens?",
     "options": [
       {
-        "text": "I agree and deal with the consequences later.",
+        "text": "I agree, even though it costs me something important, and the frustration stays with me.",
         "score": 0
       },
       {
-        "text": "I sometimes say no but feel uncomfortable about it.",
+        "text": "I sometimes say no, but I feel guilty about it.",
         "score": 1
       },
       {
-        "text": "I explain the conflict and try to find an alternative.",
+        "text": "I explain the conflict honestly and look for a way to honour both the person and my priority.",
         "score": 3
       },
       {
-        "text": "I negotiate what I can realistically do while protecting the priority.",
+        "text": "I agree to the part I can truly do, and protect the rest.",
         "score": 2
       }
     ]
@@ -772,19 +773,19 @@ const questions = [
     "text": "When keeping the peace conflicts with something you genuinely believe is important, what usually happens?",
     "options": [
       {
-        "text": "I generally keep the peace even when it means suppressing my position.",
+        "text": "I keep the peace, and the matter stays unsettled inside me.",
         "score": 0
       },
       {
-        "text": "I express my position while trying to protect the relationship.",
+        "text": "I say what I believe while protecting the relationship.",
         "score": 3
       },
       {
-        "text": "I may remain quiet initially and decide later whether to raise it.",
+        "text": "I stay quiet for now and decide later whether to raise it.",
         "score": 1
       },
       {
-        "text": "I state my position clearly even if the conversation becomes uncomfortable.",
+        "text": "I state my position clearly, even if the conversation becomes uncomfortable.",
         "score": 2
       }
     ]
@@ -795,19 +796,19 @@ const questions = [
     "text": "You receive a responsibility you have never handled before. What usually happens?",
     "options": [
       {
-        "text": "I look for someone experienced and learn from them.",
+        "text": "I find someone experienced and follow their lead.",
         "score": 2
       },
       {
-        "text": "I assume the lack of experience will probably limit me.",
+        "text": "I assume my lack of experience will hold me back.",
         "score": 0
       },
       {
-        "text": "I identify what I need to learn and begin developing it.",
+        "text": "I work out what I need to learn, find people who have done it, and begin.",
         "score": 3
       },
       {
-        "text": "I feel uncertain but begin learning as I go.",
+        "text": "I feel unsure, but I start and learn as I go.",
         "score": 1
       }
     ]
@@ -864,19 +865,19 @@ const questions = [
     "text": "When you think about who you could become over the next few years, what most closely describes your approach?",
     "options": [
       {
-        "text": "I have a general desire to improve.",
-        "score": 1
-      },
-      {
-        "text": "I focus mainly on what I need to accomplish.",
+        "text": "I do not think much about it. I take life as it comes.",
         "score": 0
       },
       {
-        "text": "I think about the capabilities I would need to develop.",
+        "text": "I focus on my goals more than on who I am becoming.",
+        "score": 1
+      },
+      {
+        "text": "I think about the abilities I would need to develop.",
         "score": 2
       },
       {
-        "text": "I deliberately define qualities, thinking patterns and behaviors I want to embody and practice them.",
+        "text": "I decide the qualities, thoughts and habits I want to live by, and practise them on purpose.",
         "score": 3
       }
     ]
@@ -885,85 +886,85 @@ const questions = [
 const dimensionGuidance = {
   "Thought": [
     "Thought Development",
-    "Your responses suggest an opportunity to become more deliberate about the thoughts, assumptions and mental patterns you repeatedly entertain.",
-    "Your responses suggest a developed ability to observe and examine your thinking rather than automatically treating every thought as a fact or instruction."
+    "Some thoughts are growing in you that you did not plant. Begin to notice them, question them, and choose the ones you keep.",
+    "You can watch a thought without obeying it. Now plant, on purpose, the thoughts that lead where you are going."
   ],
   "Identity": [
     "Identity Development",
-    "Your responses suggest an opportunity to make your self-concept more deliberate and increasingly consistent with the person you intend to become.",
-    "Your responses suggest a relatively deliberate relationship with identity and personal development. The next step is to keep turning self-concept into repeated evidence through behaviour."
+    "You are still borrowing parts of who you are. Decide who you are becoming, and let your choices begin to prove it.",
+    "You know who you are becoming. Keep giving that person daily evidence. Identity is built by what you repeat."
   ],
   "Emotional Regulation": [
     "Emotional Regulation Development",
-    "Your responses suggest an opportunity to create more space between emotional activation and deliberate response.",
-    "Your responses suggest an increasing ability to experience emotion without automatically handing it control of your behaviour."
+    "Your feelings often answer before you do. Make room for one breath between the feeling and your response.",
+    "You can feel deeply without handing your feelings the wheel. Keep that space. It is where your choices live."
   ],
   "Intentionality": [
     "Intentionality Development",
-    "Your responses suggest an opportunity to clarify direction and organize choices around what matters most.",
-    "Your responses suggest meaningful clarity about direction and priorities. The next step is to keep translating that clarity into deliberate choices and action."
+    "Your energy is spread across too many fields. Choose what matters most, and let the rest wait its turn.",
+    "You know what matters most. Now let that clarity decide how you spend each day."
   ],
   "Ownership": [
     "Ownership Development",
-    "Your responses suggest an opportunity to focus more consistently on the part of each situation you can influence, change or learn from.",
-    "Your responses suggest a developed sense of personal agency. Continue strengthening ownership without turning responsibility into self-blame."
+    "Much of your attention goes to what you cannot control. Bring it back to the part that is yours to move.",
+    "You take ownership of your life. Keep it free of self-blame: own the next step, not every outcome."
   ],
   "Execution": [
     "Execution Development",
-    "Your responses suggest an opportunity to close the distance between intention and repeated behaviour through systems, environment and deliberate practice.",
-    "Your responses suggest a relatively strong connection between intention and action. Continue reinforcing the routines that make desired behaviour easier to repeat."
+    "You know what to plant. Now water it daily, whether you feel like it or not.",
+    "What you intend, you tend to do. Protect the routines that make the right action easy to repeat."
   ],
   "Relational Alignment": [
     "Relational Alignment Development",
-    "Your responses suggest an opportunity to strengthen direct communication, healthy boundaries and authentic connection.",
-    "Your responses suggest an ability to remain constructive with others while maintaining your own values and priorities."
+    "You often bend to keep others comfortable. Learn to say what matters to you, kindly and plainly, and keep the relationship.",
+    "You can stay close to people without losing yourself. Keep honouring both the person and your direction."
   ],
   "Potential / Growth Orientation": [
     "Growth Development",
-    "Your responses suggest an opportunity to become more deliberate about learning, adaptation and capability development.",
-    "Your responses suggest a strong orientation toward learning and expansion. Continue converting possibility into capability through practice and experience."
+    "You tend to stay within what you already know. Choose one thing to learn, and let the stretch begin small.",
+    "You lean towards growth. Turn possibility into ability by practising what you are learning."
   ]
 };
 const patterns = {
   "visionExecution": [
     "Vision–Execution Gap",
-    "Your responses suggest that your clarity about what you want may currently be developing faster than the behavioural system translating that clarity into daily action.",
-    "Move from intention to embodiment: choose one important behaviour, design the environment around it, and repeat it until it becomes familiar."
+    "You see clearly what you want. Your daily actions have not yet caught up with your vision. The seed is chosen; it has not yet been watered.",
+    "Choose one important action, make it easy to do, and repeat it until it is yours."
   ],
   "identityExecution": [
-    "Identity–Behavior Gap",
-    "The person you believe you are becoming may currently be ahead of the routines that consistently express that identity.",
-    "Give the desired identity repeated behavioural evidence. Choose one action that the person you are becoming would do consistently and make it non-negotiable."
+    "Identity–Behaviour Gap",
+    "You know who you are becoming, but your routines still belong to who you were. Identity grows strong on evidence.",
+    "Choose one action the person you are becoming would take every day, and make it non-negotiable."
   ],
   "emotionalOverride": [
     "Emotional Override",
-    "You may understand what you want to do cognitively while emotional activation makes consistent responding harder in the moment.",
-    "Practice the pause: notice the state, name what is happening, settle your response, then choose the behaviour that serves your direction."
+    "You know what to do. In the moment, your feelings often decide for you. The law has not changed; the feeling is simply louder.",
+    "Notice the feeling, name it, settle, then choose the response that serves your direction."
   ],
   "agencyAction": [
     "Agency-to-Action Gap",
-    "Your responses suggest that recognizing your influence over outcomes may currently be stronger than consistently converting that recognition into action.",
-    "Turn responsibility into one observable behaviour. Ask: 'What is the next thing within my control that I can actually do?'"
+    "You know your life is yours to shape. Now turn that knowing into action you can see.",
+    "Ask, 'What is the next thing within my control?' Then do it today."
   ],
   "relationalAdaptation": [
     "Relational Over-Adaptation",
-    "Your responses suggest that maintaining relational harmony may sometimes take precedence over expressing your own direction and priorities.",
-    "Practice authentic boundaries: communicate what matters to you clearly while remaining respectful of the relationship."
+    "You know your own mind, but with others you often set it aside to keep the peace. Peace that costs you your direction is not peace.",
+    "Say what matters to you, kindly and plainly, and stay in the relationship."
   ],
   "fragmentedDirection": [
     "Fragmented Direction",
-    "Different areas of your profile appear to be developing at different speeds while your larger direction may not yet be sufficiently defined.",
-    "Choose a definite direction before trying to optimize everything at once. Clarify what matters most, then organize your priorities around it."
+    "Parts of your garden are growing at different speeds, and the larger direction is not yet chosen. Without a direction, effort scatters.",
+    "Choose one definite direction, then let your priorities line up behind it."
   ],
   "expansionReadiness": [
     "Expansion Readiness",
-    "Your responses show a strong developmental orientation across identity, intentionality and growth, without a major negative gap dominating the profile.",
-    "Protect the pattern through deliberate challenge, learning and identity-consistent action. Expansion becomes meaningful when possibility is followed by practice."
+    "Your identity, your direction and your appetite for growth are strong. The ground is ready for something bigger.",
+    "Choose a stretch that excites you and scares you, and practise your way into it."
   ],
   "integrated": [
     "Integrated Alignment",
-    "Your responses are relatively consistent across the eight dimensions, without one major developmental gap dominating your profile.",
-    "Your next opportunity is refinement rather than repair. Your lowest dimension, {low}, is the place to begin."
+    "Your garden is evenly tended. No single area is holding you back. Now choose the one bed you will tend hardest.",
+    "Your lowest dimension, {low}, is the place to begin."
   ],
   "unevenGarden": [
     "Uneven Garden",
