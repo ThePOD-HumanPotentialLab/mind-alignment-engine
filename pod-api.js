@@ -1,4 +1,5 @@
 /* ---------------- The POD: entry, payment and preparation ---------------- */
+import { notifyJosh, firstName, naira } from "./notify.js";
 import { handleTrackerRoutes } from "./pod-tracker.js";
 import { paystackKey, paystackBase, validWebhookSignature } from "./paystack.js";
 import { markBlueprintPaid } from "./blueprint-api.js";
@@ -338,9 +339,18 @@ async function handleTransferSent(request, env) {
   try {
     const p = await getByToken(env, data?.token);
     if (!p) return json({ success: false, error: "Please open the POD again." }, 404);
-    await env.DB.prepare(
+    const res = await env.DB.prepare(
       "UPDATE pod_payments SET status = 'transfer_claimed' WHERE participant_id = ? AND channel = 'bank transfer' AND status = 'transfer_pending'"
     ).bind(p.id).run();
+    if (res.meta?.changes) {
+      const t = await env.DB.prepare("SELECT reference, amount_kobo FROM pod_payments WHERE participant_id = ? AND status = 'transfer_claimed' ORDER BY created_at DESC LIMIT 1").bind(p.id).first();
+      await notifyJosh(env, {
+        title: "POD: transfer to confirm",
+        message: firstName(p.name) + " says they have sent " + (t ? naira(t.amount_kobo / 100) + " with reference " + t.reference : "the POD fee") +
+          ".\nCheck GTBank, then tap Confirm payment on the POD admin page.",
+        click: new URL(request.url).origin + "/pod-admin", tags: "bank"
+      });
+    }
     return json({ success: true, state: await fullState(env, p) });
   } catch (error) {
     return json({ success: false, error: "We could not record that just now. Please try again." }, 500);

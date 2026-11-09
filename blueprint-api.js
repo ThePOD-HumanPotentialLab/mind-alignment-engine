@@ -1,4 +1,5 @@
 /* ---------------- The 2027 Blueprint: registration and payment ---------------- */
+import { notifyJosh, firstName, naira } from "./notify.js";
 import { paystackKey, paystackInitialize, paystackVerify } from "./paystack.js";
 
 const EVENT = {
@@ -101,6 +102,11 @@ export async function markBlueprintPaid(env, reference, tx) {
   await env.DB.prepare(
     "UPDATE blueprint_registrations SET status = 'success', paid_at = COALESCE(paid_at, ?), paystack_id = ?, channel = ? WHERE reference = ?"
   ).bind(new Date().toISOString(), String(tx.id || ""), String(tx.channel || ""), reference).run();
+  await notifyJosh(env, {
+    title: "2027 Blueprint seat PAID",
+    message: firstName(r.name) + " paid " + naira(r.amount_kobo / 100) + " by card (" + (r.format === "onsite" ? "onsite" : "online") + ").\nReference " + reference,
+    tags: "moneybag"
+  });
   return env.DB.prepare("SELECT * FROM blueprint_registrations WHERE reference = ?").bind(reference).first();
 }
 
@@ -165,6 +171,14 @@ async function handleRegister(request, env, url) {
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'NGN', ?, ?)`)
     .bind(reference, EVENT.id, name, email, phone, organisation, role, heard, format, tier, amount,
       payments ? "initialized" : "reserved", now).run();
+
+  const fmt = format === "onsite" ? "onsite" : "online";
+  await notifyJosh(env, {
+    title: "New 2027 Blueprint reservation",
+    message: firstName(name) + " reserved a seat (" + fmt + ", " + naira(amount / 100) + ").\nReference " + reference +
+      (payments ? "\nPaying by card now." : "\nPaying by bank transfer: watch GTBank for this reference."),
+    click: url.origin + "/blueprint-admin", tags: "tada"
+  });
 
   // No Paystack key yet: hold the seat and complete payment by transfer over WhatsApp.
   if (!payments) return json({ success: true, reserved: true, reference, amount: amount / 100 });
