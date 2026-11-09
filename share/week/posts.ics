@@ -1,0 +1,224 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The POD Human Potential Lab//Launch Week//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:POD launch week posts
+BEGIN:VEVENT
+UID:pod-launch-post-0-202611092000@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261109T190000Z
+DTEND:20261109T193000Z
+SUMMARY:POD post goes live: Launch announcement
+DESCRIPTION:Where: Facebook\nPosted automatically by Metricool.\nOpen the
+  post and reply to comments in the first hour: it boosts reach.\nTo chan
+ ge or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Facebook: Launch announcement
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-1-202611100730@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261110T063000Z
+DTEND:20261110T070000Z
+SUMMARY:POD post goes live: Carousel: the eight dimensions
+DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
+  post and reply to comments in the first hour: it boosts reach.\nTo chan
+ ge or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on LinkedIn: Carousel: the eight dimensions
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-2-202611101930@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261110T183000Z
+DTEND:20261110T190000Z
+SUMMARY:POD post goes live: Carousel: which one made you pause?
+DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
+ l.\nOpen the post and reply to comments in the first hour: it boosts rea
+ ch.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Facebook + Instagram: Carousel: which one m
+ ade you pause?
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-3-202611110800@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261111T070000Z
+DTEND:20261111T073000Z
+SUMMARY:POD post goes live: Poll: what changes your plan midweek?
+DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
+  post and reply to comments in the first hour: it boosts reach.\nTo chan
+ ge or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on LinkedIn: Poll: what changes your plan midw
+ eek?
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-4-202611111900@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261111T180000Z
+DTEND:20261111T183000Z
+SUMMARY:POD post goes live: Video: every result begins as a thought
+DESCRIPTION:Where: Instagram\, TikTok\, Facebook\, YouTube\nPosted automa
+ tically by Metricool.\nOpen the post and reply to comments in the first 
+ hour: it boosts reach.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Instagram\, TikTok\, Facebook\, YouTube: Vi
+ deo: every result begins as a thought
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-5-202611120730@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261112T063000Z
+DTEND:20261112T070000Z
+SUMMARY:POD post goes live: You are not lazy
+DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
+  post and reply to comments in the first hour: it boosts reach.\nTo chan
+ ge or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on LinkedIn: You are not lazy
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-6-202611121930@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261112T183000Z
+DTEND:20261112T190000Z
+SUMMARY:POD post goes live: You are not lazy
+DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
+ l.\nOpen the post and reply to comments in the first hour: it boosts rea
+ ch.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Facebook + Instagram: You are not lazy
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-7-202611130730@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261113T063000Z
+DTEND:20261113T070000Z
+SUMMARY:POD post goes live: Which pattern is yours?
+DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
+  post and reply to comments in the first hour: it boosts reach.\nTo chan
+ ge or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on LinkedIn: Which pattern is yours?
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-8-202611131930@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261113T183000Z
+DTEND:20261113T190000Z
+SUMMARY:POD post goes live: Which pattern is yours?
+DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
+ l.\nOpen the post and reply to comments in the first hour: it boosts rea
+ ch.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Facebook + Instagram: Which pattern is your
+ s?
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-9-202611141100@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261114T100000Z
+DTEND:20261114T103000Z
+SUMMARY:POD post goes live: How the Reset works\, bring a friend
+DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
+ l.\nOpen the post and reply to comments in the first hour: it boosts rea
+ ch.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Facebook + Instagram: How the Reset works\,
+  bring a friend
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-10-202611141200@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261114T110000Z
+DTEND:20261114T113000Z
+SUMMARY:POD post goes live: Video: seven days
+DESCRIPTION:Where: TikTok + YouTube\nPosted automatically by Metricool.\n
+ Open the post and reply to comments in the first hour: it boosts reach.\
+ nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on TikTok + YouTube: Video: seven days
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-11-202611151700@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261115T160000Z
+DTEND:20261115T163000Z
+SUMMARY:POD post goes live: Tomorrow\, we begin
+DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
+  post and reply to comments in the first hour: it boosts reach.\nTo chan
+ ge or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on LinkedIn: Tomorrow\, we begin
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-12-202611151900@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261115T180000Z
+DTEND:20261115T183000Z
+SUMMARY:POD post goes live: Video: tomorrow\, we begin
+DESCRIPTION:Where: Instagram + Facebook\nPosted automatically by Metricoo
+ l.\nOpen the post and reply to comments in the first hour: it boosts rea
+ ch.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on Instagram + Facebook: Video: tomorrow\, we 
+ begin
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:pod-launch-post-13-202611160630@thepod
+DTSTAMP:20261109T133000Z
+DTSTART:20261116T053000Z
+DTEND:20261116T060000Z
+SUMMARY:POD post goes live: Today\, we begin: Day 1 of the Reset
+DESCRIPTION:Where: LinkedIn\, Facebook\, Instagram\nPosted automatically 
+ by Metricool.\nOpen the post and reply to comments in the first hour: it
+  boosts reach.\nTo change or cancel: Metricool\, then Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Going live now on LinkedIn\, Facebook\, Instagram: Today\, we
+  begin: Day 1 of the Reset
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+END:VCALENDAR
