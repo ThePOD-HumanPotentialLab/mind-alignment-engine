@@ -1,223 +1,500 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//The POD Human Potential Lab//Launch Week//EN
+PRODID:-//The POD Human Potential Lab//Launch posts//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:POD launch week posts
+X-WR-CALNAME:POD launch posts
 BEGIN:VEVENT
-UID:pod-launch-post-0-202611092000@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611091800@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261109T170000Z
+DTEND:20261109T171500Z
+SUMMARY:Posting: Blueprint on YouTube Short
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: We don't start new years. We repeat old
+  ones.\n\nTo change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on YouTube Short
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611091830@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261109T173000Z
+DTEND:20261109T174500Z
+SUMMARY:Post by hand: Blueprint on Facebook Story\, Instagram Story
+DESCRIPTION:Metricool will send a notification to your phone. Open it and
+  tap to publish this Story.\n\nOpening line: The 2027 Blueprint\, a one-
+ day intensive with Josh Ochu. Saturday 28…\n\nTo change or stop it: Me
+ tricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Post by hand: Blueprint on Facebook Story\, Instagram Story
+TRIGGER:PT0M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611092000@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261109T190000Z
-DTEND:20261109T193000Z
-SUMMARY:POD post goes live: Launch announcement
-DESCRIPTION:Where: Facebook\nPosted automatically by Metricool.\nOpen the
-  post and reply to comments in the first hour: it boosts reach.\nTo chan
- ge or cancel: Metricool\, then Planning.
+DTEND:20261109T191500Z
+SUMMARY:Posting: Mind Alignment on Facebook
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: You plan on Monday. By Thursday\, the p
+ lan has changed.\n\nTo change or stop it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Facebook: Launch announcement
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on Facebook
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-1-202611100730@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611100730@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261110T063000Z
-DTEND:20261110T070000Z
-SUMMARY:POD post goes live: Carousel: the eight dimensions
-DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
-  post and reply to comments in the first hour: it boosts reach.\nTo chan
- ge or cancel: Metricool\, then Planning.
+DTEND:20261110T064500Z
+SUMMARY:Posting: Mind Alignment on LinkedIn
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Eight things decide whether your plans 
+ survive the week.\n\nTo change or stop it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on LinkedIn: Carousel: the eight dimensions
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on LinkedIn
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-2-202611101930@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611101230@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261110T113000Z
+DTEND:20261110T114500Z
+SUMMARY:Posting: Blueprint on Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Before you plan 2027\, count how many o
+ f these apply to you. 👇\n\nTo change or stop it: Metricool\, Planning
+ .
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on Facebook\, Instagram
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611101800@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261110T170000Z
+DTEND:20261110T171500Z
+SUMMARY:Posting: Blueprint on TikTok
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: 5 signs you're about to repeat 2026 
+ 👀 How many are you? The 2027…\n\nTo change or stop it: Metricool\, 
+ Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on TikTok
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611101930@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261110T183000Z
-DTEND:20261110T190000Z
-SUMMARY:POD post goes live: Carousel: which one made you pause?
-DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
- l.\nOpen the post and reply to comments in the first hour: it boosts rea
- ch.\nTo change or cancel: Metricool\, then Planning.
+DTEND:20261110T184500Z
+SUMMARY:Posting: Mind Alignment on Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Eight dimensions decide whether your pl
+ ans survive the week. Swipe…\n\nTo change or stop it: Metricool\, Plan
+ ning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Facebook + Instagram: Carousel: which one m
- ade you pause?
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on Facebook\, Instagram
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-3-202611110800@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611110800@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261111T070000Z
-DTEND:20261111T073000Z
-SUMMARY:POD post goes live: Poll: what changes your plan midweek?
-DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
-  post and reply to comments in the first hour: it boosts reach.\nTo chan
- ge or cancel: Metricool\, then Planning.
+DTEND:20261111T071500Z
+SUMMARY:Posting: Mind Alignment on LinkedIn poll
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Honest question.\n\nTo change or stop i
+ t: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on LinkedIn: Poll: what changes your plan midw
- eek?
+DESCRIPTION:Posting: Mind Alignment on LinkedIn poll
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611111230@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261111T113000Z
+DTEND:20261111T114500Z
+SUMMARY:Posting: Blueprint on LinkedIn
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Targets are set at the top. They are de
+ livered in the middle.\n\nTo change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on LinkedIn
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611111300@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261111T120000Z
+DTEND:20261111T121500Z
+SUMMARY:Posting: Blueprint on Facebook
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: If you lead a team\, bring them.\n\nTo 
+ change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on Facebook
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611111730@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261111T163000Z
+DTEND:20261111T164500Z
+SUMMARY:Post by hand: Blueprint on Facebook Story\, Instagram Story
+DESCRIPTION:Metricool will send a notification to your phone. Open it and
+  tap to publish this Story.\n\nOpening line: Only 50 seats. Early bird e
+ nds 16 November.\n\nTo change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Post by hand: Blueprint on Facebook Story\, Instagram Story
 TRIGGER:PT0M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-4-202611111900@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611111900@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261111T180000Z
-DTEND:20261111T183000Z
-SUMMARY:POD post goes live: Video: every result begins as a thought
-DESCRIPTION:Where: Instagram\, TikTok\, Facebook\, YouTube\nPosted automa
- tically by Metricool.\nOpen the post and reply to comments in the first 
- hour: it boosts reach.\nTo change or cancel: Metricool\, then Planning.
+DTEND:20261111T181500Z
+SUMMARY:Posting: Mind Alignment on Instagram Reel\, TikTok\, Facebook Ree
+ l\, YouTube Short
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Every result begins as a thought. One o
+ f these eight is holding the…\n\nTo change or stop it: Metricool\, Pla
+ nning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Instagram\, TikTok\, Facebook\, YouTube: Vi
- deo: every result begins as a thought
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on Instagram Reel\, TikTok\, Facebook
+  Reel\, YouTube Short
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-5-202611120730@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611120730@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261112T063000Z
-DTEND:20261112T070000Z
-SUMMARY:POD post goes live: You are not lazy
-DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
-  post and reply to comments in the first hour: it boosts reach.\nTo chan
- ge or cancel: Metricool\, then Planning.
+DTEND:20261112T064500Z
+SUMMARY:Posting: Mind Alignment on LinkedIn
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: You are not lazy.\n\nTo change or stop 
+ it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on LinkedIn: You are not lazy
+DESCRIPTION:Posting: Mind Alignment on LinkedIn
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611121230@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261112T113000Z
+DTEND:20261112T114500Z
+SUMMARY:Posting: Blueprint on LinkedIn
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Before you plan 2027\, check this.\n\nT
+ o change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on LinkedIn
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611121300@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261112T120000Z
+DTEND:20261112T121500Z
+SUMMARY:Post by hand: Blueprint on Facebook Story\, Instagram Story
+DESCRIPTION:Metricool will send a notification to your phone. Open it and
+  tap to publish this Story.\n\nOpening line: You walk out with your writ
+ ten 2027 Blueprint: who you're becoming\,…\n\nTo change or stop it: Me
+ tricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Post by hand: Blueprint on Facebook Story\, Instagram Story
 TRIGGER:PT0M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-6-202611121930@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611121800@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261112T170000Z
+DTEND:20261112T171500Z
+SUMMARY:Posting: Blueprint on TikTok
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: One day. One year. One you. The 2027 Bl
+ ueprint with Josh Ochu ·…\n\nTo change or stop it: Metricool\, Planni
+ ng.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on TikTok
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611121930@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261112T183000Z
-DTEND:20261112T190000Z
-SUMMARY:POD post goes live: You are not lazy
-DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
- l.\nOpen the post and reply to comments in the first hour: it boosts rea
- ch.\nTo change or cancel: Metricool\, then Planning.
+DTEND:20261112T184500Z
+SUMMARY:Posting: Mind Alignment on Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: You are not lazy. One pattern in your m
+ ind keeps undoing the effort.\n\nTo change or stop it: Metricool\, Plann
+ ing.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Facebook + Instagram: You are not lazy
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on Facebook\, Instagram
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-7-202611130730@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611130730@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261113T063000Z
-DTEND:20261113T070000Z
-SUMMARY:POD post goes live: Which pattern is yours?
-DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
-  post and reply to comments in the first hour: it boosts reach.\nTo chan
- ge or cancel: Metricool\, then Planning.
+DTEND:20261113T064500Z
+SUMMARY:Posting: Mind Alignment on LinkedIn
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Which of these is yours?\n\nTo change o
+ r stop it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on LinkedIn: Which pattern is yours?
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on LinkedIn
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-8-202611131930@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611131230@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261113T113000Z
+DTEND:20261113T114500Z
+SUMMARY:Posting: Blueprint on Instagram Reel
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: One day. One year. One you.\n\nTo chang
+ e or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on Instagram Reel
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611131300@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261113T120000Z
+DTEND:20261113T121500Z
+SUMMARY:Posting: Blueprint on Facebook Reel
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: One day. One year. One you.\n\nTo chang
+ e or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on Facebook Reel
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611131930@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261113T183000Z
-DTEND:20261113T190000Z
-SUMMARY:POD post goes live: Which pattern is yours?
-DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
- l.\nOpen the post and reply to comments in the first hour: it boosts rea
- ch.\nTo change or cancel: Metricool\, then Planning.
+DTEND:20261113T184500Z
+SUMMARY:Posting: Mind Alignment on Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Which pattern is yours?\n\nTo change or
+  stop it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Facebook + Instagram: Which pattern is your
- s?
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on Facebook\, Instagram
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-9-202611141100@thepod
-DTSTAMP:20261109T133000Z
-DTSTART:20261114T100000Z
-DTEND:20261114T103000Z
-SUMMARY:POD post goes live: How the Reset works\, bring a friend
-DESCRIPTION:Where: Facebook + Instagram\nPosted automatically by Metricoo
- l.\nOpen the post and reply to comments in the first hour: it boosts rea
- ch.\nTo change or cancel: Metricool\, then Planning.
+UID:podpost-202611140930@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261114T083000Z
+DTEND:20261114T084500Z
+SUMMARY:Posting: Blueprint on LinkedIn\, Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Early bird for The 2027 Blueprint ends 
+ this Monday\, 16 November\, at…\n\nTo change or stop it: Metricool\, P
+ lanning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Facebook + Instagram: How the Reset works\,
-  bring a friend
-TRIGGER:PT0M
+DESCRIPTION:Posting: Blueprint on LinkedIn\, Facebook\, Instagram
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-10-202611141200@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611141200@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261114T110000Z
-DTEND:20261114T113000Z
-SUMMARY:POD post goes live: Video: seven days
-DESCRIPTION:Where: TikTok + YouTube\nPosted automatically by Metricool.\n
- Open the post and reply to comments in the first hour: it boosts reach.\
- nTo change or cancel: Metricool\, then Planning.
+DTEND:20261114T111500Z
+SUMMARY:Posting: Mind Alignment on TikTok\, YouTube Short
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Seven days. Ten minutes each morning. F
+ ive each night. The shared…\n\nTo change or stop it: Metricool\, Plann
+ ing.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on TikTok + YouTube: Video: seven days
+DESCRIPTION:Posting: Mind Alignment on TikTok\, YouTube Short
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611141500@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261114T140000Z
+DTEND:20261114T141500Z
+SUMMARY:Posting: Mind Alignment on Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Ten minutes in the morning. Five at nig
+ ht. Seven days.\n\nTo change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Mind Alignment on Facebook\, Instagram
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611141700@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261114T160000Z
+DTEND:20261114T161500Z
+SUMMARY:Posting: Blueprint on TikTok\, YouTube Short
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Early bird ends Monday ⏳ The 2027 Blu
+ eprint · 28 Nov · Abuja &…\n\nTo change or stop it: Metricool\, Plan
+ ning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on TikTok\, YouTube Short
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611151300@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261115T120000Z
+DTEND:20261115T121500Z
+SUMMARY:Post by hand: Blueprint on Facebook\, Instagram Story
+DESCRIPTION:Metricool will send a notification to your phone. Open it and
+  tap to publish this Story.\n\nOpening line: Tomorrow is the last day at
+  the early-bird rate.\n\nTo change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Post by hand: Blueprint on Facebook\, Instagram Story
 TRIGGER:PT0M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-11-202611151700@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611151700@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261115T160000Z
-DTEND:20261115T163000Z
-SUMMARY:POD post goes live: Tomorrow\, we begin
-DESCRIPTION:Where: LinkedIn\nPosted automatically by Metricool.\nOpen the
-  post and reply to comments in the first hour: it boosts reach.\nTo chan
- ge or cancel: Metricool\, then Planning.
+DTEND:20261115T161500Z
+SUMMARY:Posting: Mind Alignment on LinkedIn
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Tomorrow\, we begin.\n\nTo change or st
+ op it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on LinkedIn: Tomorrow\, we begin
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on LinkedIn
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-12-202611151900@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611151900@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261115T180000Z
-DTEND:20261115T183000Z
-SUMMARY:POD post goes live: Video: tomorrow\, we begin
-DESCRIPTION:Where: Instagram + Facebook\nPosted automatically by Metricoo
- l.\nOpen the post and reply to comments in the first hour: it boosts rea
- ch.\nTo change or cancel: Metricool\, then Planning.
+DTEND:20261115T181500Z
+SUMMARY:Posting: Mind Alignment on Instagram Reel\, Facebook Reel
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Tomorrow\, we begin.\n\nTo change or st
+ op it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on Instagram + Facebook: Video: tomorrow\, we 
- begin
-TRIGGER:PT0M
+DESCRIPTION:Posting: Mind Alignment on Instagram Reel\, Facebook Reel
+TRIGGER:-PT10M
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
-UID:pod-launch-post-13-202611160630@thepod
-DTSTAMP:20261109T133000Z
+UID:podpost-202611160630@thepod
+DTSTAMP:20261109T130212Z
 DTSTART:20261116T053000Z
-DTEND:20261116T060000Z
-SUMMARY:POD post goes live: Today\, we begin: Day 1 of the Reset
-DESCRIPTION:Where: LinkedIn\, Facebook\, Instagram\nPosted automatically 
- by Metricool.\nOpen the post and reply to comments in the first hour: it
-  boosts reach.\nTo change or cancel: Metricool\, then Planning.
+DTEND:20261116T054500Z
+SUMMARY:Posting: Mind Alignment on LinkedIn\, Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Today\, we begin.\n\nTo change or stop 
+ it: Metricool\, Planning.
 BEGIN:VALARM
 ACTION:DISPLAY
-DESCRIPTION:Going live now on LinkedIn\, Facebook\, Instagram: Today\, we
-  begin: Day 1 of the Reset
+DESCRIPTION:Posting: Mind Alignment on LinkedIn\, Facebook\, Instagram
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611161200@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261116T110000Z
+DTEND:20261116T111500Z
+SUMMARY:Posting: Blueprint on LinkedIn\, Facebook\, Instagram
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Last day.\n\nTo change or stop it: Metr
+ icool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on LinkedIn\, Facebook\, Instagram
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611161800@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261116T170000Z
+DTEND:20261116T171500Z
+SUMMARY:Posting: Blueprint on TikTok
+DESCRIPTION:Metricool publishes this automatically. Reply to comments in 
+ the first hour.\n\nOpening line: Last day ⏳ Early bird for The 2027 Bl
+ ueprint closes at midnight. 28…\n\nTo change or stop it: Metricool\, P
+ lanning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Posting: Blueprint on TikTok
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:podpost-202611161830@thepod
+DTSTAMP:20261109T130212Z
+DTSTART:20261116T173000Z
+DTEND:20261116T174500Z
+SUMMARY:Post by hand: Blueprint on Facebook Story\, Instagram Story
+DESCRIPTION:Metricool will send a notification to your phone. Open it and
+  tap to publish this Story.\n\nOpening line: Last day. Early bird closes
+  tonight.\n\nTo change or stop it: Metricool\, Planning.
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Post by hand: Blueprint on Facebook Story\, Instagram Story
 TRIGGER:PT0M
 END:VALARM
 END:VEVENT
