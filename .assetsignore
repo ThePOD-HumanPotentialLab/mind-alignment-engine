@@ -8,3 +8,6 @@ pod-tracker.js
 blueprint-api.js
 paystack.js
 optimizer.js
+calendar.js
+engine.js
+prescriptions.js
