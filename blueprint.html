@@ -356,7 +356,9 @@ label.f small{font-weight:400;color:var(--muted)}
 
   /* ---------- Confirmation view ---------- */
   var params = new URLSearchParams(location.search);
+  // ?ref= is also used for traffic sources (?ref=facebook), so only a real booking reference opens the ticket view.
   var ref = params.get("reference") || params.get("trxref") || params.get("ref");
+  if (ref && !/^BP-[A-Z0-9]{4,32}$/i.test(ref)) ref = null;
   if (ref) { showDone(ref); return; }
 
   /* ---------- Sales view ---------- */
