@@ -1258,7 +1258,7 @@ function buildProfile(name, email, whatsapp){
     assessmentVersion: ASSESSMENT_VERSION, overallScore: latestResult.overall, dimensionScores: latestResult.scores,
     rawDimensionScores: latestResult.raw, profileMean: latestResult.mean, profileSD: latestResult.sd,
     dimensionDeviations: latestResult.deviations, gaps: latestResult.gaps, primaryPattern: latestResult.primaryPattern,
-    secondaryPattern: latestResult.secondaryPattern, responseQuality: latestResult.quality, answers: latestResult.answers,
+    secondaryPattern: latestResult.secondaryPattern, responseQuality: { ...latestResult.quality, source: load(SOURCE_KEY) || "direct" }, answers: latestResult.answers,
     recommendedProduct: "7-Day Mind Reset", recommendationStage: rx.stage || "", recommendationReason: rx.reason || "", recommendationCTA: rx.nextStep || ""
   };
 }
@@ -1307,6 +1307,14 @@ async function saveOnly(){
 }
 
 /* ---------- On arrival ---------- */
+// Where the visitor came from (?ref=linkedin etc.), kept from their first visit
+const SOURCE_KEY = "podSource";
+(function source(){
+  try {
+    const ref = (new URLSearchParams(location.search).get("ref") || "").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30);
+    if (ref && !load(SOURCE_KEY)) store(SOURCE_KEY, ref);
+  } catch (e) {}
+})();
 (function init(){
   const p = readProgress();
   if (p) {
