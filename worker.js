@@ -1,6 +1,7 @@
 import { handlePod } from "./pod-api.js";
 import { handleBlueprint } from "./blueprint-api.js";
 import { handleResetCalendar } from "./calendar.js";
+import { handleResultsAdmin, alertNewResult } from "./results-api.js";
 const LAGOS_OFFSET_MS = 60 * 60 * 1000; // Programme days follow Africa/Lagos time (UTC+1)
 
 function lagosDate(ms) {
@@ -104,6 +105,8 @@ async function handleSaveProfile(request, env) {
       result = await env.DB.prepare(`INSERT INTO assessment_results (${cols}) VALUES (${values.map(() => "?").join(", ")})`)
         .bind(...values).run();
     }
+    const q = typeof data.responseQuality === "object" && data.responseQuality ? data.responseQuality : {};
+    await alertNewResult(env, new URL(request.url).origin, name, data.primaryPattern, String(q.source || "").slice(0, 30));
     return json({ success: true, id: result.meta.last_row_id });
   } catch (error) {
     return json({ success: false, error: "Unable to save your result right now. Please try again." }, 500);
@@ -229,6 +232,7 @@ export default {
       case "/api/reset/progress": return handleResetProgress(request, env);
       case "/api/reset/complete": return handleResetComplete(request, env);
       case "/api/reset/calendar.ics": return handleResetCalendar(request, url);
+      case "/api/admin/results": return handleResultsAdmin(request, env);
               case "/api/reset/notify-pod": return handleResetNotifyPod(request, env);
     }
     if (url.pathname.startsWith("/api/pod/")) return handlePod(request, env, url);
