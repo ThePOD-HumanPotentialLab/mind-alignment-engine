@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex">
+<title>Mind Alignment results | The POD</title>
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+<link rel="stylesheet" href="/garden.css">
+<style>
+.wrap{width:min(1100px,100%)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:14px 0}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.stats b{font-variant-numeric:lining-nums;display:block;font-family:var(--serif-display);font-size:30px;color:var(--ink)}
+.stats span{font-size:12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+.chips span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px}
+.tbl{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text)}
+.ok{color:#2f6b3a;font-weight:600}.no{color:var(--muted)}.warn{color:#9a5b1d}
+td a{color:inherit}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/"><img src="/brand/logo-horizontal.png" alt="The POD"></a><div class="context">Mind Alignment results</div></header>
+<main class="wrap">
+  <form id="login" class="card" style="max-width:420px;margin:30px auto">
+    <label class="label" for="key" style="display:block;margin-top:0">Admin key (the same one as your Blueprint admin page)</label>
+    <input id="key" type="password" autocomplete="current-password">
+    <button class="btn" type="submit">Open</button>
+    <div class="msg error" id="msg"></div>
+  </form>
+  <section id="view" class="hidden">
+    <h2 style="font-size:22px;margin:18px 0 4px">Everyone who took the index (anonymous)</h2>
+    <div class="stats" id="funnel"></div>
+    <div class="small">Finished, by where they came from</div><div class="chips" id="fsources"></div>
+    <div class="small">Finished, by pattern</div><div class="chips" id="fpatterns"></div>
+    <h2 style="font-size:22px;margin:18px 0 4px">People who saved their result</h2>
+    <div class="stats" id="stats"></div>
+    <div class="small">Where they came from</div><div class="chips" id="sources"></div>
+    <div class="small">Their patterns</div><div class="chips" id="patterns"></div>
+    <div class="row" style="margin:0 0 14px"><button class="btn ghost" id="refresh">Refresh</button></div>
+    <div class="tbl"><table><thead><tr><th>Date (Lagos)</th><th>Name</th><th>Pattern</th><th>Score</th><th>Lowest area</th><th>Reset</th><th>From</th><th>Email</th><th>WhatsApp</th></tr></thead><tbody id="rows"></tbody></table></div>
+    <p class="small" style="margin-top:10px">The anonymous counts include everyone who started or finished the index, from 12 November 2026, with no names. The table lists only people who saved their result, with their name, email and consent. "Reset" shows how many of the 7 days they have completed. "Rushed" means their answers looked too fast or too uniform to rely on.</p>
+  </section>
+</main>
+<script>
+(function(){
+  var key = ""; try { key = sessionStorage.getItem("mak") || ""; } catch(e){}
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(s){ var d = document.createElement("div"); d.textContent = s == null ? "" : s; return d.innerHTML; };
+  function lagos(s){
+    if (!s) return "";
+    var iso = s.replace(" ", "T"); if (!/(Z|[+-]\d\d:?\d\d)$/.test(iso)) iso += "Z";
+    var d = new Date(iso); if (isNaN(d)) return s;
+    return d.toLocaleString("en-GB", { timeZone: "Africa/Lagos", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  }
+  function wa(n){ var d = String(n || "").replace(/\D/g, ""); if (!d) return ""; if (d[0] === "0") d = "234" + d.slice(1); return "<a href='https://wa.me/" + d + "' target='_blank' rel='noopener'>" + esc(n) + "</a>"; }
+  function chips(o){ return Object.keys(o).sort(function(a,b){ return o[b] - o[a]; }).map(function(k){ return "<span>" + esc(k) + " · " + o[k] + "</span>"; }).join("") || "<span>none yet</span>"; }
+  function load(){
+    fetch("/api/admin/results", { headers: { Authorization: "Bearer " + key } }).then(function(r){ return r.json(); }).then(function(r){
+      if (!r.success) { $("msg").textContent = r.error || "Could not open."; $("login").classList.remove("hidden"); $("view").classList.add("hidden"); return; }
+      try { sessionStorage.setItem("mak", key); } catch(e){}
+      $("login").classList.add("hidden"); $("view").classList.remove("hidden");
+      var f = r.funnel;
+      if (f) {
+        var pct = function(a, b){ return b ? Math.round(100 * a / b) + "%" : "–"; };
+        $("funnel").innerHTML = [["Started", f.started], ["Finished", f.finished], ["Finished, last 24 hours", f.finishedToday], ["Finished, last 7 days", f.finished7], ["Finish rate", pct(f.finished, f.started)], ["Went on to save", pct(f.saved, f.finished)]]
+          .map(function(x){ return "<div><b>" + esc(x[1]) + "</b><span>" + esc(x[0]) + "</span></div>"; }).join("");
+        $("fsources").innerHTML = chips(f.finishedBySource); $("fpatterns").innerHTML = chips(f.finishedByPattern);
+      } else { $("funnel").innerHTML = "<div><b>–</b><span>Counting has not started yet</span></div>"; }
+      var s = r.summary;
+      $("stats").innerHTML = [["Saved results", s.total], ["Last 7 days", s.last7], ["Last 24 hours", s.today], ["Started the Reset", s.startedReset]]
+        .map(function(x){ return "<div><b>" + esc(x[1]) + "</b><span>" + esc(x[0]) + "</span></div>"; }).join("");
+      $("sources").innerHTML = chips(s.bySource); $("patterns").innerHTML = chips(s.byPattern);
+      $("rows").innerHTML = r.rows.map(function(x){
+        var reset = x.reset === null ? "<span class='no'>Not started</span>" : "<span class='ok'>Day " + x.reset + " of 7</span>";
+        return "<tr><td>" + esc(lagos(x.date)) + "</td><td>" + esc(x.name) + (x.rushed ? " <span class='warn'>(rushed)</span>" : "") + "</td><td>" + esc(x.pattern) +
+          (x.secondary ? "<br><span class='no'>then " + esc(x.secondary) + "</span>" : "") + "</td><td>" + esc(x.score) + "</td><td>" + esc(x.lowest) + "</td><td>" + reset +
+          "</td><td>" + esc(x.source || "direct") + "</td><td><a href='mailto:" + esc(x.email) + "'>" + esc(x.email) + "</a></td><td>" + wa(x.whatsapp) + "</td></tr>";
+      }).join("") || "<tr><td colspan='9' class='no'>No saved results yet.</td></tr>";
+    });
+  }
+  $("login").addEventListener("submit", function(e){ e.preventDefault(); key = $("key").value.trim(); load(); });
+  $("refresh").addEventListener("click", load);
+  if (key) load();
+})();
+</script>
+</body>
+</html>
