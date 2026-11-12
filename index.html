@@ -1039,7 +1039,12 @@ function show(id) {
   window.scrollTo({ top: 0 });
 }
 
+// Anonymous counter (no name, email or answers): how many start and finish the index.
+function countEvent(body){
+  try { fetch("/api/assessment/event", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ version: ASSESSMENT_VERSION, source: load(SOURCE_KEY) || "direct", ...body }), keepalive: true }).catch(function(){}); } catch (e) {}
+}
 function startAssessment(){
+  countEvent({ kind: "start" });
   currentQuestion = 0; answers = []; startedAt = Date.now();
   saveProgress(); show("assessment"); renderQuestion();
 }
@@ -1130,6 +1135,8 @@ function calculateResults(){
   const patternResult = derivePatterns(scores, mean, sd, gaps);
   latestResult = { version: ASSESSMENT_VERSION, overall, scores, raw, mean, sd, deviations, gaps, quality, primaryPattern: patternResult.primary, secondaryPattern: patternResult.secondary, answers };
   store(PROGRESS_KEY, null);
+  countEvent({ kind: "finish", pattern: latestResult.primaryPattern, secondary: latestResult.secondaryPattern, score: overall, seconds,
+    rushed: quality.flags.includes("possible_straight_line") || quality.flags.includes("too_fast") });
   showResults(latestResult);
 }
 function derivePatterns(scores, mean, sd, gaps){

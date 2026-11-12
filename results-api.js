@@ -51,11 +51,47 @@ export async function handleResultsAdmin(request, env) {
   });
   const since = d => out.filter(x => Date.now() - Date.parse((x.date || "").replace(" ", "T") + (/(Z|[+-]\d\d:?\d\d)$/.test(x.date || "") ? "" : "Z")) < d * 86400000).length;
   const count = key => out.reduce((m, x) => (m[x[key] || "direct"] = (m[x[key] || "direct"] || 0) + 1, m), {});
+  // Anonymous funnel: everyone who started and finished, saved or not.
+  let funnel = null;
+  try {
+    const f = (await env.DB.prepare(
+      `SELECT kind, source, primary_pattern, rushed, created_at FROM assessment_events ORDER BY id DESC LIMIT 5000`
+    ).all()).results || [];
+    const recent = (x, days) => Date.now() - Date.parse(x.created_at) < days * 86400000;
+    const fin = f.filter(x => x.kind === "finish"), st = f.filter(x => x.kind === "start");
+    const tally = (list, key, map) => list.reduce((m, x) => { const k = map ? map(x[key]) : (x[key] || "direct"); m[k] = (m[k] || 0) + 1; return m; }, {});
+    funnel = {
+      started: st.length, finished: fin.length, startedToday: st.filter(x => recent(x, 1)).length, finishedToday: fin.filter(x => recent(x, 1)).length,
+      started7: st.filter(x => recent(x, 7)).length, finished7: fin.filter(x => recent(x, 7)).length, rushed: fin.filter(x => x.rushed).length,
+      finishedBySource: tally(fin, "source"), finishedByPattern: tally(fin, "primary_pattern", title),
+      since: f.length ? f[f.length - 1].created_at : null
+    };
+    const t0 = funnel.since ? Date.parse(funnel.since) : Infinity;
+    funnel.saved = out.filter(x => Date.parse((x.date || "").replace(" ", "T") + (/(Z|[+-]\d\d:?\d\d)$/.test(x.date || "") ? "" : "Z")) >= t0).length;
+  } catch (e) { /* counter table not created yet */ }
   return Response.json({
-    success: true,
+    success: true, funnel,
     summary: { total: out.length, last7: since(7), today: since(1), startedReset: out.filter(x => x.reset !== null).length, bySource: count("source"), byPattern: count("pattern") },
     rows: out
   });
+}
+
+// Anonymous counter: POST /api/assessment/event {kind:"start"|"finish", ...}. No name, email or answers.
+export async function handleAssessmentEvent(request, env) {
+  if (request.method !== "POST") return new Response("Method Not Allowed", { status: 405 });
+  let d = {}; try { d = await request.json(); } catch (e) {}
+  const kind = d && (d.kind === "start" || d.kind === "finish") ? d.kind : null;
+  if (!kind) return Response.json({ success: false }, { status: 400 });
+  const pat = k => (k && Object.prototype.hasOwnProperty.call(PATTERN_TITLES, k) ? k : null);
+  const int = (v, lo, hi) => (Number.isFinite(Number(v)) && Number(v) >= lo && Number(v) <= hi ? Math.round(Number(v)) : null);
+  const source = String(d.source || "direct").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30) || "direct";
+  try {
+    await env.DB.prepare(
+      "INSERT INTO assessment_events (created_at, kind, version, primary_pattern, secondary_pattern, overall_score, source, rushed, seconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    ).bind(new Date().toISOString(), kind, String(d.version || "").slice(0, 10), kind === "finish" ? pat(d.pattern) : null, kind === "finish" ? pat(d.secondary) : null,
+      kind === "finish" ? int(d.score, 0, 100) : null, source, d.rushed ? 1 : 0, kind === "finish" ? int(d.seconds, 0, 86400) : null).run();
+  } catch (e) { return Response.json({ success: false }, { status: 500 }); }
+  return Response.json({ success: true });
 }
 
 // Phone alert when someone saves their result (only when NTFY_TOPIC is set).

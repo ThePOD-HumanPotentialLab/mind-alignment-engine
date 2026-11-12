@@ -1,7 +1,7 @@
 import { handlePod } from "./pod-api.js";
 import { handleBlueprint } from "./blueprint-api.js";
 import { handleResetCalendar } from "./calendar.js";
-import { handleResultsAdmin, alertNewResult } from "./results-api.js";
+import { handleResultsAdmin, alertNewResult, handleAssessmentEvent } from "./results-api.js";
 const LAGOS_OFFSET_MS = 60 * 60 * 1000; // Programme days follow Africa/Lagos time (UTC+1)
 
 function lagosDate(ms) {
@@ -233,6 +233,7 @@ export default {
       case "/api/reset/complete": return handleResetComplete(request, env);
       case "/api/reset/calendar.ics": return handleResetCalendar(request, url);
       case "/api/admin/results": return handleResultsAdmin(request, env);
+      case "/api/assessment/event": return handleAssessmentEvent(request, env);
               case "/api/reset/notify-pod": return handleResetNotifyPod(request, env);
     }
     if (url.pathname.startsWith("/api/pod/")) return handlePod(request, env, url);

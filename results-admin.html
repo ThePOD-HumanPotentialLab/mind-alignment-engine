@@ -33,12 +33,17 @@ td a{color:inherit}
     <div class="msg error" id="msg"></div>
   </form>
   <section id="view" class="hidden">
+    <h2 style="font-size:22px;margin:18px 0 4px">Everyone who took the index (anonymous)</h2>
+    <div class="stats" id="funnel"></div>
+    <div class="small">Finished, by where they came from</div><div class="chips" id="fsources"></div>
+    <div class="small">Finished, by pattern</div><div class="chips" id="fpatterns"></div>
+    <h2 style="font-size:22px;margin:18px 0 4px">People who saved their result</h2>
     <div class="stats" id="stats"></div>
     <div class="small">Where they came from</div><div class="chips" id="sources"></div>
     <div class="small">Their patterns</div><div class="chips" id="patterns"></div>
     <div class="row" style="margin:0 0 14px"><button class="btn ghost" id="refresh">Refresh</button></div>
     <div class="tbl"><table><thead><tr><th>Date (Lagos)</th><th>Name</th><th>Pattern</th><th>Score</th><th>Lowest area</th><th>Reset</th><th>From</th><th>Email</th><th>WhatsApp</th></tr></thead><tbody id="rows"></tbody></table></div>
-    <p class="small" style="margin-top:10px">Only people who saved their result (name, email and consent) appear here. "Reset" shows how many of the 7 days they have completed. "Rushed" means their answers looked too fast or too uniform to rely on.</p>
+    <p class="small" style="margin-top:10px">The anonymous counts include everyone who started or finished the index, from 12 November 2026, with no names. The table lists only people who saved their result, with their name, email and consent. "Reset" shows how many of the 7 days they have completed. "Rushed" means their answers looked too fast or too uniform to rely on.</p>
   </section>
 </main>
 <script>
@@ -59,6 +64,13 @@ td a{color:inherit}
       if (!r.success) { $("msg").textContent = r.error || "Could not open."; $("login").classList.remove("hidden"); $("view").classList.add("hidden"); return; }
       try { sessionStorage.setItem("mak", key); } catch(e){}
       $("login").classList.add("hidden"); $("view").classList.remove("hidden");
+      var f = r.funnel;
+      if (f) {
+        var pct = function(a, b){ return b ? Math.round(100 * a / b) + "%" : "–"; };
+        $("funnel").innerHTML = [["Started", f.started], ["Finished", f.finished], ["Finished, last 24 hours", f.finishedToday], ["Finished, last 7 days", f.finished7], ["Finish rate", pct(f.finished, f.started)], ["Went on to save", pct(f.saved, f.finished)]]
+          .map(function(x){ return "<div><b>" + esc(x[1]) + "</b><span>" + esc(x[0]) + "</span></div>"; }).join("");
+        $("fsources").innerHTML = chips(f.finishedBySource); $("fpatterns").innerHTML = chips(f.finishedByPattern);
+      } else { $("funnel").innerHTML = "<div><b>–</b><span>Counting has not started yet</span></div>"; }
       var s = r.summary;
       $("stats").innerHTML = [["Saved results", s.total], ["Last 7 days", s.last7], ["Last 24 hours", s.today], ["Started the Reset", s.startedReset]]
         .map(function(x){ return "<div><b>" + esc(x[1]) + "</b><span>" + esc(x[0]) + "</span></div>"; }).join("");
