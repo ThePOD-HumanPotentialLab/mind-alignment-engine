@@ -58,10 +58,10 @@
 
   /* Hero */
   .hero{position:relative;padding:0;overflow:hidden;background:#3b2412}
-  .hero-art{position:absolute;inset:0;background:url("https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_family_sofa_scenepng-a50d9uvZM2r.png") 70% 40%/cover no-repeat}
-  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,240,215,.96) 0%,rgba(255,240,215,.88) 32%,rgba(255,240,215,0) 58%)}
+  .hero-art{position:absolute;inset:0;background:url("https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_family_sofa_scenepng-a50d9uvZM2r.png") 85% 40%/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,240,215,.97) 0%,rgba(255,240,215,.9) 34%,rgba(255,240,215,0) 52%)}
   .hero .wrap{position:relative;z-index:2;min-height:min(88vh,760px);display:flex;align-items:center}
-  .hero-copy{max-width:540px;padding:60px 0}
+  .hero-copy{max-width:470px;padding:60px 0}
   .hero-logo{width:min(440px,90%);margin:0 0 18px -8px;filter:drop-shadow(0 6px 18px rgba(255,190,80,.55))}
   .hero h1{font-size:clamp(26px,3.2vw,36px);color:var(--navy);font-weight:600;margin-bottom:14px}
   .hero p{font-size:19px;color:#4a3b33;margin-bottom:26px}
@@ -69,8 +69,8 @@
   .badge{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:999px;margin-bottom:18px}
   .badge i{width:9px;height:9px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 4px rgba(255,201,60,.3);animation:pulse 1.8s infinite}
   @keyframes pulse{50%{box-shadow:0 0 0 9px rgba(255,201,60,0)}}
-  @media(max-width:860px){
-    .hero-art{position:relative;height:56vw;min-height:260px;background-position:72% 45%}
+  @media(max-width:1080px){
+    .hero-art{position:relative;height:56vw;min-height:260px;max-height:520px;background-position:72% 45%}
     .hero::after{display:none}
     .hero .wrap{min-height:0}
     .hero-copy{padding:28px 0 48px;max-width:none}
