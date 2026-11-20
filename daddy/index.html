@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 Minutes with Daddy · One Bible truth. One conversation.</title>
+<meta name="description" content="A weekly animated Bible story for children aged 3 to 11, plus a guided 5-minute family session that turns Daddy's phone into the best five minutes of a child's day.">
+<meta property="og:title" content="5 Minutes with Daddy">
+<meta property="og:description" content="Five minutes. One Bible truth. One conversation. Premieres 27 December 2026.">
+<meta property="og:image" content="https://storage.orshot.com/cloud/w-16803/renders/images/5-minutes-with-daddy-youtube-banner-v2-2560x1440-page-1-BcGBrbKLKze.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F28C28">
+<link rel="icon" href="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_channel_avatar_v2png-GdUm8lexuv5.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6E8; --cream-2:#FCE9CC; --sand:#F6D9A6;
+    --orange:#F28C28; --orange-dk:#D96F0E; --navy:#1B2A6B; --navy-2:#24357F;
+    --teal:#1F8A87; --yellow:#FFC93C; --ink:#2A2236; --muted:#6B5E57;
+    --white:#fff; --radius:22px; --shadow:0 18px 40px -18px rgba(90,45,0,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Nunito",system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  h1,h2,h3,.display{font-family:"Fredoka",system-ui,sans-serif;line-height:1.1;letter-spacing:-.01em}
+  h2{font-size:clamp(30px,4.4vw,46px);color:var(--navy);font-weight:700}
+  h3{font-size:22px;color:var(--navy);font-weight:600}
+  .wrap{width:min(1160px,92vw);margin:0 auto}
+  .eyebrow{display:inline-block;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-dk);margin-bottom:12px}
+  .lead{font-size:19px;color:var(--muted);max-width:640px}
+  section{padding:88px 0}
+  .center{text-align:center}.center .lead{margin:0 auto}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:"Fredoka";font-weight:600;font-size:18px;
+       padding:15px 28px;border-radius:999px;text-decoration:none;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,background .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--orange);color:#fff;box-shadow:0 10px 0 -2px var(--orange-dk),0 18px 30px -12px rgba(217,111,14,.6)}
+  .btn-primary:hover{background:#FF9B3A}
+  .btn-navy{background:var(--navy);color:#fff;box-shadow:0 10px 0 -2px #101a4a}
+  .btn-ghost{background:rgba(255,255,255,.85);color:var(--navy);box-shadow:inset 0 0 0 2px var(--navy)}
+  .btn-sm{font-size:15px;padding:10px 18px}
+
+  /* Header */
+  header.top{position:sticky;top:0;z-index:50;background:rgba(255,246,232,.9);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid rgba(27,42,107,.08)}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand img{height:52px;width:auto}
+  nav.links{display:flex;gap:26px;align-items:center;font-weight:700;color:var(--navy)}
+  nav.links a{text-decoration:none;font-size:15px}
+  nav.links a:not(.btn):hover{color:var(--orange-dk)}
+  @media(max-width:860px){nav.links a:not(.btn){display:none}}
+
+  /* Hero */
+  .hero{position:relative;padding:0;overflow:hidden;background:#3b2412}
+  .hero-art{position:absolute;inset:0;background:url("https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_family_sofa_scenepng-a50d9uvZM2r.png") 70% 40%/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,240,215,.96) 0%,rgba(255,240,215,.88) 32%,rgba(255,240,215,0) 58%)}
+  .hero .wrap{position:relative;z-index:2;min-height:min(88vh,760px);display:flex;align-items:center}
+  .hero-copy{max-width:540px;padding:60px 0}
+  .hero-logo{width:min(440px,90%);margin:0 0 18px -8px;filter:drop-shadow(0 6px 18px rgba(255,190,80,.55))}
+  .hero h1{font-size:clamp(26px,3.2vw,36px);color:var(--navy);font-weight:600;margin-bottom:14px}
+  .hero p{font-size:19px;color:#4a3b33;margin-bottom:26px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:999px;margin-bottom:18px}
+  .badge i{width:9px;height:9px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 4px rgba(255,201,60,.3);animation:pulse 1.8s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 9px rgba(255,201,60,0)}}
+  @media(max-width:860px){
+    .hero-art{position:relative;height:56vw;min-height:260px;background-position:72% 45%}
+    .hero::after{display:none}
+    .hero .wrap{min-height:0}
+    .hero-copy{padding:28px 0 48px;max-width:none}
+    .hero{background:var(--cream)}
+    .hero-logo{width:min(360px,88%)}
+  }
+
+  /* Story strip */
+  .story{background:var(--cream)}
+  .story-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+  .story-card{background:#fff;border-radius:28px;padding:34px;box-shadow:var(--shadow);position:relative}
+  .story-card .q{font-family:"Fredoka";font-size:26px;color:var(--navy);line-height:1.25}
+  .story-card .who{margin-top:14px;font-weight:800;color:var(--orange-dk)}
+  .story-card .bubble{position:absolute;top:-18px;right:26px;background:var(--yellow);color:var(--navy);font-family:"Fredoka";font-weight:600;padding:8px 16px;border-radius:999px;font-size:15px}
+  @media(max-width:860px){.story-grid{grid-template-columns:1fr;gap:34px}}
+
+  /* Steps */
+  .steps{background:linear-gradient(180deg,var(--cream) 0%,var(--cream-2) 100%)}
+  .step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:46px}
+  .step{background:#fff;border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .step .num{font-family:"Fredoka";font-weight:700;font-size:15px;color:#fff;background:var(--orange);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px}
+  .step:nth-child(2) .num{background:var(--teal)} .step:nth-child(3) .num{background:var(--navy)}
+  .step h3{margin-bottom:8px}
+  .step p{color:var(--muted)}
+  .step .time{position:absolute;top:24px;right:24px;font-weight:800;font-size:13px;color:var(--orange-dk);background:var(--cream-2);padding:4px 10px;border-radius:999px}
+  @media(max-width:860px){.step-grid{grid-template-columns:1fr}}
+
+  /* Family */
+  .family{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+  .family h2{color:#fff}.family .lead{color:#cdd3f2}
+  .family .eyebrow{color:var(--yellow)}
+  .cast{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:46px}
+  .member{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:28px;overflow:hidden;transition:transform .2s}
+  .member:hover{transform:translateY(-4px)}
+  .member .pic{aspect-ratio:1/1;background:#e9e6ef;overflow:hidden}
+  .member .pic img{width:100%;height:100%;object-fit:cover;object-position:98% 24%;transform:scale(1.02)}
+  .member .info{padding:22px 24px 26px}
+  .member h3{color:#fff;font-size:26px}
+  .member .role{color:var(--yellow);font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:4px 0 10px}
+  .member p{color:#d8dcf3;font-size:16px}
+  @media(max-width:860px){.cast{grid-template-columns:1fr;max-width:420px;margin-inline:auto}}
+
+  /* Two doors */
+  .doors{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:46px}
+  .door{border-radius:28px;padding:36px 32px;position:relative}
+  .door.free{background:#fff;box-shadow:var(--shadow)}
+  .door.paid{background:linear-gradient(160deg,#FFB85C 0%,#F28C28 55%,#E2761A 100%);color:#fff;box-shadow:0 22px 46px -18px rgba(217,111,14,.7)}
+  .door .tag{font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:block}
+  .door.free .tag{color:var(--teal)} .door.paid .tag{color:#fff4dc}
+  .door h3{font-size:28px;margin-bottom:6px}
+  .door.paid h3{color:#fff}
+  .door ul{list-style:none;margin:20px 0 26px;display:grid;gap:11px}
+  .door li{display:flex;gap:11px;align-items:flex-start;font-weight:600}
+  .door li::before{content:"";flex:0 0 22px;height:22px;border-radius:50%;margin-top:2px;background:var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+  .door.paid li::before{background-color:var(--navy)}
+  @media(max-width:860px){.doors{grid-template-columns:1fr}}
+
+  /* Pricing */
+  .pricing{background:var(--cream-2)}
+  .toggle{display:inline-flex;background:#fff;border-radius:999px;padding:5px;box-shadow:var(--shadow);margin-top:28px}
+  .toggle button{font-family:"Fredoka";font-weight:600;font-size:16px;border:0;background:transparent;padding:10px 22px;border-radius:999px;cursor:pointer;color:var(--navy)}
+  .toggle button.on{background:var(--navy);color:#fff}
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px;align-items:stretch}
+  .plan{background:#fff;border-radius:28px;padding:34px 28px;box-shadow:var(--shadow);display:flex;flex-direction:column;position:relative;border:3px solid transparent}
+  .plan.best{border-color:var(--orange);transform:translateY(-10px)}
+  .plan .ribbon{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--orange);color:#fff;font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:999px;white-space:nowrap}
+  .plan.founding .ribbon{background:var(--teal)}
+  .plan h3{font-size:24px}
+  .plan .price{font-family:"Fredoka";font-size:48px;font-weight:700;color:var(--navy);margin:14px 0 2px;line-height:1}
+  .plan .per{color:var(--muted);font-weight:700;font-size:15px}
+  .plan .note{font-size:15px;color:var(--muted);margin:14px 0 22px;flex:1}
+  .plan .btn{width:100%}
+  .plan .save{display:inline-block;margin-top:8px;background:#E6F5F4;color:var(--teal);font-weight:800;font-size:13px;padding:4px 10px;border-radius:999px}
+  .seats{margin-top:10px;font-size:14px;font-weight:700;color:var(--teal)}
+  @media(max-width:900px){.plans{grid-template-columns:1fr;max-width:440px;margin-inline:auto}.plan.best{transform:none}}
+
+  /* Extras */
+  .extras{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:46px}
+  .extra{background:#fff;border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .extra .icon{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin-bottom:16px;font-size:28px}
+  .extra:nth-child(1) .icon{background:#FFF0D6}.extra:nth-child(2) .icon{background:#E3F4F3}.extra:nth-child(3) .icon{background:#E7EAF8}
+  .extra p{color:var(--muted);margin:8px 0 20px;flex:1}
+  .extra .price-sm{font-family:"Fredoka";font-weight:700;color:var(--navy);font-size:22px;margin-bottom:14px}
+  @media(max-width:860px){.extras{grid-template-columns:1fr}}
+
+  /* Chant */
+  .chant{background:radial-gradient(ellipse at 50% 0%,#FFD98A 0%,#F7A94B 45%,#E2761A 100%);color:#fff;text-align:center}
+  .chant h2{color:#fff}
+  .chant .eyebrow{color:#fff4dc}
+  .lines{margin:36px auto 0;max-width:640px;display:grid;gap:12px}
+  .line{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:14px 20px;text-align:left;font-family:"Fredoka";font-size:22px}
+  .line b{font-family:"Nunito";font-weight:800;font-size:13px;letter-spacing:.1em;text-transform:uppercase;min-width:66px;opacity:.9}
+  .line.both{background:var(--navy);border-color:var(--navy);justify-content:center;font-size:24px}
+  .line.both b{min-width:auto}
+
+  /* Verse */
+  .verse{background:var(--cream);text-align:center}
+  .verse blockquote{font-family:"Fredoka";font-size:clamp(24px,3.2vw,34px);color:var(--navy);max-width:820px;margin:0 auto;line-height:1.3}
+  .verse cite{display:block;margin-top:16px;font-style:normal;font-weight:800;color:var(--orange-dk)}
+  .verse p.sub{max-width:700px;margin:22px auto 0;color:var(--muted)}
+
+  /* FAQ */
+  .faq{background:#fff}
+  .faq-list{max-width:820px;margin:40px auto 0;display:grid;gap:14px}
+  details{background:var(--cream);border-radius:18px;padding:20px 24px}
+  summary{font-family:"Fredoka";font-weight:600;font-size:20px;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-size:26px;line-height:1;color:var(--orange)}
+  details[open] summary::after{content:"–"}
+  details p{margin-top:12px;color:var(--muted)}
+
+  /* Final CTA */
+  .final{background:var(--navy);color:#fff;text-align:center;position:relative;overflow:hidden}
+  .final h2{color:#fff}
+  .final p{color:#cdd3f2;margin:14px auto 30px;max-width:600px;font-size:19px}
+  .final .avatar{width:150px;height:150px;border-radius:50%;margin:0 auto 26px;border:6px solid var(--yellow);object-fit:cover;box-shadow:0 0 0 10px rgba(255,201,60,.18)}
+
+  footer{background:#121b47;color:#aeb6df;padding:44px 0;font-size:15px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center}
+  footer a{color:#fff;text-decoration:none;font-weight:700}
+
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}.badge i{animation:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="5 Minutes with Daddy home">
+      <img src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_title_logo_transparentpng-a1OY5agasBc.png" alt="5 Minutes with Daddy">
+    </a>
+    <nav class="links">
+      <a href="#how">How it works</a>
+      <a href="#family">Meet the family</a>
+      <a href="#join">Plans</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary btn-sm" href="#join">Join the family</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-art" role="img" aria-label="Papa, Adinoyi and Ometere laughing together on the sofa, looking at Papa's glowing phone"></div>
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="badge"><i></i>Premieres 27 December 2026</span>
+        <img class="hero-logo" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_title_logo_transparentpng-a1OY5agasBc.png" alt="5 Minutes with Daddy">
+        <h1>Five minutes on Papa's phone.<br>A Bible truth for life.</h1>
+        <p>Every week, one animated Bible story your child will love, and one guided conversation that turns your busiest five minutes into the best part of their day.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#join">Join as a founding family</a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story">
+    <div class="wrap story-grid">
+      <div class="reveal">
+        <span class="eyebrow">Why we made this</span>
+        <h2>Papa's phone is for work.<br>Until now.</h2>
+        <p class="lead" style="margin-top:16px">Most dads come home tired, and the phone keeps working. Children notice. They wait at the door, hoping for a few minutes that rarely come.</p>
+        <p class="lead" style="margin-top:14px">5 Minutes with Daddy turns that same phone into a doorway. Five minutes. One Bible truth. One conversation. Week after week, a child learns who God is, and that Papa is present.</p>
+      </div>
+      <div class="story-card reveal">
+        <span class="bubble">Adinoyi, 6</span>
+        <p class="q">"Papa! You put down your phone? For me?"</p>
+        <p class="who">The moment every child is waiting for.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="steps" id="how">
+    <div class="wrap center">
+      <span class="eyebrow">How it works</span>
+      <h2>Five minutes that change a home</h2>
+      <p class="lead" style="margin-top:14px">Made for children aged 3 to 11, and for every present, loving adult: dads, mums, uncles and guardians.</p>
+      <div class="step-grid" style="text-align:left">
+        <div class="step reveal"><span class="time">2–3 min</span><div class="num">1</div><h3>Watch together</h3><p>Sit side by side and watch this week's animated Bible story with Papa, Adinoyi and Ometere.</p></div>
+        <div class="step reveal"><span class="time">2 min</span><div class="num">2</div><h3>Talk it through</h3><p>Ask the guided questions made for your child's age. Listen, laugh and let them teach you back.</p></div>
+        <div class="step reveal"><span class="time">30 sec</span><div class="num">3</div><h3>Say it together</h3><p>End every session with the family sign-off, so God's love and yours is the last thing they hear.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAMILY -->
+  <section class="family" id="family">
+    <div class="wrap center">
+      <span class="eyebrow">Meet the family</span>
+      <h2>Papa, Adinoyi and Ometere</h2>
+      <p class="lead" style="margin-top:14px">A warm Nigerian family your children will grow up with, one story at a time.</p>
+      <div class="cast" style="text-align:left">
+        <article class="member reveal">
+          <div class="pic"><img loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_sheet_papa_v2png-PhqhJQBE7km.png" alt="Papa, a smiling Nigerian father with black glasses and a trimmed beard"></div>
+          <div class="info"><h3>Papa</h3><div class="role">The storyteller</div><p>Busy at work, but never too busy for five minutes. Warm, wise and always ready with a question.</p></div>
+        </article>
+        <article class="member reveal">
+          <div class="pic"><img loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_sheet_boy_v2png-iHKob3zWdEa.png" alt="Adinoyi, a six-year-old boy with curly hair and round glasses"></div>
+          <div class="info"><h3>Adinoyi</h3><div class="role">Age 6 · the curious one</div><p>Full of questions, quick to giggle, and convinced Papa knows everything about the Bible.</p></div>
+        </article>
+        <article class="member reveal">
+          <div class="pic"><img loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_sheet_girl_v2png-Bs2zpf3xEFp.png" alt="Ometere, a four-year-old girl with two afro puffs and yellow bows"></div>
+          <div class="info"><h3>Ometere</h3><div class="role">Age 4 · the little light</div><p>Sunshine in a yellow dress. Never misses the sign-off, and always says it the loudest.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO DOORS -->
+  <section class="free-paid">
+    <div class="wrap center">
+      <span class="eyebrow">Free to watch. Deeper with the family membership.</span>
+      <h2>Two ways in</h2>
+      <div class="doors" style="text-align:left">
+        <div class="door free reveal">
+          <span class="tag">Free · every week</span>
+          <h3>The story</h3>
+          <p style="color:var(--muted)">A new animated Bible story every week on YouTube Shorts.</p>
+          <ul>
+            <li>One 5-minute Bible story each week</li>
+            <li>Papa, Adinoyi and Ometere</li>
+            <li>Watch anytime, anywhere</li>
+          </ul>
+          <a class="btn btn-navy" href="#faq">Premieres 27 December</a>
+        </div>
+        <div class="door paid reveal">
+          <span class="tag">Family membership</span>
+          <h3>The full family session</h3>
+          <p style="color:#fff4dc">Everything you need to turn the story into a real father-and-child moment.</p>
+          <ul>
+            <li>The week's devotional entry</li>
+            <li>Papa's conversation questions, by age</li>
+            <li>An audio version for bedtime or the car</li>
+            <li>A printable activity or colouring page</li>
+            <li>The family sign-off to say together</li>
+          </ul>
+          <a class="btn btn-navy" href="#join">See membership plans</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="join">
+    <div class="wrap center">
+      <span class="eyebrow">Membership</span>
+      <h2>Join the family</h2>
+      <p class="lead" style="margin-top:14px">52 weekly family sessions, released one week at a time from 27 December 2026.</p>
+      <div class="toggle" role="tablist" aria-label="Currency">
+        <button class="on" data-cur="ngn" role="tab" aria-selected="true">₦ Naira</button>
+        <button data-cur="usd" role="tab" aria-selected="false">$ US Dollar</button>
+      </div>
+      <div class="plans">
+        <div class="plan reveal">
+          <h3>Monthly</h3>
+          <div class="price" data-ngn="₦3,000" data-usd="$5">₦3,000</div>
+          <div class="per">per month</div>
+          <p class="note">Four weekly family sessions a month. Cancel anytime.</p>
+          <a class="btn btn-ghost" data-link="monthly" href="#">Start monthly</a>
+        </div>
+        <div class="plan best reveal">
+          <span class="ribbon">Best value</span>
+          <h3>Yearly</h3>
+          <div class="price" data-ngn="₦30,000" data-usd="$45">₦30,000</div>
+          <div class="per">per year</div>
+          <span class="save">2 months free</span>
+          <p class="note">All 52 weekly family sessions for a full year. One payment, no renewals to worry about.</p>
+          <a class="btn btn-primary" data-link="yearly" href="#">Join for the year</a>
+        </div>
+        <div class="plan founding reveal">
+          <span class="ribbon">Founding families</span>
+          <h3>Founding Family</h3>
+          <div class="price" data-ngn="₦20,000" data-usd="$30">₦20,000</div>
+          <div class="per">for the first year</div>
+          <p class="note">Our thank-you to the first 500 families who believe in this before launch. Everything in Yearly.</p>
+          <a class="btn btn-navy" data-link="founding" href="#">Become a founding family</a>
+          <div class="seats">Limited to the first 500 families</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTRAS -->
+  <section class="more">
+    <div class="wrap center">
+      <span class="eyebrow">More ways to share it</span>
+      <h2>Gifts, books and ministries</h2>
+      <div class="extras" style="text-align:left">
+        <div class="extra reveal">
+          <div class="icon" aria-hidden="true">🎁</div>
+          <h3>Gift a year</h3>
+          <p>Give a family a whole year of 5 Minutes with Daddy. Perfect for Christmas, birthdays, Father's Day and grandparents.</p>
+          <div class="price-sm" data-ngn="₦30,000" data-usd="$45">₦30,000</div>
+          <a class="btn btn-primary btn-sm" data-link="gift" href="#">Give a gift</a>
+        </div>
+        <div class="extra reveal">
+          <div class="icon" aria-hidden="true">📖</div>
+          <h3>Volume 1 e-book</h3>
+          <p>The first 13 weeks of family devotions in one beautiful book. Print volumes follow each season.</p>
+          <div class="price-sm" data-ngn="₦5,000" data-usd="$8">₦5,000</div>
+          <a class="btn btn-primary btn-sm" data-link="volume1" href="#">Get Volume 1</a>
+        </div>
+        <div class="extra reveal">
+          <div class="icon" aria-hidden="true">⛪</div>
+          <h3>Churches &amp; schools</h3>
+          <p>One licence lets your children's ministry or Christian school share every session with all your families.</p>
+          <div class="price-sm">Priced by size</div>
+          <a class="btn btn-navy btn-sm" data-link="licence" href="#">Talk to us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHANT -->
+  <section class="chant">
+    <div class="wrap">
+      <span class="eyebrow">Every session ends the same way</span>
+      <h2>The family sign-off</h2>
+      <div class="lines">
+        <div class="line"><b>Papa</b>God loves you!</div>
+        <div class="line"><b>Child</b>God loves me!</div>
+        <div class="line"><b>Papa</b>Papa loves you!</div>
+        <div class="line"><b>Child</b>Papa loves me!</div>
+        <div class="line both"><b>Both</b>Forever and ever, no matter what!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERSE -->
+  <section class="verse">
+    <div class="wrap">
+      <blockquote>"Train up a child in the way he should go: and when he is old, he will not depart from it."</blockquote>
+      <cite>Proverbs 22:6 (KJV)</cite>
+      <p class="sub">Our aim is simple: every child with a present, safe, loving adult giving them direction, and a faith that lasts a lifetime.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="wrap center">
+      <span class="eyebrow">Questions</span>
+      <h2>Good to know</h2>
+      <div class="faq-list" style="text-align:left">
+        <details><summary>When does it start?</summary><p>The series premieres on 27 December 2026, with a new story and family session every week for 52 weeks.</p></details>
+        <details><summary>What ages is it for?</summary><p>Children aged 3 to 11. Each session's questions are written so younger and older children can both join in.</p></details>
+        <details><summary>I'm a single mum. Is this for me too?</summary><p>Absolutely. "Papa" in the series stands for any present, loving adult: mums, uncles, grandparents and guardians all lead the session beautifully.</p></details>
+        <details><summary>What's free and what's in the membership?</summary><p>The animated stories are free on YouTube. The membership adds the full weekly family session: the devotional entry, the conversation questions, an audio version, a printable activity and the sign-off.</p></details>
+        <details><summary>How do I pay?</summary><p>Payments are processed securely by Selar in naira or US dollars. Monthly plans renew each month and can be cancelled anytime; yearly plans are a single payment.</p></details>
+        <details><summary>Can our church or school use it?</summary><p>Yes. We offer licences for children's ministries and Christian schools. Message us on WhatsApp or email and we'll tailor one to your size.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <div class="wrap">
+      <img class="avatar" loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_channel_avatar_v2png-GdUm8lexuv5.png" alt="Papa, Adinoyi and Ometere smiling at the phone together">
+      <h2>Five minutes is all it takes.</h2>
+      <p>Be one of the first 500 founding families and start the year with your children, side by side.</p>
+      <a class="btn btn-primary" href="#join">Join as a founding family</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 The POD Human Potential Lab · 5 Minutes with Daddy</div>
+    <div><a href="https://wa.me/2349168667061">WhatsApp 0916 866 7061</a> · <a href="mailto:talk2pod@gmail.com">talk2pod@gmail.com</a></div>
+  </div>
+</footer>
+
+<script>
+  // ===== Payment links: paste each Selar product link here once it is created =====
+  const LINKS = {
+    monthly:  "https://selar.com/m/THEPOD",
+    yearly:   "https://selar.com/m/THEPOD",
+    founding: "https://selar.com/m/THEPOD",
+    gift:     "https://selar.com/m/THEPOD",
+    volume1:  "https://selar.com/m/THEPOD",
+    licence:  "https://wa.me/2349168667061?text=" + encodeURIComponent("Hello! I'd like to know about a 5 Minutes with Daddy licence for our church/school.")
+  };
+  document.querySelectorAll("[data-link]").forEach(a => {
+    const url = LINKS[a.dataset.link];
+    if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
+  });
+
+  // Currency toggle
+  const buttons = document.querySelectorAll(".toggle button");
+  function setCurrency(cur){
+    buttons.forEach(b => { const on = b.dataset.cur === cur; b.classList.toggle("on", on); b.setAttribute("aria-selected", on); });
+    document.querySelectorAll("[data-ngn]").forEach(el => { el.textContent = el.dataset[cur]; });
+    try { localStorage.setItem("5mwd-cur", cur); } catch(e) {}
+  }
+  buttons.forEach(b => b.addEventListener("click", () => setCurrency(b.dataset.cur)));
+  try { const saved = localStorage.getItem("5mwd-cur"); if (saved) setCurrency(saved); } catch(e) {}
+
+  // Gentle reveal on scroll
+  const io = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
