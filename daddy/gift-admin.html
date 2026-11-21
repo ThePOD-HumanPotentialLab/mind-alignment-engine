@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gift admin · 5 Minutes with Daddy</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/daddy/kit.css">
+<style>
+  .wrap{width:min(1100px,94vw)}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin:24px 0}
+  .bar > div{flex:1;min-width:200px}
+  .bar label{margin-top:0}
+  .counts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .pill{background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;font-size:14px;box-shadow:var(--shadow)}
+  .gift{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:18px 20px;margin-bottom:14px;display:grid;grid-template-columns:1fr auto;gap:10px}
+  .gift h3{font-size:22px}
+  .gift .meta{font-size:15px;color:var(--muted)}
+  .gift .meta b{color:var(--ink)}
+  .tag{display:inline-block;border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .pending{background:#FFF1E0;color:var(--orange-dk)} .paid{background:#E6EEFF;color:var(--navy)}
+  .activated{background:#E6F5F4;color:var(--teal)} .cancelled{background:#eee;color:#777}
+  .acts{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:170px}
+  @media(max-width:640px){.gift{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1 style="margin-top:30px;font-size:34px">Gift a Year: orders</h1>
+  <p class="muted">When a <b>Gift a Year</b> sale arrives in Selar, look up the gift code the buyer entered at checkout. Mark it <b>Paid</b>. Once the family has access, mark it <b>Activated</b>.</p>
+
+  <div class="bar">
+    <div><label for="key">Admin key</label><input id="key" type="password" autocomplete="current-password"></div>
+    <div><label for="q">Gift code <small>(blank = show all)</small></label><input id="q" placeholder="GIFT-7K2QX"></div>
+    <button class="btn btn-navy btn-sm" id="go">Load</button>
+  </div>
+  <div class="err" id="err"></div>
+  <div class="counts" id="counts"></div>
+  <div id="list"></div>
+</main>
+
+<script>
+  const $ = id => document.getElementById(id);
+  try { $("key").value = sessionStorage.getItem("podk") || ""; } catch(e) {}
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
+  const when = iso => iso ? new Date(iso).toLocaleString("en-GB", { day:"numeric", month:"short", hour:"2-digit", minute:"2-digit" }) : "";
+  const wa = n => n ? `<a href="https://wa.me/${esc(n)}" target="_blank" rel="noopener">+${esc(n)}</a>` : "";
+
+  async function load(){
+    $("err").style.display = "none";
+    const key = $("key").value.trim();
+    const q = $("q").value.trim();
+    try {
+      const res = await fetch("/api/daddy/gift/admin" + (q ? "?code=" + encodeURIComponent(q) : ""), { headers: { Authorization: "Bearer " + key } });
+      const out = await res.json();
+      if (!out.success) throw new Error(out.error || "Could not load.");
+      try { sessionStorage.setItem("podk", key); } catch(e) {}
+      $("counts").innerHTML = out.counts.map(c => `<span class="pill">${esc(c.status)}: ${c.n}</span>`).join("");
+      $("list").innerHTML = out.gifts.length ? out.gifts.map(g => `
+        <div class="gift">
+          <div>
+            <h3>${esc(g.code)} <span class="tag ${esc(g.status)}">${esc(g.status)}</span></h3>
+            <div class="meta">For <b>${esc(g.recipient_name)}</b> · ${wa(g.recipient_whatsapp)} ${g.recipient_email ? "· " + esc(g.recipient_email) : ""}</div>
+            <div class="meta">From <b>${esc(g.giver_name)}</b> · ${wa(g.giver_whatsapp)} ${g.giver_email ? "· " + esc(g.giver_email) : ""}</div>
+            <div class="meta">Starts: <b>${esc(g.start_when)}</b> · Created ${when(g.created_at)}${g.paid_at ? " · Paid " + when(g.paid_at) : ""}${g.activated_at ? " · Activated " + when(g.activated_at) : ""}</div>
+            ${g.message ? `<div class="meta" style="margin-top:6px">“${esc(g.message)}”</div>` : ""}
+            ${g.note ? `<div class="meta">Note: ${esc(g.note)}</div>` : ""}
+          </div>
+          <div class="acts">
+            ${g.status === "pending" ? `<button class="btn btn-primary btn-sm" data-code="${esc(g.code)}" data-s="paid">Mark paid</button>` : ""}
+            ${g.status !== "activated" && g.status !== "cancelled" ? `<button class="btn btn-navy btn-sm" data-code="${esc(g.code)}" data-s="activated">Mark activated</button>` : ""}
+            ${g.status !== "cancelled" ? `<button class="btn btn-ghost btn-sm" data-code="${esc(g.code)}" data-s="cancelled">Cancel</button>` : `<button class="btn btn-ghost btn-sm" data-code="${esc(g.code)}" data-s="pending">Restore</button>`}
+          </div>
+        </div>`).join("") : `<p class="muted">No gifts found.</p>`;
+    } catch (e) {
+      $("err").textContent = e.message; $("err").style.display = "block";
+    }
+  }
+
+  $("go").addEventListener("click", load);
+  $("q").addEventListener("keydown", e => { if (e.key === "Enter") load(); });
+  $("list").addEventListener("click", async e => {
+    const b = e.target.closest("button[data-code]");
+    if (!b) return;
+    if (b.dataset.s === "cancelled" && !confirm("Cancel gift " + b.dataset.code + "?")) return;
+    b.disabled = true;
+    const res = await fetch("/api/daddy/gift/admin/status", { method: "POST", headers: { "Content-Type": "application/json", Authorization: "Bearer " + $("key").value.trim() }, body: JSON.stringify({ code: b.dataset.code, status: b.dataset.s }) });
+    const out = await res.json();
+    if (!out.success) { alert(out.error || "Could not update."); b.disabled = false; return; }
+    load();
+  });
+  if ($("key").value) load();
+</script>
+</body>
+</html>

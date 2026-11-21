@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A gift for you · 5 Minutes with Daddy</title>
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Someone gave you a year of 5 Minutes with Daddy 🎁">
+<meta property="og:description" content="Five minutes. One Bible truth. One conversation. Every week.">
+<meta property="og:image" content="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_family_sofa_scenepng-a50d9uvZM2r.png">
+<meta name="theme-color" content="#F28C28">
+<link rel="icon" href="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_channel_avatar_v2png-GdUm8lexuv5.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/daddy/kit.css">
+<style>
+  body{background:radial-gradient(1200px 600px at 50% -10%,#FFE2B8 0,transparent 60%),var(--cream)}
+  .giftcard{position:relative;margin:34px auto 20px;max-width:560px;background:#fff;border-radius:34px;box-shadow:0 30px 60px -28px rgba(90,45,0,.5);overflow:hidden}
+  .giftcard .art{background:linear-gradient(180deg,#FFD58A,#FFC1C1 120%);padding:26px 26px 0}
+  .giftcard .art img{border-radius:22px 22px 0 0}
+  .ribbon{position:absolute;top:22px;right:-44px;transform:rotate(35deg);background:var(--orange);color:#fff;font-family:"Fredoka";font-weight:700;letter-spacing:.08em;padding:6px 50px;font-size:14px;box-shadow:0 6px 14px -6px rgba(0,0,0,.35)}
+  .body{padding:28px 30px 32px;text-align:center}
+  .for{font-weight:800;color:var(--orange-dk);letter-spacing:.14em;text-transform:uppercase;font-size:13px}
+  .body h1{font-size:clamp(30px,6vw,40px);margin:8px 0 6px}
+  .from{font-family:"Fredoka";font-size:20px;color:var(--teal);font-weight:600}
+  .msg{margin:22px 0 4px;background:#FFF6E8;border-radius:20px;padding:20px 22px;font-size:18px;line-height:1.55;color:var(--ink);white-space:pre-line;position:relative}
+  .msg::before{content:"“";position:absolute;top:-18px;left:16px;font-family:"Fredoka";font-size:64px;color:var(--orange);line-height:1}
+  .msg .sig{display:block;margin-top:10px;font-weight:800;color:var(--navy);text-align:right}
+  .facts{display:grid;gap:10px;margin:24px 0 8px;text-align:left}
+  .facts div{display:flex;gap:12px;align-items:flex-start;font-size:16px}
+  .facts span{font-size:22px;line-height:1.2}
+  .start{display:inline-block;margin-top:16px;background:#E6F5F4;color:var(--teal);font-weight:800;border-radius:999px;padding:7px 16px;font-size:15px}
+  .giver{max-width:560px;margin:0 auto 30px;display:none}
+  .giver .card{padding:26px}
+  .stack{display:grid;gap:12px;margin-top:16px}
+  .code{font-family:"Fredoka";font-weight:700;color:var(--navy);letter-spacing:.05em}
+  .loading,.missing{text-align:center;padding:80px 0;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a href="/daddy/"><img src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_title_logo_transparentpng-a1OY5agasBc.png" alt="5 Minutes with Daddy"></a>
+  <a class="back" href="/daddy/">What is this?</a>
+</div></header>
+
+<main class="wrap">
+  <p class="loading" id="loading">Opening your gift…</p>
+  <div class="missing" id="missing" style="display:none">
+    <h2>We couldn't open this gift card.</h2>
+    <p style="margin-top:10px">Please check the link, or <a href="https://wa.me/2349168667061">message us on WhatsApp</a> and we'll help.</p>
+  </div>
+
+  <article class="giftcard" id="card" style="display:none">
+    <div class="ribbon">A GIFT</div>
+    <div class="art"><img src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_family_sofa_scenepng-a50d9uvZM2r.png" alt="Papa, Adinoyi and Ometere on the sofa together"></div>
+    <div class="body">
+      <div class="for">A gift for <span id="to"></span></div>
+      <h1>A whole year of 5 Minutes with Daddy</h1>
+      <div class="from">with love from <span id="from"></span></div>
+      <div class="msg" id="msg" style="display:none"><span id="msgText"></span><span class="sig">— <span id="sig"></span></span></div>
+      <div class="facts">
+        <div><span>📺</span><p>Every week, a short animated Bible story with Papa, Adinoyi and Ometere, made for watching together.</p></div>
+        <div><span>💬</span><p>Then five minutes of real conversation: simple questions, a memory verse and a "say it together" sign-off.</p></div>
+        <div><span>📸</span><p>A Memory Moment each week, building your own <em>Our Year with Papa</em> keepsake book.</p></div>
+        <div><span>📲</span><p>The 5 Minutes with Daddy team will message you on WhatsApp to set up your access.</p></div>
+      </div>
+      <div class="start" id="start"></div>
+    </div>
+  </article>
+
+  <section class="giver" id="giver">
+    <div class="card">
+      <h2 style="font-size:24px">Send it to <span id="to2"></span></h2>
+      <p class="muted" style="margin-top:6px">This is your gift card. Send it on WhatsApp so it comes straight from you. (Your gift code is <span class="code" id="code"></span>. Paste it at Selar checkout if you haven't paid yet.)</p>
+      <div class="stack">
+        <a class="btn btn-wa btn-block" id="waBtn" target="_blank" rel="noopener" href="#">Send on WhatsApp</a>
+        <button class="btn btn-ghost btn-block" id="copyLink" type="button">Copy gift card link</button>
+        <a class="btn btn-primary btn-block" href="https://selar.com/5mwd-gift" target="_blank" rel="noopener">Haven't paid yet? Pay on Selar</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer>© 2026 The POD Human Potential Lab · 5 Minutes with Daddy</footer>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const t = params.get("t") || "";
+  const isGiver = params.get("s") === "1";
+  const shareUrl = location.origin + "/daddy/card?t=" + encodeURIComponent(t);
+  const $ = id => document.getElementById(id);
+  // "The Okafor family" → "Okafor family"; "Ngozi Eze" → "Ngozi"
+  const first = n => { const s = String(n || "").trim(); return /^the\s/i.test(s) ? s.replace(/^the\s+/i, "") : s.split(/\s+/)[0]; };
+
+  function niceDate(iso){
+    const d = new Date(iso + "T12:00:00");
+    return isNaN(d) ? iso : d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  }
+
+  (async () => {
+    try {
+      const res = await fetch("/api/daddy/gift/card?t=" + encodeURIComponent(t));
+      const g = await res.json();
+      if (!g.success) throw 0;
+      $("to").textContent = g.to; $("to2").textContent = g.to;
+      $("from").textContent = g.from; $("sig").textContent = g.from;
+      document.title = "A gift for " + g.to + " · 5 Minutes with Daddy";
+      if (g.message) { $("msgText").textContent = g.message; $("msg").style.display = "block"; }
+      $("start").textContent = g.start === "right away" ? "Starts right away" : "Starts " + niceDate(g.start);
+      $("loading").style.display = "none";
+      $("card").style.display = "block";
+
+      if (isGiver) {
+        $("code").textContent = g.code;
+        const text = "Hi " + first(g.to) + "! 🎁 I've gifted your family a whole year of 5 Minutes with Daddy: a short animated Bible story and five special minutes with the kids every week. Open your gift card here: " + shareUrl;
+        $("waBtn").href = "https://wa.me/" + g.toWhatsapp + "?text=" + encodeURIComponent(text);
+        $("giver").style.display = "block";
+      }
+    } catch (e) {
+      $("loading").style.display = "none";
+      $("missing").style.display = "block";
+    }
+  })();
+
+  $("copyLink").addEventListener("click", async e => {
+    try { await navigator.clipboard.writeText(shareUrl); e.target.textContent = "Link copied ✓"; }
+    catch { e.target.textContent = shareUrl; }
+    setTimeout(() => e.target.textContent = "Copy gift card link", 2500);
+  });
+</script>
+</body>
+</html>

@@ -471,13 +471,13 @@
     monthly:  "https://selar.com/5mwd-monthly",
     yearly:   "https://selar.com/5mwd-yearly",
     founding: "https://selar.com/5mwd-founding",
-    gift:     "https://selar.com/m/THEPOD",
+    gift:     "/daddy/gift",
     volume1:  "https://selar.com/m/THEPOD",
     licence:  "https://wa.me/2349168667061?text=" + encodeURIComponent("Hello! I'd like to know about a 5 Minutes with Daddy licence for our church/school.")
   };
   document.querySelectorAll("[data-link]").forEach(a => {
     const url = LINKS[a.dataset.link];
-    if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
+    if (url) { a.href = url; if (/^https?:/.test(url)) { a.target = "_blank"; a.rel = "noopener"; } }
   });
 
   // ===== Founding Family counter =====
