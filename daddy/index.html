@@ -90,10 +90,11 @@
 
   /* Steps */
   .steps{background:linear-gradient(180deg,var(--cream) 0%,var(--cream-2) 100%)}
-  .step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:46px}
+  .step-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:46px}
+  @media(max-width:1080px){.step-grid{grid-template-columns:repeat(2,1fr)}}
   .step{background:#fff;border-radius:var(--radius);padding:30px 26px;box-shadow:var(--shadow);position:relative;overflow:hidden}
   .step .num{font-family:"Fredoka";font-weight:700;font-size:15px;color:#fff;background:var(--orange);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px}
-  .step:nth-child(2) .num{background:var(--teal)} .step:nth-child(3) .num{background:var(--navy)}
+  .step:nth-child(2) .num{background:var(--teal)} .step:nth-child(3) .num{background:var(--navy)} .step:nth-child(4) .num{background:#E0A800}
   .step h3{margin-bottom:8px}
   .step p{color:var(--muted)}
   .step .time{position:absolute;top:24px;right:24px;font-weight:800;font-size:13px;color:var(--orange-dk);background:var(--cream-2);padding:4px 10px;border-radius:999px}
@@ -260,6 +261,7 @@
         <div class="step reveal"><span class="time">2–3 min</span><div class="num">1</div><h3>Watch together</h3><p>Sit side by side and watch this week's animated Bible story with Papa, Adinoyi and Ometere.</p></div>
         <div class="step reveal"><span class="time">2 min</span><div class="num">2</div><h3>Talk it through</h3><p>Ask the guided questions made for your child's age. Listen, laugh and let them teach you back.</p></div>
         <div class="step reveal"><span class="time">30 sec</span><div class="num">3</div><h3>Say it together</h3><p>End every session with the family sign-off, so God's love and yours is the last thing they hear.</p></div>
+        <div class="step reveal"><span class="time">30 sec</span><div class="num">4</div><h3>Memory Moment</h3><p>Snap a selfie together and add this week's page to your family's <em>Our Year with Papa</em> keepsake book.</p></div>
       </div>
     </div>
   </section>
@@ -314,6 +316,7 @@
             <li>An audio version for bedtime or the car</li>
             <li>A printable activity or colouring page</li>
             <li>The family sign-off to say together</li>
+            <li>A weekly Memory Page for your <em>Our Year with Papa</em> keepsake book</li>
           </ul>
           <a class="btn btn-navy" href="#join">See membership plans</a>
         </div>
@@ -345,7 +348,7 @@
           <div class="price" data-ngn="₦30,000" data-usd="$45">₦30,000</div>
           <div class="per">per year</div>
           <span class="save">2 months free</span>
-          <p class="note">All 52 weekly family sessions for a full year. One payment, no renewals to worry about.</p>
+          <p class="note">All 52 weekly family sessions for a full year. One payment, no renewals to worry about. Includes the <em>Our Year with Papa</em> keepsake cover.</p>
           <a class="btn btn-primary" data-link="yearly" href="#">Join for the year</a>
         </div>
         <div class="plan founding reveal">
@@ -353,7 +356,7 @@
           <h3>Founding Family</h3>
           <div class="price" data-ngn="₦20,000" data-usd="$30">₦20,000</div>
           <div class="per">for the first year</div>
-          <p class="note">Our thank-you to the first 500 families who believe in this before launch. Everything in Yearly.</p>
+          <p class="note">Our thank-you to the first 500 families who believe in this before launch. Everything in Yearly, including the <em>Our Year with Papa</em> keepsake cover.</p>
           <a class="btn btn-navy" data-link="founding" href="#">Become a founding family</a>
           <div class="seats">Limited to the first 500 families</div>
         </div>
@@ -427,6 +430,7 @@
         <details><summary>I'm a single mum. Is this for me too?</summary><p>Absolutely. "Papa" in the series stands for any present, loving adult: mums, uncles, grandparents and guardians all lead the session beautifully.</p></details>
         <details><summary>What's free and what's in the membership?</summary><p>The animated stories are free on YouTube. The membership adds the full weekly family session: the devotional entry, the conversation questions, an audio version, a printable activity and the sign-off.</p></details>
         <details><summary>How do I pay?</summary><p>Payments are processed securely by Selar in naira or US dollars. Monthly plans renew each month and can be cancelled anytime; yearly plans are a single payment.</p></details>
+        <details><summary>What is "Our Year with Papa"?</summary><p>Every session ends with a Memory Moment: a selfie together and a printable Memory Page with the week's verse, what you talked about and what your child said. Week by week, your family builds its own keepsake book. Yearly and Founding Family members also get a beautiful cover and title page to bind it all together. Sharing photos online is always optional; your memories stay yours.</p></details>
         <details><summary>Can our church or school use it?</summary><p>Yes. We offer licences for children's ministries and Christian schools. Message us on WhatsApp or email and we'll tailor one to your size.</p></details>
       </div>
     </div>
