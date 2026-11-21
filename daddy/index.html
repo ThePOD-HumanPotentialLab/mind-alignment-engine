@@ -147,6 +147,13 @@
   .plan .btn{width:100%}
   .plan .save{display:inline-block;margin-top:8px;background:#E6F5F4;color:var(--teal);font-weight:800;font-size:13px;padding:4px 10px;border-radius:999px}
   .seats{margin-top:10px;font-size:14px;font-weight:700;color:var(--teal)}
+  .counter{margin:0 0 18px}
+  .counter .bar{height:12px;background:#E6F5F4;border-radius:999px;overflow:hidden}
+  .counter .fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--yellow));border-radius:999px;transition:width 1.2s ease}
+  .counter .left{display:flex;justify-content:space-between;margin-top:8px;font-size:14px;font-weight:800;color:var(--navy)}
+  .counter .left span:last-child{color:var(--teal)}
+  .plan.founding.full{opacity:.92}
+  .plan.founding.full .btn{background:var(--muted);pointer-events:none}
   @media(max-width:900px){.plans{grid-template-columns:1fr;max-width:440px;margin-inline:auto}.plan.best{transform:none}}
 
   /* Extras */
@@ -357,6 +364,10 @@
           <div class="price" data-ngn="₦20,000" data-usd="$30">₦20,000</div>
           <div class="per">for the first year</div>
           <p class="note">Our thank-you to the first 500 families who believe in this before launch. Everything in Yearly, including the <em>Our Year with Papa</em> keepsake cover.</p>
+          <div class="counter" id="foundingCounter" aria-live="polite">
+            <div class="bar"><div class="fill"></div></div>
+            <div class="left"><span class="taken">0 families joined</span><span class="remain">500 spots left</span></div>
+          </div>
           <a class="btn btn-navy" data-link="founding" href="#">Become a founding family</a>
           <div class="seats">Limited to the first 500 families</div>
         </div>
@@ -437,12 +448,12 @@
   </section>
 
   <!-- FINAL CTA -->
-  <section class="final">
+  <section class="final" id="finalCta">
     <div class="wrap">
       <img class="avatar" loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_channel_avatar_v2png-GdUm8lexuv5.png" alt="Papa, Adinoyi and Ometere smiling at the phone together">
       <h2>Five minutes is all it takes.</h2>
-      <p>Be one of the first 500 founding families and start the year with your children, side by side.</p>
-      <a class="btn btn-primary" href="#join">Join as a founding family</a>
+      <p class="final-copy">Be one of the first 500 founding families and start the year with your children, side by side.</p>
+      <a class="btn btn-primary final-btn" href="#join">Join as a founding family</a>
     </div>
   </section>
 </main>
@@ -457,9 +468,9 @@
 <script>
   // ===== Payment links: paste each Selar product link here once it is created =====
   const LINKS = {
-    monthly:  "https://selar.com/m/THEPOD",
-    yearly:   "https://selar.com/m/THEPOD",
-    founding: "https://selar.com/m/THEPOD",
+    monthly:  "https://selar.com/5mwd-monthly",
+    yearly:   "https://selar.com/5mwd-yearly",
+    founding: "https://selar.com/5mwd-founding",
     gift:     "https://selar.com/m/THEPOD",
     volume1:  "https://selar.com/m/THEPOD",
     licence:  "https://wa.me/2349168667061?text=" + encodeURIComponent("Hello! I'd like to know about a 5 Minutes with Daddy licence for our church/school.")
@@ -468,6 +479,33 @@
     const url = LINKS[a.dataset.link];
     if (url) { a.href = url; a.target = "_blank"; a.rel = "noopener"; }
   });
+
+  // ===== Founding Family counter =====
+  // Update FOUNDING_SOLD with the number of Founding Family sales shown in Selar.
+  // At FOUNDING_LIMIT the offer closes on this page automatically.
+  const FOUNDING_SOLD  = 0;
+  const FOUNDING_LIMIT = 500;
+  (function(){
+    const sold = Math.max(0, Math.min(FOUNDING_SOLD, FOUNDING_LIMIT));
+    const left = FOUNDING_LIMIT - sold;
+    const box  = document.getElementById("foundingCounter");
+    box.querySelector(".taken").textContent  = sold === 1 ? "1 family joined" : sold.toLocaleString() + " families joined";
+    box.querySelector(".remain").textContent = left === 0 ? "All spots taken" : (left === 1 ? "1 spot left" : left.toLocaleString() + " spots left");
+    const fill = box.querySelector(".fill");
+    requestAnimationFrame(() => setTimeout(() => { fill.style.width = Math.max(sold ? 3 : 0, sold / FOUNDING_LIMIT * 100) + "%"; }, 300));
+    if (left === 0) {
+      const plan = box.closest(".plan");
+      plan.classList.add("full");
+      plan.querySelector(".ribbon").textContent = "All 500 spots taken";
+      const btn = plan.querySelector(".btn");
+      btn.textContent = "Founding spots are full";
+      btn.removeAttribute("href"); btn.removeAttribute("data-link");
+      plan.querySelector(".seats").textContent = "Thank you, founding families! Yearly is still open.";
+      document.querySelectorAll('a[href="#join"]').forEach(a => { a.textContent = "Join 5 Minutes with Daddy"; });
+      const fc = document.querySelector("#finalCta .final-copy");
+      if (fc) fc.textContent = "Our 500 founding families are in. Join them and start the year with your children, side by side.";
+    }
+  })();
 
   // Currency toggle
   const buttons = document.querySelectorAll(".toggle button");
