@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gift a Year · 5 Minutes with Daddy</title>
+<meta name="description" content="Give a family a whole year of 5 Minutes with Daddy: one animated Bible story and one bonding moment every week.">
+<meta property="og:title" content="Gift a Year of 5 Minutes with Daddy">
+<meta property="og:description" content="Give a family a whole year of five-minute Bible moments.">
+<meta property="og:image" content="https://storage.orshot.com/cloud/w-16803/renders/images/5-minutes-with-daddy-youtube-banner-v2-2560x1440-page-1-BcGBrbKLKze.png">
+<meta name="theme-color" content="#F28C28">
+<link rel="icon" href="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_channel_avatar_v2png-GdUm8lexuv5.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/daddy/kit.css">
+<style>
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:46px 0 30px}
+  .hero img{border-radius:26px;box-shadow:var(--shadow)}
+  @media(max-width:760px){.hero{grid-template-columns:1fr}.hero img{order:-1}}
+  .price{font-family:"Fredoka";font-weight:700;color:var(--navy);font-size:22px;margin-top:14px}
+  .price span{color:var(--muted);font-family:"Nunito";font-weight:700;font-size:15px}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 30px}
+  .steps div{background:#fff;border-radius:18px;padding:16px;box-shadow:var(--shadow);font-size:15px}
+  .steps b{display:block;font-family:"Fredoka";color:var(--orange-dk);font-size:18px}
+  @media(max-width:620px){.steps{grid-template-columns:1fr}}
+  #done{display:none}
+  .code{font-family:"Fredoka";font-weight:700;font-size:clamp(38px,9vw,56px);letter-spacing:.06em;color:var(--navy);background:#FFF1E0;border:3px dashed var(--orange);border-radius:22px;padding:14px 10px;margin:14px 0 10px}
+  .stack{display:grid;gap:14px;margin-top:22px}
+  .num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:15px;margin-right:8px}
+  .step{display:flex;align-items:flex-start;text-align:left;margin-top:22px}
+  .step p{flex:1}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a href="/daddy/"><img src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_title_logo_transparentpng-a1OY5agasBc.png" alt="5 Minutes with Daddy"></a>
+  <a class="back" href="/daddy/">← Back to 5 Minutes with Daddy</a>
+</div></header>
+
+<main class="wrap">
+  <section id="start">
+    <div class="hero">
+      <div>
+        <span class="eyebrow">Gift a Year</span>
+        <h1>Give a family a whole year of five-minute Bible moments.</h1>
+        <p class="lead" style="margin-top:14px">52 weekly sessions with Papa, Adinoyi and Ometere: one animated Bible story and one bonding moment for a parent and child (ages 3 to 11), plus a Memory Page every week for their <em>Our Year Together</em> keepsake.</p>
+        <div class="price"><span data-ngn="₦20,000" data-usd="$30">₦20,000</span> <span>· one payment, all four volumes</span></div>
+      </div>
+      <img src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_family_sofa_scenepng-a50d9uvZM2r.png" alt="Papa, Adinoyi and Ometere on the sofa, watching the phone together">
+    </div>
+
+    <div class="steps">
+      <div><b>1. Tell us who</b>Add the family's details and your message.</div>
+      <div><b>2. Pay on Selar</b>Enter your gift code at checkout.</div>
+      <div><b>3. Send the card</b>Share your gift card with them on WhatsApp.</div>
+    </div>
+
+    <form id="giftForm" class="card" novalidate>
+      <fieldset>
+        <legend style="margin-top:0">Who is the gift for?</legend>
+        <div class="row">
+          <div><label for="recipientName">Their name</label><input id="recipientName" name="recipientName" autocomplete="off" placeholder="e.g. The Adeyemi family" maxlength="60" required></div>
+          <div><label for="recipientWhatsapp">Their WhatsApp number</label><input id="recipientWhatsapp" name="recipientWhatsapp" inputmode="tel" placeholder="e.g. 0803 000 0000" required></div>
+        </div>
+        <label for="recipientEmail">Their email <small>(optional)</small></label>
+        <input id="recipientEmail" name="recipientEmail" type="email" inputmode="email" placeholder="name@example.com">
+
+        <label>When should the year start?</label>
+        <div class="choice">
+          <label><input type="radio" name="startMode" value="now" checked> Right away</label>
+          <label><input type="radio" name="startMode" value="date"> On a special date</label>
+        </div>
+        <div id="dateWrap" style="display:none"><label for="startDate">Start date <small>(a birthday, Christmas, Father's Day…)</small></label><input id="startDate" name="startDate" type="date"></div>
+
+        <label for="message">Your message to them <small>(optional, shown on the gift card)</small></label>
+        <textarea id="message" name="message" maxlength="400" placeholder="e.g. For you and the kids: five special minutes every week. With love, Aunty Ada"></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>About you</legend>
+        <div class="row">
+          <div><label for="giverName">Your name <small>(as it should appear on the card)</small></label><input id="giverName" name="giverName" autocomplete="name" placeholder="e.g. Aunty Ada" maxlength="60" required></div>
+          <div><label for="giverWhatsapp">Your WhatsApp number</label><input id="giverWhatsapp" name="giverWhatsapp" inputmode="tel" autocomplete="tel" placeholder="So we can reach you about the gift" required></div>
+        </div>
+        <label for="giverEmail">Your email <small>(optional)</small></label>
+        <input id="giverEmail" name="giverEmail" type="email" inputmode="email" autocomplete="email">
+        <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      </fieldset>
+
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn btn-primary btn-block" style="margin-top:26px" id="submitBtn">Get my gift code</button>
+      <p class="muted center" style="font-size:14px;margin-top:14px">We only use these details to deliver this gift. We never ask for photos of children.</p>
+    </form>
+  </section>
+
+  <section id="done" class="card center" style="margin:46px 0">
+    <span class="eyebrow">Your gift code</span>
+    <h2>Almost there! Here's your code.</h2>
+    <div class="code" id="codeOut">GIFT-XXXXX</div>
+    <button class="btn btn-ghost btn-sm" id="copyBtn" type="button">Copy code</button>
+
+    <div class="step"><span class="num">1</span><p>Tap <b>Pay on Selar</b>. At checkout, paste your code into the <b>gift code</b> box. The price is <span data-ngn="₦20,000" data-usd="$30">₦20,000</span>.</p></div>
+    <div class="step"><span class="num">2</span><p>After paying, come back here and open your gift card. Send it to <b id="toOut">them</b> on WhatsApp, straight from you.</p></div>
+
+    <div class="stack">
+      <a class="btn btn-primary btn-block" id="payBtn" href="https://selar.com/5mwd-gift" target="_blank" rel="noopener">Pay on Selar</a>
+      <a class="btn btn-navy btn-block" id="cardBtn" href="#">I've paid: open my gift card</a>
+    </div>
+    <p class="muted" style="font-size:14px;margin-top:18px">Our team matches your payment to this code and sets up the family's access before their start date. Keep this code safe. Questions? <a href="https://wa.me/2349168667061">WhatsApp us</a>.</p>
+  </section>
+</main>
+<footer>© 2026 The POD Human Potential Lab · 5 Minutes with Daddy</footer>
+
+<script>
+  // Show dollar prices to visitors who chose $ on the main page.
+  try { if (localStorage.getItem("5mwd-cur") === "usd") document.querySelectorAll("[data-usd]").forEach(el => el.textContent = el.dataset.usd); } catch(e) {}
+
+  const form = document.getElementById("giftForm");
+  const err = document.getElementById("err");
+  const dateWrap = document.getElementById("dateWrap");
+  form.querySelectorAll('input[name="startMode"]').forEach(r => r.addEventListener("change", () => {
+    dateWrap.style.display = form.startMode.value === "date" ? "block" : "none";
+  }));
+  document.getElementById("startDate").min = new Date().toISOString().slice(0, 10);
+
+  function showDone(g){
+    document.getElementById("codeOut").textContent = g.code;
+    document.getElementById("cardBtn").href = g.card + "&s=1";
+    document.getElementById("payBtn").href = g.pay || "https://selar.com/5mwd-gift";
+    document.getElementById("toOut").textContent = g.to || "them";
+    document.getElementById("start").style.display = "none";
+    document.getElementById("done").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Returning from Selar on the same phone: show the last gift again.
+  try {
+    const last = JSON.parse(localStorage.getItem("5mwd-gift") || "null");
+    if (last && last.code && location.hash === "#mycode") showDone(last);
+  } catch(e) {}
+
+  document.getElementById("copyBtn").addEventListener("click", async e => {
+    const code = document.getElementById("codeOut").textContent;
+    try { await navigator.clipboard.writeText(code); e.target.textContent = "Copied ✓"; }
+    catch { e.target.textContent = code; }
+    setTimeout(() => e.target.textContent = "Copy code", 2000);
+  });
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    err.style.display = "none";
+    const data = Object.fromEntries(new FormData(form));
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true; btn.textContent = "Creating your gift…";
+    try {
+      const res = await fetch("/api/daddy/gift", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const out = await res.json();
+      if (!out.success) throw new Error(out.error || "Please try again.");
+      const g = { code: out.code, card: out.card, pay: out.pay, to: data.recipientName };
+      try { localStorage.setItem("5mwd-gift", JSON.stringify(g)); } catch(e) {}
+      history.replaceState(null, "", "#mycode");
+      showDone(g);
+    } catch (ex) {
+      err.textContent = ex.message || "Something went wrong. Please try again.";
+      err.style.display = "block";
+    } finally {
+      btn.disabled = false; btn.textContent = "Get my gift code";
+    }
+  });
+</script>
+</body>
+</html>

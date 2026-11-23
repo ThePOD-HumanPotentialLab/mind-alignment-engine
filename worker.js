@@ -1,5 +1,6 @@
 import { handlePod } from "./pod-api.js";
 import { handleBlueprint } from "./blueprint-api.js";
+import { handleGift } from "./gift-api.js";
 import { handleResetCalendar } from "./calendar.js";
 import { handleResultsAdmin, alertNewResult, handleAssessmentEvent } from "./results-api.js";
 const LAGOS_OFFSET_MS = 60 * 60 * 1000; // Programme days follow Africa/Lagos time (UTC+1)
@@ -238,6 +239,7 @@ export default {
     }
     if (url.pathname.startsWith("/api/pod/")) return handlePod(request, env, url);
     if (url.pathname.startsWith("/api/blueprint/")) return handleBlueprint(request, env, url);
+    if (url.pathname.startsWith("/api/daddy/")) return handleGift(request, env, url);
 
     if (url.pathname.startsWith("/api/")) {
       return json({ success: false, error: "Not found." }, 404);
