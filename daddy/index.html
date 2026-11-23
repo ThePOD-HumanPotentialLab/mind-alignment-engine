@@ -35,6 +35,7 @@
   .eyebrow{display:inline-block;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange-dk);margin-bottom:12px}
   .lead{font-size:19px;color:var(--muted);max-width:640px}
   section{padding:88px 0;scroll-margin-top:70px}
+  #founding{scroll-margin-top:96px}
   .center{text-align:center}.center .lead{margin:0 auto}
 
   /* Buttons */
@@ -83,6 +84,8 @@
   .story{background:var(--cream)}
   .story-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
   .story-card{background:#fff;border-radius:28px;padding:34px;box-shadow:var(--shadow);position:relative}
+  .story-card .kid{aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#fdf3e3;margin:6px 0 22px;border:4px solid var(--yellow)}
+  .story-card .kid img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
   .story-card .q{font-family:"Fredoka";font-size:26px;color:var(--navy);line-height:1.25}
   .story-card .who{margin-top:14px;font-weight:800;color:var(--orange-dk)}
   .story-card .bubble{position:absolute;top:-18px;right:26px;background:var(--yellow);color:var(--navy);font-family:"Fredoka";font-weight:600;padding:8px 16px;border-radius:999px;font-size:15px}
@@ -234,7 +237,7 @@
         <h1>Five minutes on Papa's phone.<br>A Bible truth for life.</h1>
         <p>Every week, one animated Bible story your child will love, and one bonding moment that turns your busiest five minutes into the best part of their day.</p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#join">Join as a founding family</a>
+          <a class="btn btn-primary" href="#founding">Join as a founding family</a>
           <a class="btn btn-ghost" href="#how">See how it works</a>
         </div>
       </div>
@@ -252,6 +255,7 @@
       </div>
       <div class="story-card reveal">
         <span class="bubble">Adinoyi, 6</span>
+        <div class="kid"><img loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_adinoyi_surprised_apng-Vc0NZeTKiiy.png" alt="Adinoyi gasping with delight, hands on his cheeks, because Papa has put down his phone"></div>
         <p class="q">"Papa! You put down your phone? For me?"</p>
         <p class="who">The moment every child is waiting for.</p>
       </div>
@@ -357,7 +361,7 @@
           <p class="note">All four volumes: 52 weekly family sessions. Volume 1 straight away, the rest before each new quarter. No renewals to worry about.</p>
           <a class="btn btn-primary" data-link="yearly" href="#">Join for the year</a>
         </div>
-        <div class="plan founding reveal">
+        <div class="plan founding reveal" id="founding">
           <span class="ribbon">Founding families</span>
           <h3>Founding Family</h3>
           <div class="price" data-ngn="₦15,000" data-usd="$25">₦15,000</div>
@@ -452,7 +456,7 @@
       <img class="avatar" loading="lazy" src="https://storage.orshot.com/cloud/w-16803/renders/brand_assets/5mwd_MASTER_channel_avatar_v2png-GdUm8lexuv5.png" alt="Papa, Adinoyi and Ometere smiling at the phone together">
       <h2>Five minutes is all it takes.</h2>
       <p class="final-copy">Be one of the first 500 founding families and start the year with your children, side by side.</p>
-      <a class="btn btn-primary final-btn" href="#join">Join as a founding family</a>
+      <a class="btn btn-primary final-btn" href="#founding">Join as a founding family</a>
     </div>
   </section>
 </main>
@@ -500,7 +504,7 @@
       btn.textContent = "Founding spots are full";
       btn.removeAttribute("href"); btn.removeAttribute("data-link");
       plan.querySelector(".seats").textContent = "Thank you, founding families! The Full Year is still open.";
-      document.querySelectorAll('a[href="#join"]').forEach(a => { a.textContent = "Join 5 Minutes with Daddy"; });
+      document.querySelectorAll('a[href="#founding"]').forEach(a => { a.textContent = "Join 5 Minutes with Daddy"; a.setAttribute("href", "#join"); });
       const fc = document.querySelector("#finalCta .final-copy");
       if (fc) fc.textContent = "Our 500 founding families are in. Join them and start the year with your children, side by side.";
     }
