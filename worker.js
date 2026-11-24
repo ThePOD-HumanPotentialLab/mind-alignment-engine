@@ -225,6 +225,8 @@ async function handleResetNotifyPod(request, env) {
 }
 // ---- 5 Minutes with Daddy runs on its own domain ----
 const DADDY_HOST = "5minuteswithdaddy.com";
+const POD_HOST = "thepodafrica.com";
+const OLD_HOST = "mind-alignment-engine.thepod.workers.dev";
 const isDaddyPage = (p) => p === "/daddy" || (p.startsWith("/daddy/") && !p.split("/").pop().includes("."));
 const stripDaddy = (p) => p.replace(/^\/daddy/, "") || "/";
 async function routeDaddy(request, env, url) {
@@ -247,6 +249,14 @@ async function routeDaddy(request, env, url) {
   }
   if (isDaddyPage(url.pathname)) {                                  // workers.dev/daddy -> new domain
     return Response.redirect("https://" + DADDY_HOST + stripDaddy(url.pathname) + url.search, 301);
+  }
+  // The POD's own pages live on thepodafrica.com
+  if (url.hostname === "www." + POD_HOST) {
+    return Response.redirect("https://" + POD_HOST + url.pathname + url.search, 301);
+  }
+  if (url.hostname === OLD_HOST && !url.pathname.startsWith("/api/") &&
+      (request.method === "GET" || request.method === "HEAD")) {   // old links keep working
+    return Response.redirect("https://" + POD_HOST + url.pathname + url.search, 301);
   }
   return null;
 }
