@@ -223,9 +223,38 @@ async function handleResetNotifyPod(request, env) {
     return json({ success: false, error: "We could not save your request. Please try again." }, 500);
   }
 }
+// ---- 5 Minutes with Daddy runs on its own domain ----
+const DADDY_HOST = "5minuteswithdaddy.com";
+const isDaddyPage = (p) => p === "/daddy" || (p.startsWith("/daddy/") && !p.split("/").pop().includes("."));
+const stripDaddy = (p) => p.replace(/^\/daddy/, "") || "/";
+async function routeDaddy(request, env, url) {
+  if (url.hostname === "www." + DADDY_HOST) {
+    return Response.redirect("https://" + DADDY_HOST + url.pathname + url.search, 301);
+  }
+  if (url.hostname === DADDY_HOST) {
+    if (url.pathname.startsWith("/api/")) return null;            // handled below as usual
+    if (isDaddyPage(url.pathname)) {                                // old /daddy/... page links
+      return Response.redirect("https://" + DADDY_HOST + stripDaddy(url.pathname) + url.search, 301);
+    }
+    const path = url.pathname.startsWith("/daddy/") ? url.pathname : "/daddy" + url.pathname;
+    const res = await env.ASSETS.fetch(new Request(new URL(path + url.search, url), request));
+    const loc = res.headers.get("Location");
+    if (loc && res.status >= 300 && res.status < 400) {            // keep visitors on clean paths
+      const to = new URL(loc, url);
+      if (to.pathname.startsWith("/daddy")) return Response.redirect("https://" + DADDY_HOST + stripDaddy(to.pathname) + to.search, res.status);
+    }
+    return res;
+  }
+  if (isDaddyPage(url.pathname)) {                                  // workers.dev/daddy -> new domain
+    return Response.redirect("https://" + DADDY_HOST + stripDaddy(url.pathname) + url.search, 301);
+  }
+  return null;
+}
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const daddy = await routeDaddy(request, env, url);
+    if (daddy) return daddy;
 
     switch (url.pathname) {
       case "/api/save-profile": return handleSaveProfile(request, env);
