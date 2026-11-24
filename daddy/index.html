@@ -156,6 +156,7 @@
   .counter .left{display:flex;justify-content:space-between;margin-top:8px;font-size:14px;font-weight:800;color:var(--navy)}
   .counter .left span:last-child{color:var(--teal)}
   .plan.founding.full{opacity:.92}
+  .pay-note{text-align:center;margin:22px auto 0;max-width:560px;color:var(--muted);font-weight:700;font-size:15px}
   .plan.founding.full .btn{background:var(--muted);pointer-events:none}
   @media(max-width:900px){.plans{grid-template-columns:1fr;max-width:440px;margin-inline:auto}.plan.best{transform:none}}
 
@@ -375,6 +376,7 @@
           <div class="seats">Limited to the first 500 families</div>
         </div>
       </div>
+      <p class="pay-note">🔒 You'll pay securely on Selar, by card or bank transfer. Your book arrives by email straight away.</p>
     </div>
   </section>
 
@@ -464,7 +466,7 @@
 <footer>
   <div class="wrap">
     <div>© 2026 The POD Human Potential Lab · 5 Minutes with Daddy</div>
-    <div><a href="https://wa.me/2349168667061">WhatsApp 0916 866 7061</a> · <a href="mailto:talk2pod@gmail.com">talk2pod@gmail.com</a></div>
+    <div><a href="https://wa.me/2349168667061">WhatsApp 0916 866 7061</a> · <a href="mailto:hello@5minuteswithdaddy.com">hello@5minuteswithdaddy.com</a></div>
   </div>
 </footer>
 
@@ -480,13 +482,13 @@
   };
   document.querySelectorAll("[data-link]").forEach(a => {
     const url = LINKS[a.dataset.link];
-    if (url) { a.href = url; if (/^https?:/.test(url)) { a.target = "_blank"; a.rel = "noopener"; } }
+    if (url) { a.href = url; if (/^https?:/.test(url) && !/selar\.com/.test(url)) { a.target = "_blank"; a.rel = "noopener"; } }
   });
 
   // ===== Founding Family counter =====
   // Update FOUNDING_SOLD with the number of Founding Family sales shown in Selar.
   // At FOUNDING_LIMIT the offer closes on this page automatically.
-  const FOUNDING_SOLD  = 0;
+  const FOUNDING_SOLD  = 1;
   const FOUNDING_LIMIT = 500;
   (function(){
     const sold = Math.max(0, Math.min(FOUNDING_SOLD, FOUNDING_LIMIT));
